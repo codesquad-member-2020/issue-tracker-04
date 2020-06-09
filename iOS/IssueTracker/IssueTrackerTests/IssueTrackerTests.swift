@@ -1,28 +1,27 @@
-//
-
 import XCTest
 @testable import IssueTracker
 
 class IssueTrackerTests: XCTestCase {
+    func testViewController() {
+        let viewController = viewControllerDidLoadView(identifier: "VC") as! IssueListViewController
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        let issue: Issue = .init(id: 1, title: "첫 번째 이슈 테스트", body: "이슈 한 바퀴 \n이슈 목록 만들기", owner: User(id: 1, name: "Jane Doe"))
+        viewController.issue = issue
+
+        viewController.loadView()
+        viewController.viewDidLoad()
+        XCTAssertNotNil(viewController.titleLabel)
+        XCTAssertEqual(viewController.titleLabel.text, issue.title)
+
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    func viewControllerDidLoadView(identifier: String) -> UIViewController {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(identifier: identifier)
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
+        viewController.loadView()
+        viewController.viewDidLoad()
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        return viewController
     }
-
 }
