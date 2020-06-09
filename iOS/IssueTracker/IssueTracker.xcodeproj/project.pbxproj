@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		8D1E587C248E2FC7002C2F3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */; };
 		8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */; };
-		8D1E5880248E2FC7002C2F3D /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587F248E2FC7002C2F3D /* IssueListViewController.swift */; };
+		8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */; };
 		8D1E5883248E2FC7002C2F3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1E5881248E2FC7002C2F3D /* Main.storyboard */; };
 		8D1E5886248E2FC7002C2F3D /* IssueTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E5884248E2FC7002C2F3D /* IssueTracker.xcdatamodeld */; };
 		8D1E5888248E2FCA002C2F3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8D1E5887248E2FCA002C2F3D /* Assets.xcassets */; };
 		8D1E588B248E2FCA002C2F3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D1E5889248E2FCA002C2F3D /* LaunchScreen.storyboard */; };
 		8D1E5896248E2FCA002C2F3D /* IssueTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */; };
 		8D1E58A1248EE30F002C2F3D /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E58A0248EE30F002C2F3D /* Model.swift */; };
+		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +33,7 @@
 		8D1E5878248E2FC7002C2F3D /* IssueTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IssueTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8D1E587F248E2FC7002C2F3D /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
+		8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailViewController.swift; sourceTree = "<group>"; };
 		8D1E5882248E2FC7002C2F3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8D1E5885248E2FC7002C2F3D /* IssueTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IssueTracker.xcdatamodel; sourceTree = "<group>"; };
 		8D1E5887248E2FCA002C2F3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,6 +43,7 @@
 		8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueTrackerTests.swift; sourceTree = "<group>"; };
 		8D1E5897248E2FCA002C2F3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1E58A0248EE30F002C2F3D /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +86,8 @@
 			isa = PBXGroup;
 			children = (
 				8D1E58A0248EE30F002C2F3D /* Model.swift */,
-				8D1E587F248E2FC7002C2F3D /* IssueListViewController.swift */,
+				8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */,
+				8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */,
 				8D1E5881248E2FC7002C2F3D /* Main.storyboard */,
 				8D1E5887248E2FCA002C2F3D /* Assets.xcassets */,
 				8D1E5889248E2FCA002C2F3D /* LaunchScreen.storyboard */,
@@ -206,8 +209,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */,
 				8D1E58A1248EE30F002C2F3D /* Model.swift in Sources */,
-				8D1E5880248E2FC7002C2F3D /* IssueListViewController.swift in Sources */,
+				8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */,
 				8D1E587C248E2FC7002C2F3D /* AppDelegate.swift in Sources */,
 				8D1E5886248E2FC7002C2F3D /* IssueTracker.xcdatamodeld in Sources */,
 				8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */,
