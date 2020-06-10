@@ -1,4 +1,6 @@
-package com.codesquad.issue04.domain;
+package com.codesquad.issue04.domain.entity;
+
+import javax.persistence.Entity;
 
 public enum Emoji {
 

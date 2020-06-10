@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain;
+package com.codesquad.issue04.domain.entity;
 
 import lombok.*;
 
