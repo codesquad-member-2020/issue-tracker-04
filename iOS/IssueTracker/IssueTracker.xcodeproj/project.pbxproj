@@ -22,6 +22,7 @@
 		8D1E5896248E2FCA002C2F3D /* IssueTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */; };
 		8D1E58A1248EE30F002C2F3D /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E58A0248EE30F002C2F3D /* Issue.swift */; };
 		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
+		8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49D2490CDF800C0FFA3 /* FakeData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		8D1E5897248E2FCA002C2F3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1E58A0248EE30F002C2F3D /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
+		8D46A49D2490CDF800C0FFA3 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */,
+				8D46A49D2490CDF800C0FFA3 /* FakeData.swift */,
 				8D1E5897248E2FCA002C2F3D /* Info.plist */,
 			);
 			path = IssueTrackerTests;
@@ -266,6 +269,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */,
 				8D1E5896248E2FCA002C2F3D /* IssueTrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

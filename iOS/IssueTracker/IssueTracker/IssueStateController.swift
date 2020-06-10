@@ -29,12 +29,12 @@ class IssueStateController {
     }
     
     // FIXME: 작동안함
-    func getCommentedIssues() -> IssueCollection {
-        let commentedIssues = issueList.filter{ issue in
-            issue.comments.filter { comment in
-                comment.author == user
-                }}
-        return commentedIssues
-    }
+//    func getCommentedIssues() -> IssueCollection {
+//        let commentedIssues = issueList.filter{ issue in
+//            issue.comments.filter { comment in
+//                comment.author == user
+//                }}
+//        return commentedIssues
+//    }
     
 }
