@@ -12,7 +12,6 @@ class IssueTrackerTests: XCTestCase {
         viewController.viewDidLoad()
         XCTAssertNotNil(viewController.titleLabel)
         XCTAssertEqual(viewController.titleLabel.text, issue.title)
-
     }
     
     func testConfigureIssueListDataSource() {

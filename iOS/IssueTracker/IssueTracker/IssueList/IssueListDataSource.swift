@@ -7,9 +7,16 @@ class IssueListDataSource: NSObject {
     init(_ issueList: IssueCollection = .init()) {
         self.issueList = issueList
     }
-    
-}
 
+    func closeIssue(at index: IssueCollection.Index) {
+        // TODO: need to implement
+        issueList.remove(at: index)
+    }
+
+    func removeIssue(at index: IssueCollection.Index) {
+        issueList.remove(at: index)
+    }
+}
 
 extension IssueListDataSource: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -28,4 +35,9 @@ extension IssueListDataSource: UITableViewDataSource {
         return cell
     }
 
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            debugPrint("delete cell")
+        }
+    }
 }
