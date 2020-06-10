@@ -10,7 +10,7 @@ class IssueListDataSource: NSObject {
 
     func closeIssue(at index: IssueCollection.Index) {
         // TODO: need to implement
-//        issueList.remove(at: index)
+        issueList.remove(at: index)
     }
 
     func removeIssue(at index: IssueCollection.Index) {

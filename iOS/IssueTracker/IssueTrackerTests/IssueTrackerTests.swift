@@ -12,7 +12,6 @@ class IssueTrackerTests: XCTestCase {
         viewController.viewDidLoad()
         XCTAssertNotNil(viewController.titleLabel)
         XCTAssertEqual(viewController.titleLabel.text, issue.title)
-
     }
     
     func testConfigureIssueListDataSource() {
@@ -22,7 +21,8 @@ class IssueTrackerTests: XCTestCase {
         let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
         let dataSource = IssueListDataSource(issueList)
         let tableView = UITableView()
-        tableView.register(IssueCell.self, forCellReuseIdentifier: IssueCell.identifier)
+        let nib = UINib(nibName: "IssueCell", bundle: nil)
+        tableView.register(nib, forCellReuseIdentifier: IssueCell.identifier)
         
         // when
         let cellRow = 1
