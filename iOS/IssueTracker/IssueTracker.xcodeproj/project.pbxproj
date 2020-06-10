@@ -12,6 +12,8 @@
 		6A676FC2248F723E00FFA67E /* IssueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A676FC1248F723E00FFA67E /* IssueCell.swift */; };
 		6A676FC4248F736F00FFA67E /* IssueListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A676FC3248F736F00FFA67E /* IssueListDataSource.swift */; };
 		8D17E5882491274C00F78815 /* NewIssueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D17E5872491274C00F78815 /* NewIssueViewController.swift */; };
+		8D17E58B24912EC500F78815 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D17E58A24912EC500F78815 /* Constants.swift */; };
+		8D17E58D249131A400F78815 /* NewIssueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D17E58C249131A400F78815 /* NewIssueView.swift */; };
 		8D1E587C248E2FC7002C2F3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */; };
 		8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */; };
 		8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */; };
@@ -40,6 +42,8 @@
 		6A676FC1248F723E00FFA67E /* IssueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCell.swift; sourceTree = "<group>"; };
 		6A676FC3248F736F00FFA67E /* IssueListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListDataSource.swift; sourceTree = "<group>"; };
 		8D17E5872491274C00F78815 /* NewIssueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueViewController.swift; sourceTree = "<group>"; };
+		8D17E58A24912EC500F78815 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		8D17E58C249131A400F78815 /* NewIssueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIssueView.swift; sourceTree = "<group>"; };
 		8D1E5878248E2FC7002C2F3D /* IssueTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IssueTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				8D17E5872491274C00F78815 /* NewIssueViewController.swift */,
+				8D17E58C249131A400F78815 /* NewIssueView.swift */,
 			);
 			path = NewIssue;
 			sourceTree = "<group>";
@@ -135,8 +140,9 @@
 				6A676FBB248F715400FFA67E /* IssueList */,
 				6A676FC0248F720300FFA67E /* IssueDetail */,
 				8D17E5892491275E00F78815 /* NewIssue */,
-				8D1E5881248E2FC7002C2F3D /* Main.storyboard */,
+				8D17E58A24912EC500F78815 /* Constants.swift */,
 				8D1E5887248E2FCA002C2F3D /* Assets.xcassets */,
+				8D1E5881248E2FC7002C2F3D /* Main.storyboard */,
 				8D1E5889248E2FCA002C2F3D /* LaunchScreen.storyboard */,
 				8D1E588C248E2FCA002C2F3D /* Info.plist */,
 				8D1E5884248E2FC7002C2F3D /* IssueTracker.xcdatamodeld */,
@@ -260,12 +266,14 @@
 				8D1E58A1248EE30F002C2F3D /* Issue.swift in Sources */,
 				8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */,
 				6A676FBF248F71B200FFA67E /* Comment.swift in Sources */,
+				8D17E58D249131A400F78815 /* NewIssueView.swift in Sources */,
 				8D1E587C248E2FC7002C2F3D /* AppDelegate.swift in Sources */,
 				6A676FC2248F723E00FFA67E /* IssueCell.swift in Sources */,
 				6A676FC4248F736F00FFA67E /* IssueListDataSource.swift in Sources */,
 				8D1E5886248E2FC7002C2F3D /* IssueTracker.xcdatamodeld in Sources */,
 				8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */,
 				6A676FBD248F71AC00FFA67E /* User.swift in Sources */,
+				8D17E58B24912EC500F78815 /* Constants.swift in Sources */,
 				8D17E5882491274C00F78815 /* NewIssueViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
