@@ -153,11 +153,4 @@ Temporary Items
 .apdisk
 .gradle/6.4.1/vcsMetadata-1/
 build/generated/
-build/resources/main/application.yml
-build/resources/main/db/
-build/resources/main/static/
-build/resources/main/templates/
 build/tmp/
-src/main/resources/db/
-src/main/resources/static/
-src/main/resources/templates/
