@@ -1,6 +1,8 @@
 package com.codesquad.issue04.domain.issue;
 
-public enum Emoji {
+import java.io.Serializable;
+
+public enum Emoji implements Serializable {
 
     THUMBSUP("U+1F44D", "thumbsup"),
     THUMBSDOWN("U+1F44E", "thumbsdown"),
@@ -11,9 +13,8 @@ public enum Emoji {
     ROCKET("U+1F680", "rocket"),
     EYES("U+1F644", "eyes");
 
-
-    private final String unicode;
-    private final String name;
+    private String unicode;
+    private String name;
 
     Emoji(String unicode, String name) {
         this.unicode = unicode;
