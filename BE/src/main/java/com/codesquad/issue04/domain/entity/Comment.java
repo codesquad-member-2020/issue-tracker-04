@@ -1,16 +1,27 @@
 package com.codesquad.issue04.domain.entity;
 
-import com.codesquad.issue04.domain.firstcollections.Emojis;
-import com.codesquad.issue04.domain.firstcollections.Photos;
-import lombok.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import javax.persistence.*;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString
@@ -28,10 +39,15 @@ public class Comment {
 	private LocalDateTime createdAt;
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
-	@Embedded
-	private Emojis emojis;
-	@Embedded
-	private Photos photos;
+
+	@ElementCollection
+	@CollectionTable(name = "emoji", joinColumns = @JoinColumn(name = "comment_id"))
+	private List<Emoji> emojis;
+
+	@ElementCollection
+	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
+	private List<Photo> photos;
+
 	private String githubId;
 	private Long issueId;
 

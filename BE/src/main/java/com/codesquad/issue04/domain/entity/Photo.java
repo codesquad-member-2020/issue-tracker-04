@@ -1,5 +1,7 @@
 package com.codesquad.issue04.domain.entity;
 
+import javax.persistence.Embeddable;
+
 import lombok.*;
 
 @Getter
@@ -7,6 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Embeddable
 public class Photo {
 
     private String url;

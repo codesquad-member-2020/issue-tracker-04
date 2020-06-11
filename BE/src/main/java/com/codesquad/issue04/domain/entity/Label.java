@@ -1,6 +1,7 @@
 package com.codesquad.issue04.domain.entity;
 
-import com.codesquad.issue04.domain.firstcollections.Issues;
+import java.util.List;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Label {
     private String name;
     private String color;
     private String description;
-    @Embedded
-    private Issues issueList;
+
+    @ManyToMany(mappedBy = "label", cascade = CascadeType.ALL)
+    private List<Issue> issues;
 }

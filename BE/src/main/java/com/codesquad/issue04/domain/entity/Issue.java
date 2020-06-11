@@ -1,7 +1,5 @@
 package com.codesquad.issue04.domain.entity;
 
-import com.codesquad.issue04.domain.firstcollections.Comments;
-import com.codesquad.issue04.domain.firstcollections.Labels;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,9 +17,11 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Embedded
-    private Comments comments;
-    @Embedded
-    private Labels labels;
+
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.REMOVE)
+    private List<Comment> comments;
+
+    @ManyToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+    private List<Label> labels;
     private String githubId;
 }
