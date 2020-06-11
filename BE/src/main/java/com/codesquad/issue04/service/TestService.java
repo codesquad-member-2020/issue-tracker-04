@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TestService {
 	private final IssueRepository issueRepository;
-
 	protected Issue findIssueById(Long id) {
 		return issueRepository.findById(id)
 			.orElseThrow(() -> new IllegalArgumentException("issue not found id: " + id));
