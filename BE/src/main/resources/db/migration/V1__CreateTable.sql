@@ -57,15 +57,15 @@ CREATE TABLE IF NOT EXISTS label
 CREATE TABLE IF NOT EXISTS photo
 (
     url        TEXT NULL,
-    comment_id INT  NOT NULL,
-    CONSTRAINT fk_photo_comment1 FOREIGN KEY (comment_id) REFERENCES comment (id)
+    comment_id INT  NOT NULL
+#     CONSTRAINT fk_photo_comment1 FOREIGN KEY (comment_id) REFERENCES comment (id)
 );
 
 CREATE TABLE IF NOT EXISTS emoji
 (
     name       VARCHAR(45) NULL,
-    comment_id INT         NOT NULL,
-    CONSTRAINT fk_emoji_comment1 FOREIGN KEY (comment_id) REFERENCES comment (id)
+    comment_id INT         NOT NULL
+#     CONSTRAINT fk_emoji_comment1 FOREIGN KEY (comment_id) REFERENCES comment (id)
 );
 
 CREATE TABLE IF NOT EXISTS assignee
