@@ -2,6 +2,7 @@ import XCTest
 @testable import IssueTracker
 
 class IssueTrackerTests: XCTestCase {
+        
     func testViewController() {
         let viewController = viewControllerDidLoadView(identifier: "IssueDetailViewController") as! IssueDetailViewController
 
@@ -15,7 +16,6 @@ class IssueTrackerTests: XCTestCase {
     }
     
     func testConfigureIssueListDataSource() {
-        
         // given
         let user = User(id: 1, name: "모오오오스")
         let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
@@ -27,6 +27,25 @@ class IssueTrackerTests: XCTestCase {
         
         // then
         XCTAssertEqual(numberOfRows, issueList.count)
+    }
+    
+    func testFilterIssueList() {
+        // given
+        let user = Faker.makeUser()
+        let issue = Faker.makeIssue()
+        let issues = Faker.makeIssues()
+        let stateController = IssueStateController(user: user, issue: issue, issueList: issues)
+        
+        // then
+        XCTAssertEqual(stateController.getOpenIssues().count,2)
+        XCTAssertTrue(stateController.getOpenIssues().filter{ $0.status == .closed }.isEmpty)
+        
+        XCTAssertEqual(stateController.getClosedIssues().count,1)
+        XCTAssertTrue(stateController.getClosedIssues().filter{ $0.status == .open }.isEmpty)
+        
+        XCTAssertEqual(stateController.getAuthoredIssues().count,2)
+        XCTAssertTrue(stateController.getAuthoredIssues().filter{$0.owner != user}.isEmpty)
+
     }
 }
  
