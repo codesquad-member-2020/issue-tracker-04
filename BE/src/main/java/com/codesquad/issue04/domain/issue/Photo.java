@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.entity;
+package com.codesquad.issue04.domain.issue;
 
 import javax.persistence.Embeddable;
 
@@ -13,6 +13,4 @@ import lombok.*;
 public class Photo {
 
     private String url;
-    private String githubId;
-    private Long commentId;
 }

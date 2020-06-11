@@ -1,21 +1,26 @@
-package com.codesquad.issue04.domain.entity;
+package com.codesquad.issue04.domain.issue;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.codesquad.issue04.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,13 +28,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@ToString(exclude = "issue")
 @Getter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class Comment {
+public class Comment implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +53,14 @@ public class Comment {
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
 	private List<Photo> photos;
 
-	private String githubId;
-	private Long issueId;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
+	private User user;
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "issue_id"))
+	private Issue issue;
 
 	public String getFormattedCreatedDate() {
 		return formattedDate(createdAt, "YYYY-MM-SS HH:mm:ss");
