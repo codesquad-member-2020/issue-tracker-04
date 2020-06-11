@@ -21,5 +21,7 @@ public class TestServiceTest {
 		assertThat(testService.findIssueById(1L)).isInstanceOf(Issue.class);
 		assertThat(testService.findIssueById(1L).getTitle()).isEqualTo("SQL 작성");
 		assertThat(testService.findIssueById(1L).getComments().get(0).getContent()).isEqualTo("아하하 어렵네요.");
+		assertThat(testService.findIssueById(1L).getComments().get(0).getEmojis().size()).isGreaterThan(0);
+		assertThat(testService.findIssueById(1L).getComments().get(0).getPhotos().size()).isGreaterThan(0);
 	}
 }
