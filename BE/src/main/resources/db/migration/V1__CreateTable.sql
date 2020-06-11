@@ -28,7 +28,9 @@ CREATE TABLE IF NOT EXISTS issue
 (
     id           INT     PRIMARY KEY AUTO_INCREMENT NOT NULL,
     title        VARCHAR(45) NULL,
+    user_id      INT         NOT NULL,
     milestone_id INT         NOT NULL,
+    CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_issue_milestone1 FOREIGN KEY (milestone_id) REFERENCES milestone (id)
 );
 
@@ -76,8 +78,7 @@ CREATE TABLE IF NOT EXISTS assignee
 
 CREATE TABLE IF NOT EXISTS label_has_issue
 (
+    id INT PRIMARY KEY AUTO_INCREMENT,
     label_id INT NOT NULL,
-    issue_id INT NOT NULL,
-    CONSTRAINT fk_label_has_issue_label1 FOREIGN KEY (label_id) REFERENCES label (id),
-    CONSTRAINT fk_label_has_issue_issue1 FOREIGN KEY (issue_id) REFERENCES issue (id)
+    issue_id INT NOT NULL
 );
