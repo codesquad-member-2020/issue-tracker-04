@@ -110,11 +110,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P7F-2i-9kT">
+                                <rect key="frame" x="301" y="58" width="30" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Edit"/>
+                                <connections>
+                                    <action selector="startEditing:" destination="Z9y-Eb-3RU" eventType="touchUpInside" id="BBV-ho-oBs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="CC0-Jr-1vO"/>
                     </view>
                     <connections>
+                        <outlet property="editButton" destination="P7F-2i-9kT" id="d77-Sk-tOj"/>
                         <outlet property="tableView" destination="Osi-V3-Ybd" id="dLZ-nu-WgG"/>
                     </connections>
                 </viewController>

@@ -3,18 +3,36 @@ import UIKit
 class IssueListViewController: UIViewController {
     
     private var dataSource: IssueListDataSource = .init()
-
+    @IBOutlet weak var editButton: UIButton!
+    
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupTableView()
+    }
+    
+    
+    
+    private func setupTableView() {
         let user = User(id: 1, name: "모오오오스")
         let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
+        self.dataSource = IssueListDataSource(issueList)
+        self.tableView.dataSource = dataSource
+        self.tableView.delegate = self
+        tableView.isEditing = false
 
-        dataSource = IssueListDataSource(issueList)
-        tableView.dataSource = dataSource
-        tableView.delegate = self
+    }
+    
+    @IBAction func startEditing(_ sender: UIButton) {
+        self.tableView.allowsMultipleSelectionDuringEditing = true
+        let isEditing = tableView.isEditing
+            tableView.setEditing(!isEditing, animated: true)
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return !tableView.isEditing
     }
 
 }
@@ -45,6 +63,16 @@ extension IssueListViewController: UITableViewDelegate {
 
         return swipeAction
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
+    }
+
+    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    
 }
 
 enum SystemImageName {

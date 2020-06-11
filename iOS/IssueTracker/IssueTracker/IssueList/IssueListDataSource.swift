@@ -40,4 +40,11 @@ extension IssueListDataSource: UITableViewDataSource {
             debugPrint("delete cell")
         }
     }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        self.issueList.remove(at: sourceIndexPath.row)
+        self.issueList.insert(contentsOf: issueList, at: destinationIndexPath.row)
+        debugPrint("\(sourceIndexPath.row) => \(destinationIndexPath.row)")
+    }
+    
 }
