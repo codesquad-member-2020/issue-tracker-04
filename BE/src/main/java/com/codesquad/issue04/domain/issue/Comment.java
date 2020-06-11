@@ -3,11 +3,16 @@ package com.codesquad.issue04.domain.issue;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,18 +44,22 @@ public class Comment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String content;
+
 	@CreatedDate
 	private LocalDateTime createdAt;
+
 	@LastModifiedDate
 	private LocalDateTime updatedAt;
 
-	@ElementCollection
-	@CollectionTable(name = "emoji", joinColumns = @JoinColumn(name = "comment_id"))
-	private List<Emoji> emojis;
+	@ElementCollection(targetClass = Emoji.class)
+	@Enumerated(EnumType.STRING)
+	@CollectionTable(name = "emoji")
+	@Column(name = "name")
+	Collection<Emoji> emojis;
 
 	@ElementCollection
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
-	private List<Photo> photos;
+	private List<Photo> photos = new ArrayList<>();
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
