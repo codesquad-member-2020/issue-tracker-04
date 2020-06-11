@@ -14,4 +14,5 @@ class IssueDetailViewController: UIViewController {
         bodyView.text = issue.body
         ownerLabel.text = String(describing: issue.owner)
     }
+
 }
