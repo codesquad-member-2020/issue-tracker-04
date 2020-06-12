@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public enum Emoji implements Serializable {
 
-    THUMBSUP("U+1F44D", "thumbsup"),
-    THUMBSDOWN("U+1F44E", "thumbsdown"),
+    THUMBS_UP("U+1F44D", "thumbsup"),
+    THUMBS_DOWN("U+1F44E", "thumbsdown"),
     LAUGH("U+1F923", "laugh"),
     HOORAY("U+1F389", "hooray"),
     CONFUSED("U+1F615", "confused"),

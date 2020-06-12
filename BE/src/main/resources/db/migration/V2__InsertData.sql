@@ -11,6 +11,9 @@ VALUES ('SQL 작성', 1, 1);
 INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
 VALUES ('아하하 어렵네요.', '2020-06-25', '2020-06-26', 1, 1);
 
+INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
+VALUES ('아하하 쉽네요.', '2020-06-25', '2020-06-26', 1, 1);
+
 INSERT INTO label (name, color, description)
 VALUES ('BE-배포', '#FF5733', '백엔드 배포 라벨');
 
@@ -18,7 +21,13 @@ INSERT INTO photo (url, comment_id)
 VALUES ('https://user-images.githubusercontent.com/41055141/84121797-8efa8d80-aa72-11ea-8a2b-d8fd96d91372.png', 1);
 
 INSERT INTO emoji (name, comment_id)
-VALUES ('THUMBSUP', 1);
+VALUES ('THUMBS_UP', 1);
+
+INSERT INTO emoji (name, comment_id)
+VALUES ('THUMBS_DOWN', 2);
+
+INSERT INTO emoji (name, comment_id)
+VALUES ('LAUGH', 2);
 
 INSERT INTO assignee (issue_id, user_id)
 VALUES (1, 1);
