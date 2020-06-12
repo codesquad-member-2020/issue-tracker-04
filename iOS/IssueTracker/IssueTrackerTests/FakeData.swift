@@ -35,7 +35,7 @@ class Faker {
         let user = makeUser()
         let anotherUser = makeAnotherUser()
 
-        let comments = [
+        let comments: CommentCollection = [
             Comment(id: 1, body: "comment1", author: user),
             Comment(id: 2, body: "comment2", author: anotherUser),
             Comment(id: 3, body: "comment3", author: anotherUser),

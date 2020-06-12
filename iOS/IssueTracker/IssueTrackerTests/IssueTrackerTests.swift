@@ -47,6 +47,18 @@ class IssueTrackerTests: XCTestCase {
         XCTAssertTrue(stateController.getAuthoredIssues().filter{$0.owner != user}.isEmpty)
 
     }
+    
+    func testCommentCollection() {
+        //given
+        let comments = Faker.makeComments()
+        let user = Faker.makeUser()
+        
+        //then
+        XCTAssertEqual(comments.count, 3)
+        XCTAssertEqual(comments.filter { $0.author ==  user }.count, 1)
+        
+    }
+    
 }
  
 private extension IssueTrackerTests {
