@@ -6,7 +6,7 @@ struct Issue {
     let body: String?
     var comments: CommentCollection = .init()
     let owner: User
-    let assignees: UserCollection = .init()
+    var assignees: UserCollection = .init()
     var status: Status = .open
 
     func addComment(_ comment: Comment) {

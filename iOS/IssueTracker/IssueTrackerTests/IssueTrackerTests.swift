@@ -35,24 +35,27 @@ class IssueTrackerTests: XCTestCase {
         let issue = Faker.makeIssue()
         var issues = Faker.makeIssues()
         let comments = Faker.makeComments()
-        issues[1].comments = comments
+        issues[0].comments = comments
         let stateController = IssueStateController(user: user, issue: issue, issueList: issues)
         
         // then
         // openIssues
-        XCTAssertEqual(stateController.getOpenIssues().count,2)
-        XCTAssertTrue(stateController.getOpenIssues().filter{ $0.status == .closed }.isEmpty)
+        XCTAssertEqual(stateController.openIssues.count,2)
+        XCTAssertTrue(stateController.openIssues.filter{ $0.status == .closed }.isEmpty)
         
         // closedIssues
-        XCTAssertEqual(stateController.getClosedIssues().count,1)
-        XCTAssertTrue(stateController.getClosedIssues().filter{ $0.status == .open }.isEmpty)
+        XCTAssertEqual(stateController.closedIssues.count,1)
+        XCTAssertTrue(stateController.closedIssues.filter{ $0.status == .open }.isEmpty)
         
         // authoredIssues
-        XCTAssertEqual(stateController.getAuthoredIssues().count,2)
-        XCTAssertTrue(stateController.getAuthoredIssues().filter{$0.owner != user}.isEmpty)
+        XCTAssertEqual(stateController.authoredIssues.count,2)
+        XCTAssertTrue(stateController.authoredIssues.filter{$0.owner != user}.isEmpty)
     
+        // assignedIssues
+        XCTAssertEqual(stateController.assignedIssues.count, 1)
+        
         // commentedIssues
-        XCTAssertEqual(stateController.getCommentedIssues().count, 1)
+        XCTAssertEqual(stateController.commentedIssues.count, 1)
         
     }
     

@@ -12,25 +12,25 @@ class IssueStateController {
         self.issueList = issueList
     }
     
-    func getOpenIssues() -> IssueCollection {
+    var openIssues: IssueCollection {
         return issueList.filter(by: .open)
     }
     
-    func getClosedIssues() -> IssueCollection {
+    var closedIssues: IssueCollection {
         return issueList.filter(by: .closed)
     }
 
-    func getAuthoredIssues() -> IssueCollection {
-        return getOpenIssues().filter(by: self.user)
+    var authoredIssues: IssueCollection {
+        return openIssues.filter(by: self.user)
 
     }
     
-    func getAssignedIssues() -> IssueCollection {
-        return getOpenIssues().filter(contains: self.user)
+    var assignedIssues: IssueCollection {
+        return openIssues.filter(contains: self.user)
     }
     
-    func getCommentedIssues() -> IssueCollection {
-        return getOpenIssues()
+    var commentedIssues: IssueCollection {
+        return openIssues
             .filter{$0.comments.contains(author: user)}
     }
 
