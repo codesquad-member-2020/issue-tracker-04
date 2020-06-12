@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS comment
 CREATE TABLE IF NOT EXISTS label
 (
     id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name        VARCHAR(45)                    NULL,
+    title        VARCHAR(45)                    NULL,
     color       VARCHAR(45)                    NULL,
     description VARCHAR(100)                   NULL
 );

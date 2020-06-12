@@ -2,6 +2,8 @@ package com.codesquad.issue04.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
 
 @SpringBootTest
 public class TestServiceTest {
@@ -37,5 +40,25 @@ public class TestServiceTest {
 	void 댓글_별로_이모지가_불러진다(int commentIndex, int expectedSize) {
 		assertThat(testService.findIssueById(1L).getComments().get(commentIndex).getEmojis().size()).isEqualTo(
 			expectedSize);
+	}
+
+	@Transactional
+	@DisplayName("이슈 전체를 가져온다.")
+	@CsvSource({"0, SQL 작성", "1, 스키마 작성"})
+	@ParameterizedTest
+	void 이슈_전체를_가져온다(int index, String expectedTitle) {
+
+		List<Issue> issues = testService.findAllIssues();
+		assertThat(issues.get(index).getTitle()).isEqualTo(expectedTitle);
+	}
+
+	@Transactional
+	@DisplayName("이슈 전체를 가져와 각 이슈의 요약을 보여준다.")
+	@Test
+	void 전체_이슈의_요약을_생성한다() {
+
+		List<IssueOverviewResponseDto> issueOverviewResponseDtos = testService.findAllIssuesOverview();
+
+		assertThat(issueOverviewResponseDtos.get(0)).isInstanceOf(IssueOverviewResponseDto.class);
 	}
 }

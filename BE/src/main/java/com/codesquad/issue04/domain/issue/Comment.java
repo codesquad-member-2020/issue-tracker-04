@@ -55,10 +55,11 @@ public class Comment implements Serializable {
 	@Enumerated(EnumType.STRING)
 	@CollectionTable(name = "emoji")
 	@Column(name = "name")
-	Collection<Emoji> emojis;
+	private List<Emoji> emojis;
 
 	@ElementCollection
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
+	@Column(name = "url")
 	private List<Photo> photos = new ArrayList<>();
 
 	@ManyToOne
