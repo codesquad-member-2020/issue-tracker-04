@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
-import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
+import com.codesquad.issue04.web.dto.response.IssueOverviewDto;
 
 @SpringBootTest
 public class TestServiceTest {
@@ -36,7 +36,7 @@ public class TestServiceTest {
 
 	@Transactional
 	@DisplayName("댓글 별로 이모지가 별도로 가져와진다. 0번째 댓글은 1개의 이모지를 지니고, 1번째 댓글은 2개의 이모지를 지닌다.")
-	@CsvSource({"0, 1", "1, 2"})
+	@CsvSource({"0, 1", "1, 1"})
 	@ParameterizedTest
 	void 댓글_별로_이모지가_불러진다(int commentIndex, int expectedSize) {
 		assertThat(testService.findIssueById(1L).getComments().get(commentIndex).getEmojis().size()).isEqualTo(
@@ -58,9 +58,9 @@ public class TestServiceTest {
 	@Test
 	void 전체_이슈의_요약을_생성한다() {
 
-		List<IssueOverviewResponseDto> issueOverviewResponseDtos = testService.findAllIssuesOverview();
+		List<IssueOverviewDto> issueOverviewDtos = testService.findAllIssuesOverview();
 
-		assertThat(issueOverviewResponseDtos.get(0)).isInstanceOf(IssueOverviewResponseDto.class);
+		assertThat(issueOverviewDtos.get(0)).isInstanceOf(IssueOverviewDto.class);
 	}
 
 	@Transactional

@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class IssueOverviewResponseDto {
+public class IssueOverviewDto {
 
 	private Long id;
 	private String title;
@@ -30,7 +30,7 @@ public class IssueOverviewResponseDto {
 	private String githubId;
 
 	@Builder
-	public IssueOverviewResponseDto(Issue issue) {
+	public IssueOverviewDto(Issue issue) {
 
 		List<Comment> comments = Optional.ofNullable(issue.getComments()).orElse(new ArrayList<>());
 		Milestone milestone = issue.getMilestone();
@@ -48,8 +48,8 @@ public class IssueOverviewResponseDto {
 		this.githubId = user.getGithubId();
 	}
 
-	public static IssueOverviewResponseDto of(Issue issue) {
-		return IssueOverviewResponseDto.builder()
+	public static IssueOverviewDto of(Issue issue) {
+		return IssueOverviewDto.builder()
 			.issue(issue)
 			.build();
 	}

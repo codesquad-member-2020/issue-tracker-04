@@ -3,18 +3,14 @@ package com.codesquad.issue04.domain.issue;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.User;
-import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
 
 @SpringBootTest
 public class IssueTest {

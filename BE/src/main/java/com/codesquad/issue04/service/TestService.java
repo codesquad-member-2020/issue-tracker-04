@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
-import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
+import com.codesquad.issue04.web.dto.response.IssueOverviewDto;
+import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDtos;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -26,14 +27,20 @@ public class TestService {
 		return issueRepository.findAll();
 	}
 
-	public List<IssueOverviewResponseDto> findAllIssuesOverview() {
+	public List<IssueOverviewDto> findAllIssuesOverview() {
 		List<Issue> issues = findAllIssues();
 		return issues.stream()
-			.map(IssueOverviewResponseDto::of)
+			.map(IssueOverviewDto::of)
 			.collect(Collectors.toList());
 	}
 
 	public IssueDetailResponseDto findIssueDetailById(Long issueId) {
 		return IssueDetailResponseDto.of(findIssueById(issueId));
+	}
+
+	public IssueOverviewResponseDtos getIssues() {
+		return IssueOverviewResponseDtos.builder()
+			.allData(findAllIssuesOverview())
+			.build();
 	}
 }
