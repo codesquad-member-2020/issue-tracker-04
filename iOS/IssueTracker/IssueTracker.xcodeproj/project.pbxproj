@@ -24,6 +24,7 @@
 		8D1E5896248E2FCA002C2F3D /* IssueTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */; };
 		8D1E58A1248EE30F002C2F3D /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E58A0248EE30F002C2F3D /* Issue.swift */; };
 		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
+		8D93E2A124927D2600A6BAE2 /* UIView+RoundedBorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D93E2A024927D2600A6BAE2 /* UIView+RoundedBorders.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		8D1E5897248E2FCA002C2F3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1E58A0248EE30F002C2F3D /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
+		8D93E2A024927D2600A6BAE2 /* UIView+RoundedBorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+RoundedBorders.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,13 +143,14 @@
 				6A676FC0248F720300FFA67E /* IssueDetail */,
 				8D17E5892491275E00F78815 /* NewIssue */,
 				8D17E58A24912EC500F78815 /* Constants.swift */,
+				8D93E2A224927D3C00A6BAE2 /* Extensions */,
 				8D1E5887248E2FCA002C2F3D /* Assets.xcassets */,
 				8D1E5881248E2FC7002C2F3D /* Main.storyboard */,
+				8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */,
+				8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */,
 				8D1E5889248E2FCA002C2F3D /* LaunchScreen.storyboard */,
 				8D1E588C248E2FCA002C2F3D /* Info.plist */,
 				8D1E5884248E2FC7002C2F3D /* IssueTracker.xcdatamodeld */,
-				8D1E587B248E2FC7002C2F3D /* AppDelegate.swift */,
-				8D1E587D248E2FC7002C2F3D /* SceneDelegate.swift */,
 			);
 			path = IssueTracker;
 			sourceTree = "<group>";
@@ -159,6 +162,14 @@
 				8D1E5897248E2FCA002C2F3D /* Info.plist */,
 			);
 			path = IssueTrackerTests;
+			sourceTree = "<group>";
+		};
+		8D93E2A224927D3C00A6BAE2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				8D93E2A024927D2600A6BAE2 /* UIView+RoundedBorders.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +285,7 @@
 				8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */,
 				6A676FBD248F71AC00FFA67E /* User.swift in Sources */,
 				8D17E58B24912EC500F78815 /* Constants.swift in Sources */,
+				8D93E2A124927D2600A6BAE2 /* UIView+RoundedBorders.swift in Sources */,
 				8D17E5882491274C00F78815 /* NewIssueViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
