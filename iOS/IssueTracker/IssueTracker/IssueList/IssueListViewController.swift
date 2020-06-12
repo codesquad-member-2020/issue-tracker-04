@@ -17,6 +17,16 @@ class IssueListViewController: UIViewController {
         tableView.delegate = self
     }
 
+    // MARK: - IBActions
+
+    @IBAction func newIssueDidSaved(_ segue: UIStoryboardSegue) {
+        debugPrint("Detail ViewController")
+        guard let newIssueViewController = segue.source as? NewIssueViewController,
+            let issue = newIssueViewController.issue
+            else { return }
+
+        debugPrint(issue)
+    }
 }
 
 extension IssueListViewController: UITableViewDelegate {
@@ -45,9 +55,4 @@ extension IssueListViewController: UITableViewDelegate {
 
         return swipeAction
     }
-}
-
-enum SystemImageName {
-    static let cellShare = "checkmark.rectangle"
-    static let cellDelete = "trash"
 }
