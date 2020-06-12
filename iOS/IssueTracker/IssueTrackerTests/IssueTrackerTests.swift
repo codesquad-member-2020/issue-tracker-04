@@ -33,19 +33,27 @@ class IssueTrackerTests: XCTestCase {
         // given
         let user = Faker.makeUser()
         let issue = Faker.makeIssue()
-        let issues = Faker.makeIssues()
+        var issues = Faker.makeIssues()
+        let comments = Faker.makeComments()
+        issues[1].comments = comments
         let stateController = IssueStateController(user: user, issue: issue, issueList: issues)
         
         // then
+        // openIssues
         XCTAssertEqual(stateController.getOpenIssues().count,2)
         XCTAssertTrue(stateController.getOpenIssues().filter{ $0.status == .closed }.isEmpty)
         
+        // closedIssues
         XCTAssertEqual(stateController.getClosedIssues().count,1)
         XCTAssertTrue(stateController.getClosedIssues().filter{ $0.status == .open }.isEmpty)
         
+        // authoredIssues
         XCTAssertEqual(stateController.getAuthoredIssues().count,2)
         XCTAssertTrue(stateController.getAuthoredIssues().filter{$0.owner != user}.isEmpty)
-
+    
+        // commentedIssues
+        XCTAssertEqual(stateController.getCommentedIssues().count, 1)
+        
     }
     
     func testCommentCollection() {
@@ -57,6 +65,17 @@ class IssueTrackerTests: XCTestCase {
         XCTAssertEqual(comments.count, 3)
         XCTAssertEqual(comments.filter { $0.author ==  user }.count, 1)
         
+    }
+    
+    func testIssueCollectionFilter() {
+        //given
+        let user = Faker.makeUser()
+        var issues = Faker.makeIssues()
+        let comments = Faker.makeComments()
+        issues[1].comments = comments
+        
+        //then
+        XCTAssertEqual(issues.filter(comment: user).count,1)
     }
     
 }

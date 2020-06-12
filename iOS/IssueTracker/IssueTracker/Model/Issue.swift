@@ -4,7 +4,7 @@ struct Issue {
     let id: ID
     let title: String
     let body: String?
-    let comments: CommentCollection = .init()
+    var comments: CommentCollection = .init()
     let owner: User
     let assignees: UserCollection = .init()
     var status: Status = .open
@@ -39,7 +39,15 @@ struct IssueCollection {
     }
 
     func filter(contains user: User) -> Self {
-        return Self(items: filter { $0.assignees.contains(user) })
+        return filter { $0.assignees.contains(user) }
+    }
+    
+    func filter(_ isIncluded: (IssueType.Element) throws -> Bool) rethrows -> Self {
+        return Self(items: try items.filter(isIncluded))
+    }
+    
+    func filter(comment author: User) -> Self {
+        return Self(items: filter { $0.comments.contains(author: author) })
     }
 }
 
@@ -50,7 +58,10 @@ extension IssueCollection: Collection {
     var startIndex: Index { items.startIndex }
     var endIndex: Index { items.endIndex }
 
-    subscript(index: Index) -> Element { items[index] }
+    subscript(index: Index) -> Element {
+        get { items[index] }
+        set { items[index] =  newValue }
+    }
 
     func index(after i: IssueType.Index) -> Index {
         items.index(after: i)

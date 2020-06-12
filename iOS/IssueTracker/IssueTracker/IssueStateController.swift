@@ -21,20 +21,17 @@ class IssueStateController {
     }
 
     func getAuthoredIssues() -> IssueCollection {
-        return issueList.filter(by: self.user)
+        return getOpenIssues().filter(by: self.user)
+
     }
     
     func getAssignedIssues() -> IssueCollection {
-        return issueList.filter(contains: self.user)
+        return getOpenIssues().filter(contains: self.user)
     }
     
-    // FIXME: 작동안함
-//    func getCommentedIssues() -> IssueCollection {
-//        let commentedIssues = issueList.filter{ issue in
-//            issue.comments.filter { comment in
-//                comment.author == user
-//                }}
-//        return commentedIssues
-//    }
-    
+    func getCommentedIssues() -> IssueCollection {
+        return getOpenIssues()
+            .filter{$0.comments.contains(author: user)}
+    }
+
 }
