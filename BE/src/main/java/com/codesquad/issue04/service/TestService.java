@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
+import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -16,9 +17,9 @@ public class TestService {
 
 	private final IssueRepository issueRepository;
 
-	protected Issue findIssueById(Long id) {
-		return issueRepository.findById(id)
-			.orElseThrow(() -> new IllegalArgumentException("issue not found id: " + id));
+	protected Issue findIssueById(Long issueId) {
+		return issueRepository.findById(issueId)
+			.orElseThrow(() -> new IllegalArgumentException("issue not found id: " + issueId));
 	}
 
 	protected List<Issue> findAllIssues() {
@@ -26,11 +27,13 @@ public class TestService {
 	}
 
 	public List<IssueOverviewResponseDto> findAllIssuesOverview() {
-
 		List<Issue> issues = findAllIssues();
-
 		return issues.stream()
 			.map(IssueOverviewResponseDto::of)
 			.collect(Collectors.toList());
+	}
+
+	public IssueDetailResponseDto findIssueDetailById(Long issueId) {
+		return IssueDetailResponseDto.of(findIssueById(issueId));
 	}
 }

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDto;
 
 @SpringBootTest
@@ -61,4 +62,18 @@ public class TestServiceTest {
 
 		assertThat(issueOverviewResponseDtos.get(0)).isInstanceOf(IssueOverviewResponseDto.class);
 	}
+
+	@Transactional
+	@DisplayName("각 이슈의 디테일을 보여준다.")
+	@CsvSource({"1, SQL 작성", "2, 스키마 작성"})
+	@ParameterizedTest
+	void 각_이슈의_디테일을_보여준다(Long id, String title) {
+
+		IssueDetailResponseDto issueDetailResponseDto = testService.findIssueDetailById(id);
+
+		assertThat(issueDetailResponseDto.getId()).isEqualTo(id);
+		assertThat(issueDetailResponseDto.getTitle()).isEqualTo(title);
+		assertThat(issueDetailResponseDto.getUser().getIssues().size()).isGreaterThan(0);
+	}
+
 }

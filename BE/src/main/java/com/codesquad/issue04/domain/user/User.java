@@ -1,12 +1,7 @@
 package com.codesquad.issue04.domain.user;
 
-
 import java.io.Serializable;
 import java.util.List;
-
-import com.codesquad.issue04.domain.issue.Issue;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,11 +9,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.NaturalId;
+import com.codesquad.issue04.domain.issue.Issue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @ToString(exclude = "issues")
@@ -38,6 +38,6 @@ public class User implements Serializable {
     private String image;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Issue> issues;
 }
