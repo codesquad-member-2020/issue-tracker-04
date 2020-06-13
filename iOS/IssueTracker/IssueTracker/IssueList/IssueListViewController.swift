@@ -86,25 +86,26 @@ class IssueListViewController: UIViewController {
     @objc private func didEditButtonPressed() {
         tableView.allowsMultipleSelectionDuringEditing = true
         isEditing = true
-        tableView.allowsMultipleSelectionDuringEditing = true
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return !tableView.isEditing
+    // TODO: present view to select filtering options.
+    @objc private func didFilterButtonPressed() {
+        
     }
     
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: true)
+    @objc private func didSelectAllButtonPressed(_ sender: UIBarButtonItem) {
+        for row in 0..<tableView.numberOfRows(inSection: 0) {
+            tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
+        }
+        navigationItem.leftBarButtonItem = deselectAllBarButton
     }
-
-    @IBAction func closeButtonTapped(_ sender: Any) {
-         tableView.indexPathsForSelectedRows?.forEach{
-             self.closedIssuesIndexPath.append($0)
-         }
-         isEditing = !isEditing
-         tableView.allowsMultipleSelectionDuringEditing = false
-     }
+    
+    @objc private func didDeselectAllButtonPressed() {
+        for row in 0..<tableView.numberOfRows(inSection: 0) {
+            tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
+        }
+        navigationItem.leftBarButtonItem = selectAllBarButton
+    }
     
 }
 
@@ -135,18 +136,13 @@ extension IssueListViewController: UITableViewDelegate {
         return swipeAction
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .none
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.navigationItem.leftBarButtonItem = deselectAllBarButton
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .none {
-            closedIssuesIndexPath.remove(at: indexPath.row)
-            tableView.reloadData()
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if tableView.indexPathsForSelectedRows == nil {
+            navigationItem.leftBarButtonItem = selectAllBarButton
         }
     }
     
