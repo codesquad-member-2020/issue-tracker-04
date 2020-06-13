@@ -9,7 +9,7 @@ class IssueListDataSource: NSObject {
     }
 
     func closeIssue(at index: IssueCollection.Index) {
-        // TODO: need to implement
+        // TODO: need to implement -> change issue status from open to closed
         issueList.remove(at: index)
     }
 
@@ -34,17 +34,20 @@ extension IssueListDataSource: UITableViewDataSource {
         
         return cell
     }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            debugPrint("delete cell")
-        }
-    }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         self.issueList.remove(at: sourceIndexPath.row)
         self.issueList.insert(contentsOf: issueList, at: destinationIndexPath.row)
         debugPrint("\(sourceIndexPath.row) => \(destinationIndexPath.row)")
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        guard tableView.isEditing else { return false }
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .none
     }
     
 }

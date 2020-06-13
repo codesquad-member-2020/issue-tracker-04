@@ -61,16 +61,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Osi-V3-Ybd">
-                                <rect key="frame" x="20" y="129" width="374" height="733"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Osi-V3-Ybd">
+                                <rect key="frame" x="0.0" y="148" width="414" height="648"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IssueCell" id="W3d-Lb-Ljh" customClass="IssueCell" customModule="IssueTracker" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="374" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="W3d-Lb-Ljh" id="rG4-zW-wfE" customClass="IssueCell" customModule="IssueTracker" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="374" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuU-Eo-WD0">
@@ -110,25 +109,26 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9i1-uS-rER">
+                                <rect key="frame" x="200" y="95" width="39" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Close"/>
+                                <connections>
+                                    <action selector="closeButtonTapped:" destination="Z9y-Eb-3RU" eventType="touchUpInside" id="S9W-NE-DEa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Osi-V3-Ybd" firstAttribute="top" secondItem="CC0-Jr-1vO" secondAttribute="top" constant="60" id="46t-La-Pr0"/>
+                            <constraint firstAttribute="bottom" secondItem="Osi-V3-Ybd" secondAttribute="bottom" constant="100" id="AYn-MZ-JY2"/>
+                            <constraint firstItem="CC0-Jr-1vO" firstAttribute="trailing" secondItem="Osi-V3-Ybd" secondAttribute="trailing" id="Cb0-Cn-1wV"/>
+                            <constraint firstItem="Osi-V3-Ybd" firstAttribute="leading" secondItem="CC0-Jr-1vO" secondAttribute="leading" id="a3b-wM-cc4"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="CC0-Jr-1vO"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Close Selected Issues" id="s7q-27-vZ2">
-                            <connections>
-                                <action selector="closeButtonTapped:" destination="Z9y-Eb-3RU" id="gcd-xI-KWF"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" id="CT5-HA-cma">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="Uly-Lr-KSm"/>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="jTG-sS-UdR">
-                            <connections>
-                                <action selector="editButtonTapped:" destination="Z9y-Eb-3RU" id="hSb-u8-dxd"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="CT5-HA-cma"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Osi-V3-Ybd" id="dLZ-nu-WgG"/>

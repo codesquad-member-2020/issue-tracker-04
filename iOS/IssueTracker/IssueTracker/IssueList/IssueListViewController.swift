@@ -2,8 +2,28 @@ import UIKit
 
 class IssueListViewController: UIViewController {
     
-    enum State {
-        case normal, editing, selected
+    @IBOutlet weak var tableView: UITableView!
+    
+    private var dataSource: IssueListDataSource = .init()
+    
+    var cancelBarButton: UIBarButtonItem  {
+        return UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
+    }
+    
+    var editBarButton: UIBarButtonItem {
+        return UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
+    }
+    
+    var filterBarButton: UIBarButtonItem {
+        return UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(didFilterButtonPressed))
+    }
+    
+    var selectAllBarButton: UIBarButtonItem {
+        return UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(didSelectAllButtonPressed))
+    }
+    
+    var deselectAllBarButton: UIBarButtonItem {
+        return UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(didDeselectAllButtonPressed))
     }
     
     override var isEditing: Bool {
@@ -12,23 +32,27 @@ class IssueListViewController: UIViewController {
         }
     }
     
-    var cancelBarButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelPressed))
-    }()
-    
-    var editBarButton: UIBarButtonItem = {
-        return UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
-    }()
-    
-    private var closedIssuesIndexPath = [IndexPath]()
-    private var dataSource: IssueListDataSource = .init()
-    
-    @IBOutlet weak var tableView: UITableView!
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupTableView()
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return !tableView.isEditing
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+    }
+    
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        tableView.indexPathsForSelectedRows?.forEach{
+            dataSource.closeIssue(at: $0.row)
+        }
+        isEditing = !isEditing
+        tableView.allowsMultipleSelectionDuringEditing = false
     }
     
     private func setupTableView() {
@@ -37,24 +61,30 @@ class IssueListViewController: UIViewController {
         self.dataSource = IssueListDataSource(issueList)
         self.tableView.dataSource = dataSource
         self.tableView.delegate = self
+        tableView.allowsMultipleSelectionDuringEditing = true
         self.navigationItem.rightBarButtonItem = editBarButton
     }
     
     private func setupButtons() {
         switch isEditing {
         case true: self.navigationItem.rightBarButtonItem =
-            cancelBarButton
+        cancelBarButton
+        self.navigationItem.leftBarButtonItem = selectAllBarButton
+            
         case false:
             self.navigationItem.rightBarButtonItem = editBarButton
+            self.navigationItem.leftBarButtonItem = filterBarButton
         }
     }
     
-    @objc func didCancelPressed() {
+    @objc private func didCancelButtonPressed() {
         isEditing = false
         tableView.allowsMultipleSelectionDuringEditing = false
     }
     
-    @objc func didEditButtonPressed() {
+    
+    @objc private func didEditButtonPressed() {
+        tableView.allowsMultipleSelectionDuringEditing = true
         isEditing = true
         tableView.allowsMultipleSelectionDuringEditing = true
     }
@@ -87,7 +117,7 @@ extension IssueListViewController: UITableViewDelegate {
             debugPrint("Share")
             completion(true)
         }
-
+        
         let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
             guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
             dataSource.removeIssue(at: indexPath.row)
@@ -95,13 +125,13 @@ extension IssueListViewController: UITableViewDelegate {
             debugPrint("Delete")
             completion(true)
         }
-
+        
         share.backgroundColor = .systemGreen
         share.image = UIImage(systemName: SystemImageName.cellShare)
         delete.image = UIImage(systemName: SystemImageName.cellDelete)
-
+        
         let swipeAction = UISwipeActionsConfiguration(actions: [share, delete])
-
+        
         return swipeAction
     }
     
@@ -119,7 +149,6 @@ extension IssueListViewController: UITableViewDelegate {
             tableView.reloadData()
         }
     }
-
     
 }
 
