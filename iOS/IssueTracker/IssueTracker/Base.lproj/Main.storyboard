@@ -114,6 +114,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="CC0-Jr-1vO"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Close Selected Issues" id="s7q-27-vZ2">
+                            <connections>
+                                <action selector="closeButtonTapped:" destination="Z9y-Eb-3RU" id="gcd-xI-KWF"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="CT5-HA-cma">
                         <barButtonItem key="leftBarButtonItem" title="Item" id="Uly-Lr-KSm"/>
                         <barButtonItem key="rightBarButtonItem" title="Edit" id="jTG-sS-UdR">
@@ -122,6 +129,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Osi-V3-Ybd" id="dLZ-nu-WgG"/>
                     </connections>

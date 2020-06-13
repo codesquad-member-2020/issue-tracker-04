@@ -6,12 +6,22 @@ class IssueListViewController: UIViewController {
         case normal, editing, selected
     }
     
-    private var dataSource: IssueListDataSource = .init()
-    private var tableViewState: State = .normal {
+    override var isEditing: Bool {
         didSet {
-            buttonSettingByState()
+            setupButtons()
         }
     }
+    
+    var cancelBarButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelPressed))
+    }()
+    
+    var editBarButton: UIBarButtonItem = {
+        return UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
+    }()
+    
+    private var closedIssuesIndexPath = [IndexPath]()
+    private var dataSource: IssueListDataSource = .init()
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -27,71 +37,45 @@ class IssueListViewController: UIViewController {
         self.dataSource = IssueListDataSource(issueList)
         self.tableView.dataSource = dataSource
         self.tableView.delegate = self
-        tableView.isEditing = false
-        buttonSettingByState()
+        self.navigationItem.rightBarButtonItem = editBarButton
     }
     
-    private func buttonSettingByState() {
-        switch tableViewState {
-        case .normal:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editTapped))
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(filterTapped))
-
-
-        case .editing:
-            setEditingModeRightButtons()
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(selectAllTapped))
-
-        case .selected:
-            setEditingModeRightButtons()
-            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(deselectAllTapped))
-
+    private func setupButtons() {
+        switch isEditing {
+        case true: self.navigationItem.rightBarButtonItem =
+            cancelBarButton
+        case false:
+            self.navigationItem.rightBarButtonItem = editBarButton
         }
     }
     
-    private func setEditingModeRightButtons() {
-        self.tableView.allowsMultipleSelectionDuringEditing = true
-        let isEditing = tableView.isEditing
-            tableView.setEditing(!isEditing, animated: true)
-        tableViewState = .editing
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelTapped))
+    @objc func didCancelPressed() {
+        isEditing = false
+        tableView.allowsMultipleSelectionDuringEditing = false
     }
     
-    @objc func filterTapped() {
-        debugPrint(#function)
+    @objc func didEditButtonPressed() {
+        isEditing = true
+        tableView.allowsMultipleSelectionDuringEditing = true
     }
-
-    @objc func selectAllTapped() {
-        debugPrint(#function)
-    }
-    
-    @objc func deselectAllTapped() {
-        debugPrint(#function)
-    }
-    
-    @objc func editTapped() {
-        self.tableView.allowsMultipleSelectionDuringEditing = true
-        let isEditing = tableView.isEditing
-            tableView.setEditing(!isEditing, animated: true)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelTapped))
-    }
-    
-    @objc func cancelTapped() {
-        self.tableView.allowsMultipleSelectionDuringEditing = false
-        let isEditing = tableView.isEditing
-            tableView.setEditing(!isEditing, animated: false)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editTapped))
-    }
-
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return !tableView.isEditing
     }
     
-    @IBAction func editButtonTapped(_ sender: Any) {
-        tableViewState = .editing
-        
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
     }
+
+    @IBAction func closeButtonTapped(_ sender: Any) {
+         tableView.indexPathsForSelectedRows?.forEach{
+             self.closedIssuesIndexPath.append($0)
+         }
+         isEditing = !isEditing
+         tableView.allowsMultipleSelectionDuringEditing = false
+     }
+    
 }
 
 extension IssueListViewController: UITableViewDelegate {
@@ -124,11 +108,18 @@ extension IssueListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
     }
-
-    func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .none {
+            closedIssuesIndexPath.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
+
     
 }
 
