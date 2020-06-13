@@ -15,4 +15,11 @@ class IssueDetailViewController: UIViewController {
         ownerLabel.text = String(describing: issue.owner)
     }
 
+    // MARK: - Navigation
+
+    @IBSegueAction
+    private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
+        return IssueFormViewController(coder: coder, issue: issue)
+    }
+
 }

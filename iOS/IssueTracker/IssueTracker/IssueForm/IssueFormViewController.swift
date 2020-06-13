@@ -1,16 +1,33 @@
 import UIKit
 
-class NewIssueViewController: UIViewController {
+class IssueFormViewController: UIViewController {
     typealias Texts = (title: String, body: String?)
+
+    @IBOutlet weak var formView: IssueFormView!
 
     private(set) var issue: Issue?
     private let user: User = .init(id: 1, name: "Foo")
-    private let issueID: ID = 1
+
+    init?(coder: NSCoder, issue: Issue?) {
+        self.issue = issue
+        super.init(coder: coder)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     // MARK: View Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureFormView()
+    }
+
+    private func configureFormView() {
+        formView.titleTextField.text = issue?.title
+        formView.bodyTextView.text = issue?.body
     }
 
     // MARK: - Navigation
@@ -18,8 +35,7 @@ class NewIssueViewController: UIViewController {
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
 
-        let view = self.view as! NewIssueView
-        if view.userInputData.title.isEmpty {
+        if formView.userInput.title.isEmpty {
             showMessage(for: .invalidNewIssueTitle)
             return false
         }
@@ -30,8 +46,7 @@ class NewIssueViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier, identifier == Identifier.Segue.save else { return }
 
-        let view = self.view as! NewIssueView
-        save(texts: view.userInputData)
+        save(texts: formView.userInput)
     }
 
     // MARK: - IBAction
@@ -51,7 +66,7 @@ class NewIssueViewController: UIViewController {
 
 // MARK: - Alert Message
 
-extension NewIssueViewController {
+extension IssueFormViewController {
     private func showMessage(for type: ValidateType) {
         let alert = makeAlert(for: type)
         present(alert, animated: false, completion: nil)
@@ -59,7 +74,7 @@ extension NewIssueViewController {
 
     private func makeAlert(for type: ValidateType) -> UIAlertController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
-        (alert.title, alert.message) = type.message
+        (alert.title, alert.message) = type.content
 
         let defaultAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(defaultAction)
@@ -71,10 +86,12 @@ extension NewIssueViewController {
 enum ValidateType {
     case invalidNewIssueTitle
 
-    var message: (title: String, message: String) {
+    typealias Content = (title: String, message: String)
+
+    var content: Content {
         switch self {
         case .invalidNewIssueTitle:
-            return (title: "이슈 작성", message: "제목을 입력해야 합니다.")
+            return Content(title: "이슈 작성", message: "제목을 입력해야 합니다.")
         }
     }
 }

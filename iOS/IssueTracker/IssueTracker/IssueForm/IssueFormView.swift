@@ -1,10 +1,10 @@
 import UIKit
 
-class NewIssueView: UIView {
+class IssueFormView: UIView {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
 
-    var userInputData: (title: String, body: String) {
+    var userInput: (title: String, body: String) {
         (title: titleTextField.text ?? "", body: bodyTextView.text)
     }
 }
