@@ -58,7 +58,6 @@ class IssueFormViewController: UIViewController {
     // MARK: - Business Logic?
 
     private func save(texts: Texts) {
-        debugPrint(texts)
         self.issue = Issue(id: 1, title: texts.title, body: texts.body, owner: user)
     }
 

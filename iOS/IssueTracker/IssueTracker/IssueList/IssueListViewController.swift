@@ -17,7 +17,7 @@ class IssueListViewController: UIViewController {
         tableView.delegate = self
     }
 
-    // MARK: - IBActions
+    // MARK: - Navigation
 
     @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
         guard let viewController = segue.source as? IssueFormViewController,
@@ -25,6 +25,13 @@ class IssueListViewController: UIViewController {
 
         dataSource.add(issue: issue)
         tableView.reloadData()
+    }
+
+    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+
+        let issue = dataSource.issue(at: indexPath.row)
+        return IssueDetailViewController(coder: coder, issue: issue)
     }
 }
 

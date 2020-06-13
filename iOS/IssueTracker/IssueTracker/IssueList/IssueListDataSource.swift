@@ -20,6 +20,10 @@ class IssueListDataSource: NSObject {
     func add(issue: Issue) {
         issueList.append(issue)
     }
+
+    func issue(at index: Int) -> Issue {
+        return issueList[index]
+    }
 }
 
 extension IssueListDataSource: UITableViewDataSource {

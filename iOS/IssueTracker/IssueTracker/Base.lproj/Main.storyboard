@@ -188,7 +188,7 @@
                                         <connections>
                                             <outlet property="detailLabel" destination="ISi-i1-PHl" id="Y1w-Rv-ydy"/>
                                             <outlet property="titleLabel" destination="iuU-Eo-WD0" id="wHg-5K-B2Y"/>
-                                            <segue destination="BYZ-38-t0r" kind="show" id="lX8-TB-ZhA"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" destinationCreationSelector="showDetailWithCoder:sender:" id="lX8-TB-ZhA"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
