@@ -20,12 +20,11 @@ class IssueListViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
-        debugPrint("Detail ViewController")
         guard let newIssueViewController = segue.source as? NewIssueViewController,
-            let issue = newIssueViewController.issue
-            else { return }
+            let issue = newIssueViewController.issue else { return }
 
-        debugPrint(issue)
+        dataSource.add(issue: issue)
+        tableView.reloadData()
     }
 }
 

@@ -13,13 +13,13 @@ class NewIssueViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    // MARK: - Segue Action
+    // MARK: - Navigation
 
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
 
         let view = self.view as! NewIssueView
-        if let text = view.titleTextField.text, text.isEmpty {
+        if view.userInputData.title.isEmpty {
             showMessage(for: .invalidNewIssueTitle)
             return false
         }
@@ -30,8 +30,8 @@ class NewIssueViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier, identifier == Identifier.Segue.save else { return }
 
-        let texts: Texts = (title: "Test title", body: "body text test")
-        save(texts: texts)
+        let view = self.view as! NewIssueView
+        save(texts: view.userInputData)
     }
 
     // MARK: - IBAction
@@ -43,6 +43,7 @@ class NewIssueViewController: UIViewController {
     // MARK: - Business Logic?
 
     private func save(texts: Texts) {
+        debugPrint(texts)
         self.issue = Issue(id: 1, title: texts.title, body: texts.body, owner: user)
     }
 
