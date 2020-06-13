@@ -87,7 +87,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
-                                    <segue destination="FNo-bo-tQG" kind="unwind" identifier="Save" unwindAction="newIssueDidSaved:" id="GWU-Uc-5i4"/>
+                                    <segue destination="FNo-bo-tQG" kind="unwind" unwindAction="newIssueDidCreated:" id="Qz5-9e-wvy"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Leave a comment below" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lDZ-7L-yfS">

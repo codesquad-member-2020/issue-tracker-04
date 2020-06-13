@@ -19,7 +19,7 @@ class IssueListViewController: UIViewController {
 
     // MARK: - IBActions
 
-    @IBAction func newIssueDidSaved(_ segue: UIStoryboardSegue) {
+    @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
         debugPrint("Detail ViewController")
         guard let newIssueViewController = segue.source as? NewIssueViewController,
             let issue = newIssueViewController.issue
