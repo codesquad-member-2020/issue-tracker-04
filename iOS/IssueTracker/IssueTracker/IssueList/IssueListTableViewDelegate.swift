@@ -1,33 +1,6 @@
 import UIKit
 
 class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let close = UIContextualAction(style: .normal, title: "Close") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.closeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Close")
-            completion(true)
-        }
-        
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.removeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Delete")
-            completion(true)
-        }
-
-        close.backgroundColor = .systemGreen
-        close.image = UIImage(systemName: SystemImageName.cellClose)
-        delete.image = UIImage(systemName: SystemImageName.cellDelete)
-
-        let swipeAction = UISwipeActionsConfiguration(actions: [close, delete])
-
-        return swipeAction
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let tableView = tableView as? IssueListTableView else { return }
         if case .edit(select: _) = tableView.issueState, isSelectedRows(tableView) {
@@ -48,4 +21,60 @@ class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
         !(tableView.indexPathsForSelectedRows?.isEmpty ?? true)
     }
 
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let dataSource = tableView.dataSource as? IssueListDataSource else { return nil }
+
+        func didShare() {
+            dataSource.closeIssue(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        func didDelete() {
+            dataSource.removeIssue(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+
+        let share = ActionType.make(.share, handler: didShare)
+        let delete = ActionType.make(.delete, handler: didDelete)
+
+        return UISwipeActionsConfiguration(actions: [share, delete])
+    }
+
+}
+
+extension IssueListTableViewDelegate {
+    enum ActionType {
+        case share
+        case delete
+
+        struct Attribute {
+            let style: UIContextualAction.Style
+            let title: String?
+            let image: UIImage?
+            let backgroundColor: UIColor?
+        }
+
+        static func make(_ actionType: ActionType, handler: @escaping () -> Void) -> UIContextualAction {
+            let type = actionType.attribute
+            let action = UIContextualAction(style: type.style, title: type.title) { action, view, completion in
+                handler()
+                completion(true)
+            }
+
+            action.backgroundColor = type.backgroundColor
+            action.image = type.image
+
+            return action
+        }
+
+        var attribute: Attribute {
+            switch self {
+            case .share:
+                let image = UIImage(systemName: SystemImageName.cellClose)
+                return Attribute(style: .normal, title: "Share", image: image, backgroundColor: .systemGreen)
+            case .delete:
+                let image = UIImage(systemName: SystemImageName.cellDelete)
+                return Attribute(style: .destructive, title: "Delete", image: image, backgroundColor: nil)
+            }
+        }
+    }
 }

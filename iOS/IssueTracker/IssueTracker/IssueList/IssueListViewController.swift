@@ -63,7 +63,7 @@ class IssueListViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.issueStateDelegate = self
     }
-    
+
     private func setupTableView() {
         let issueList = issueListModelController.issueCollection
         dataSource = IssueListDataSource(issueList)
