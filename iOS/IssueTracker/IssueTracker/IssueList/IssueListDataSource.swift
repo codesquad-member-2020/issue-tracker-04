@@ -19,6 +19,8 @@ class IssueListDataSource: NSObject {
 }
 
 extension IssueListDataSource: UITableViewDataSource {
+    
+    // TODO: show open issues in issueList using filter(by state:) method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return issueList.count
     }

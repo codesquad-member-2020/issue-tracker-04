@@ -26,6 +26,10 @@ class IssueListViewController: UIViewController {
         return UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(didDeselectAllButtonPressed))
     }
     
+    var closeBarButton: UIBarButtonItem {
+        return UIBarButtonItem(title: "Close Issue", style: .plain, target: self, action: #selector(didCloseButtonPressed))
+    }
+    
     override var isEditing: Bool {
         didSet {
             setupButtons()
@@ -47,14 +51,6 @@ class IssueListViewController: UIViewController {
         tableView.setEditing(editing, animated: true)
     }
     
-    @IBAction func closeButtonTapped(_ sender: Any) {
-        tableView.indexPathsForSelectedRows?.forEach{
-            dataSource.closeIssue(at: $0.row)
-        }
-        isEditing = !isEditing
-        tableView.allowsMultipleSelectionDuringEditing = false
-    }
-    
     private func setupTableView() {
         let user = User(id: 1, name: "모오오오스")
         let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
@@ -63,15 +59,17 @@ class IssueListViewController: UIViewController {
         self.tableView.delegate = self
         tableView.allowsMultipleSelectionDuringEditing = true
         self.navigationItem.rightBarButtonItem = editBarButton
+        navigationController?.setToolbarHidden(true, animated: false)
     }
     
     private func setupButtons() {
         switch isEditing {
-        case true: self.navigationItem.rightBarButtonItem =
-        cancelBarButton
+        case true:
+        self.navigationItem.rightBarButtonItem = cancelBarButton
         self.navigationItem.leftBarButtonItem = selectAllBarButton
             
         case false:
+            navigationController?.setToolbarHidden(true, animated: false)
             self.navigationItem.rightBarButtonItem = editBarButton
             self.navigationItem.leftBarButtonItem = filterBarButton
         }
@@ -79,7 +77,6 @@ class IssueListViewController: UIViewController {
     
     @objc private func didCancelButtonPressed() {
         isEditing = false
-        tableView.allowsMultipleSelectionDuringEditing = false
     }
     
     
@@ -105,6 +102,15 @@ class IssueListViewController: UIViewController {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
         navigationItem.leftBarButtonItem = selectAllBarButton
+        navigationController?.setToolbarHidden(true, animated: false)
+    }
+    
+    @objc private func didCloseButtonPressed() {
+        tableView.indexPathsForSelectedRows?.forEach{
+            dataSource.closeIssue(at: $0.row)
+        }
+        isEditing = !isEditing
+        navigationController?.setToolbarHidden(true, animated: false)
     }
     
 }

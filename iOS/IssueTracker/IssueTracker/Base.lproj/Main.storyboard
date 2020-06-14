@@ -62,7 +62,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Osi-V3-Ybd">
-                                <rect key="frame" x="0.0" y="148" width="414" height="648"/>
+                                <rect key="frame" x="0.0" y="148" width="414" height="665"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="IssueCell" id="W3d-Lb-Ljh" customClass="IssueCell" customModule="IssueTracker" customModuleProvider="target">
@@ -109,20 +109,12 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" image="plus" catalog="system"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9i1-uS-rER">
-                                <rect key="frame" x="200" y="95" width="39" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Close"/>
-                                <connections>
-                                    <action selector="closeButtonTapped:" destination="Z9y-Eb-3RU" eventType="touchUpInside" id="S9W-NE-DEa"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="Osi-V3-Ybd" firstAttribute="top" secondItem="CC0-Jr-1vO" secondAttribute="top" constant="60" id="46t-La-Pr0"/>
-                            <constraint firstAttribute="bottom" secondItem="Osi-V3-Ybd" secondAttribute="bottom" constant="100" id="AYn-MZ-JY2"/>
                             <constraint firstItem="CC0-Jr-1vO" firstAttribute="trailing" secondItem="Osi-V3-Ybd" secondAttribute="trailing" id="Cb0-Cn-1wV"/>
+                            <constraint firstItem="CC0-Jr-1vO" firstAttribute="bottom" secondItem="Osi-V3-Ybd" secondAttribute="bottom" id="Q49-1o-UxN"/>
                             <constraint firstItem="Osi-V3-Ybd" firstAttribute="leading" secondItem="CC0-Jr-1vO" secondAttribute="leading" id="a3b-wM-cc4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CC0-Jr-1vO"/>
@@ -132,6 +124,7 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Osi-V3-Ybd" id="dLZ-nu-WgG"/>
+                        <outlet property="titleLabel" destination="Z2N-RK-sSu" id="Hqp-Mb-vkl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EMR-Tc-Np1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
