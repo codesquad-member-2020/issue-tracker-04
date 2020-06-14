@@ -61,6 +61,7 @@ class IssueListViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         self.navigationItem.rightBarButtonItem = editBarButton
         navigationController?.setToolbarHidden(true, animated: false)
+        self.navigationItem.leftBarButtonItem = filterBarButton
     }
     
     private func setupButtons() {
