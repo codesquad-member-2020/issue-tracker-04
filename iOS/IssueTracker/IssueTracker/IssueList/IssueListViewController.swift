@@ -7,11 +7,11 @@ class IssueListViewController: UIViewController {
     private var dataSource: IssueListDataSource = .init()
     
     var cancelBarButton: UIBarButtonItem  {
-        return UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
+        return UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didCancelButtonPressed))
     }
     
     var editBarButton: UIBarButtonItem {
-        return UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
+        return UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(didEditButtonPressed))
     }
     
     var filterBarButton: UIBarButtonItem {
