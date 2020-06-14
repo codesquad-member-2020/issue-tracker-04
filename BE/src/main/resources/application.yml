@@ -31,4 +31,7 @@ spring:
     locations: classpath:/db/migration
     baseline-on-migrate: true
     baseline-version: 0
-
+---
+spring:
+  profiles:
+    include: oauth
