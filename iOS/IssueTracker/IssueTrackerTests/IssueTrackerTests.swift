@@ -33,20 +33,54 @@ class IssueTrackerTests: XCTestCase {
         // given
         let user = Faker.makeUser()
         let issue = Faker.makeIssue()
-        let issues = Faker.makeIssues()
+        var issues = Faker.makeIssues()
+        let comments = Faker.makeComments()
+        issues[0].comments = comments
         let stateController = IssueStateController(user: user, issue: issue, issueList: issues)
         
         // then
-        XCTAssertEqual(stateController.getOpenIssues().count,2)
-        XCTAssertTrue(stateController.getOpenIssues().filter{ $0.status == .closed }.isEmpty)
+        // openIssues
+        XCTAssertEqual(stateController.openIssues.count,2)
+        XCTAssertTrue(stateController.openIssues.filter{ $0.status == .closed }.isEmpty)
         
-        XCTAssertEqual(stateController.getClosedIssues().count,1)
-        XCTAssertTrue(stateController.getClosedIssues().filter{ $0.status == .open }.isEmpty)
+        // closedIssues
+        XCTAssertEqual(stateController.closedIssues.count,1)
+        XCTAssertTrue(stateController.closedIssues.filter{ $0.status == .open }.isEmpty)
         
-        XCTAssertEqual(stateController.getAuthoredIssues().count,2)
-        XCTAssertTrue(stateController.getAuthoredIssues().filter{$0.owner != user}.isEmpty)
-
+        // authoredIssues
+        XCTAssertEqual(stateController.authoredIssues.count,2)
+        XCTAssertTrue(stateController.authoredIssues.filter{$0.owner != user}.isEmpty)
+    
+        // assignedIssues
+        XCTAssertEqual(stateController.assignedIssues.count, 1)
+        
+        // commentedIssues
+        XCTAssertEqual(stateController.commentedIssues.count, 1)
+        
     }
+    
+    func testCommentCollection() {
+        //given
+        let comments = Faker.makeComments()
+        let user = Faker.makeUser()
+        
+        //then
+        XCTAssertEqual(comments.count, 3)
+        XCTAssertEqual(comments.filter { $0.author ==  user }.count, 1)
+        
+    }
+    
+    func testIssueCollectionFilter() {
+        //given
+        let user = Faker.makeUser()
+        var issues = Faker.makeIssues()
+        let comments = Faker.makeComments()
+        issues[1].comments = comments
+        
+        //then
+        XCTAssertEqual(issues.filter(comment: user).count,1)
+    }
+    
 }
  
 private extension IssueTrackerTests {

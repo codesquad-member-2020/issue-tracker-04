@@ -113,7 +113,18 @@ class IssueListViewController: UIViewController {
         isEditing = !isEditing
         navigationController?.setToolbarHidden(true, animated: false)
     }
-    
+  
+    // MARK: - IBActions
+
+    @IBAction func newIssueDidSaved(_ segue: UIStoryboardSegue) {
+        debugPrint("Detail ViewController")
+        guard let newIssueViewController = segue.source as? NewIssueViewController,
+            let issue = newIssueViewController.issue
+            else { return }
+
+        debugPrint(issue)
+    }
+
 }
 
 extension IssueListViewController: UITableViewDelegate {
@@ -162,9 +173,4 @@ extension IssueListViewController: UITableViewDelegate {
         }
     }
     
-}
-
-enum SystemImageName {
-    static let cellShare = "checkmark.rectangle"
-    static let cellDelete = "trash"
 }
