@@ -21,6 +21,7 @@ class IssueListViewController: UIViewController {
     
     var selectAllBarButton: UIBarButtonItem {
         return UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(didSelectAllButtonPressed))
+        navigationController?.setToolbarHidden(true, animated: false)
     }
     
     var deselectAllBarButton: UIBarButtonItem {
@@ -97,6 +98,8 @@ class IssueListViewController: UIViewController {
             tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
         }
         navigationItem.leftBarButtonItem = deselectAllBarButton
+        toolbarItems = [closeBarButton]
+        navigationController?.setToolbarHidden(false, animated: false)
     }
     
     @objc private func didDeselectAllButtonPressed() {
@@ -104,6 +107,7 @@ class IssueListViewController: UIViewController {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
         navigationItem.leftBarButtonItem = selectAllBarButton
+        navigationController?.setToolbarHidden(true, animated: false)
         navigationController?.setToolbarHidden(true, animated: false)
     }
     
