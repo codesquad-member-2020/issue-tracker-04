@@ -3,6 +3,7 @@ import UIKit
 class IssueListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var titleLabel: UILabel!
     
     private var dataSource: IssueListDataSource = .init()
     
@@ -144,11 +145,20 @@ extension IssueListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationItem.leftBarButtonItem = deselectAllBarButton
+        if tableView.indexPathsForSelectedRows != nil {
+            titleLabel.text = "\(tableView.indexPathsForSelectedRows!.count)개 선택"
+            toolbarItems = [closeBarButton]
+            navigationController?.setToolbarHidden(false, animated: false)
+        }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if tableView.indexPathsForSelectedRows == nil {
             navigationItem.leftBarButtonItem = selectAllBarButton
+            navigationController?.setToolbarHidden(true, animated: false)
+            titleLabel.text = "0개 선택"
+        } else {
+            titleLabel.text = "\(tableView.indexPathsForSelectedRows!.count)개 선택"
         }
     }
     
