@@ -5,6 +5,6 @@ enum SystemImageName {
 
 enum Identifier {
     enum Segue {
-        static let save = "Save"
+        static let save = "CreatedSegue"
     }
 }

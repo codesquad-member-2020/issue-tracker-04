@@ -8,7 +8,7 @@ class Faker {
         let issueList: IssueCollection = [
             Issue(id: 1, title: "title1", body: nil, owner: user),
             Issue(id: 2, title: "title2", body: "Something", owner: anotherUser, status: .closed),
-            Issue(id: 3, title: "title3", body: "Special", owner: user)
+            Issue(id: 3, title: "title3", body: "Special", owner: user, assignees: [user, anotherUser])
         ]
 
         return issueList
@@ -35,7 +35,7 @@ class Faker {
         let user = makeUser()
         let anotherUser = makeAnotherUser()
 
-        let comments = [
+        let comments: CommentCollection = [
             Comment(id: 1, body: "comment1", author: user),
             Comment(id: 2, body: "comment2", author: anotherUser),
             Comment(id: 3, body: "comment3", author: anotherUser),

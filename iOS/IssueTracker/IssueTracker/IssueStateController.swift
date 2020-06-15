@@ -6,35 +6,32 @@ class IssueStateController {
     let issue: Issue
     let issueList: IssueCollection
  
-    init(user: User, issue: Issue, issueList: IssueCollection = []) {
+    init(user: User, issue: Issue, issueList: IssueCollection = .init()) {
         self.user = user
         self.issue = issue
         self.issueList = issueList
     }
     
-    func getOpenIssues() -> IssueCollection {
-        return issueList.filter { $0.status == .open }
+    var openIssues: IssueCollection {
+        return issueList.filter(by: .open)
     }
     
-    func getClosedIssues() -> IssueCollection {
-        return issueList.filter { $0.status == .closed }
+    var closedIssues: IssueCollection {
+        return issueList.filter(by: .closed)
+    }
+
+    var authoredIssues: IssueCollection {
+        return openIssues.filter(by: self.user)
+
     }
     
-    func getAuthoredIssues() -> IssueCollection {
-        return issueList.filter { $0.owner == self.user }
+    var assignedIssues: IssueCollection {
+        return openIssues.filter(contains: self.user)
     }
     
-    func getAssignedIssues() -> IssueCollection {
-        return issueList.filter{ $0.assignees.contains(user) }
+    var commentedIssues: IssueCollection {
+        return openIssues
+            .filter{$0.comments.contains(author: user)}
     }
-    
-    // FIXME: 작동안함
-//    func getCommentedIssues() -> IssueCollection {
-//        let commentedIssues = issueList.filter{ issue in
-//            issue.comments.filter { comment in
-//                comment.author == user
-//                }}
-//        return commentedIssues
-//    }
-    
+
 }
