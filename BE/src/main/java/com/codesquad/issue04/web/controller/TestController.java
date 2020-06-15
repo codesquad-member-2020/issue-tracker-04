@@ -13,10 +13,8 @@ public class TestController {
 
 	private final TestService testService;
 
-
 	@GetMapping("api/v1/issues")
 	public IssueOverviewResponseDtos getIssues() {
 		return testService.getIssues();
 	}
-
 }

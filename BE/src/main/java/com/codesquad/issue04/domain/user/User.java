@@ -46,4 +46,10 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "role_key")
     private Role role;
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.image = picture;
+        return this;
+    }
 }
