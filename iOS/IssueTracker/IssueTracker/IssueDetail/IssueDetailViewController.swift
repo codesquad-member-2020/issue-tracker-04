@@ -17,6 +17,8 @@ class IssueDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let configurator = IssueDetailViewConfigurator()
+        configurator.configure(issueDetailView, with: issue)
     }
 
     // MARK: - Navigation
@@ -26,14 +28,12 @@ class IssueDetailViewController: UIViewController {
         return IssueFormViewController(coder: coder, issue: issue)
     }
 
-    private func configure(view: IssueDetailView) {
-        view.titleLabel.text = issue.title
-        view.bodyView.text = issue.body
-        view.ownerLabel.text = String(describing: issue.owner)
-    }
-
 }
 
 class IssueDetailViewConfigurator {
-//    func configure(_ view: )
+    func configure(_ view: IssueDetailView, with issue: Issue) {
+        view.titleLabel.text = issue.title
+        view.bodyView.text = issue.body
+        view.authorLabel.text = String(describing: issue.owner)
+    }
 }
