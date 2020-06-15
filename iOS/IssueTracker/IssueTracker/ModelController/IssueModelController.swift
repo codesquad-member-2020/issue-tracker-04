@@ -1,7 +1,7 @@
 import Foundation
 
 class IssueModelController {
-    private let issue: Issue
+    private(set) var issue: Issue
 
     init(_ issue: Issue) {
         self.issue = issue

@@ -32,7 +32,7 @@
 		8D9E97C02497DFD40048F699 /* IssueCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97BF2497DFD40048F699 /* IssueCollection.swift */; };
 		8D9E97C22497E0330048F699 /* CommentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C12497E0330048F699 /* CommentCollection.swift */; };
 		8D9E97C52497E1990048F699 /* IssueModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C42497E1990048F699 /* IssueModelController.swift */; };
-		8D9E97C72497E1AD0048F699 /* IssueCollectionModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C62497E1AD0048F699 /* IssueCollectionModelController.swift */; };
+		8D9E97C72497E1AD0048F699 /* IssueListModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C62497E1AD0048F699 /* IssueListModelController.swift */; };
 		8D9E97C92497E21D0048F699 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C82497E21D0048F699 /* UserModelController.swift */; };
 		8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */; };
 /* End PBXBuildFile section */
@@ -77,7 +77,7 @@
 		8D9E97BF2497DFD40048F699 /* IssueCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCollection.swift; sourceTree = "<group>"; };
 		8D9E97C12497E0330048F699 /* CommentCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollection.swift; sourceTree = "<group>"; };
 		8D9E97C42497E1990048F699 /* IssueModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueModelController.swift; sourceTree = "<group>"; };
-		8D9E97C62497E1AD0048F699 /* IssueCollectionModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCollectionModelController.swift; sourceTree = "<group>"; };
+		8D9E97C62497E1AD0048F699 /* IssueListModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListModelController.swift; sourceTree = "<group>"; };
 		8D9E97C82497E21D0048F699 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -205,7 +205,7 @@
 			children = (
 				6A676FC62490BC4100FFA67E /* IssueStateController.swift */,
 				8D9E97C42497E1990048F699 /* IssueModelController.swift */,
-				8D9E97C62497E1AD0048F699 /* IssueCollectionModelController.swift */,
+				8D9E97C62497E1AD0048F699 /* IssueListModelController.swift */,
 				8D9E97C82497E21D0048F699 /* UserModelController.swift */,
 			);
 			path = ModelController;
@@ -312,7 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D9E97C72497E1AD0048F699 /* IssueCollectionModelController.swift in Sources */,
+				8D9E97C72497E1AD0048F699 /* IssueListModelController.swift in Sources */,
 				8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */,
 				8D1E58A1248EE30F002C2F3D /* Issue.swift in Sources */,
 				8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */,

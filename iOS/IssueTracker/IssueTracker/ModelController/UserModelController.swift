@@ -1,7 +1,7 @@
 import Foundation
 
 class UserModelController {
-    private let user: User
+    private(set) var user: User
 
     init(_ user: User) {
         self.user = user

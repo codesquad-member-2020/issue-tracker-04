@@ -21,7 +21,7 @@ class IssueListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleLabel: UILabel!
-    
+
     private var dataSource: IssueListDataSource = .init()
     private let defaultTitle = "Issue"
 
@@ -67,15 +67,13 @@ class IssueListViewController: UIViewController {
         setupTableView()
         tableView.allowsMultipleSelectionDuringEditing = true
     }
-    
+
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return issueListState == .normal
     }
-    
+
     private func setupTableView() {
-        let user = User(id: 1, name: "모오오오스")
-        let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
-        
+        let issueList = issueListModelController.issueCollection
         dataSource = IssueListDataSource(issueList)
         tableView.dataSource = dataSource
         tableView.delegate = self
@@ -96,20 +94,20 @@ class IssueListViewController: UIViewController {
             issueListState = .edit(select: .none)
         }
     }
-    
+
     // MARK: - Selector Method
     @objc private func didCancelButtonPressed() {
         changeState(to: .normal)
         titleLabel.text = defaultTitle
     }
-    
+
     @objc private func didEditButtonPressed() {
         changeState(to: .edit(select: .none))
     }
-    
+
     // TODO: present view to select filtering options.
     @objc private func didFilterButtonPressed() {
-        
+
     }
 
     @objc private func didSelectAllButtonPressed() {
@@ -133,7 +131,7 @@ class IssueListViewController: UIViewController {
         }
         titleLabel.text = titleWhenEditing()
     }
-    
+
     fileprivate func deselectAllRowsWhenSelected() {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
@@ -141,13 +139,13 @@ class IssueListViewController: UIViewController {
         titleLabel.text = titleWhenEditing()
         issueListState = .edit(select: .none)
     }
-    
+
     fileprivate func closeIssuesWhenSelected() {
         tableView.indexPathsForSelectedRows?.forEach{
             dataSource.closeIssue(at: $0.row)
         }
     }
-    
+
     // MARK: - Navigation
 
     @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
@@ -162,7 +160,7 @@ class IssueListViewController: UIViewController {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
 
         let issue = dataSource.issue(at: indexPath.row)
-        return IssueDetailViewController(coder: coder, issue: issue)
+        return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
     }
 
 }
@@ -176,7 +174,7 @@ extension IssueListViewController: UITableViewDelegate {
             debugPrint("Close")
             completion(true)
         }
-        
+
         let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
             guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
             dataSource.removeIssue(at: indexPath.row)
@@ -193,27 +191,27 @@ extension IssueListViewController: UITableViewDelegate {
 
         return swipeAction
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if case .edit(select: _) = issueListState, isSelectedRows() {
             titleLabel.text = titleWhenEditing()
             issueListState = .edit(select: .some)
         }
     }
-    
+
     private func titleWhenEditing() -> String {
         "\(tableView.indexPathsForSelectedRows?.count ?? 0)개 선택"
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         titleLabel.text = titleWhenEditing()
         if !isSelectedRows() {
             issueListState = .edit(select: .none)
         }
     }
-    
+
     func isSelectedRows() -> Bool {
         !(tableView.indexPathsForSelectedRows?.isEmpty ?? true)
     }
-    
+
 }

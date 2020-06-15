@@ -3,10 +3,11 @@ import UIKit
 class IssueDetailViewController: UIViewController {
     @IBOutlet weak var issueDetailView: IssueDetailView!
 
-    var issue: Issue
+    let issueModelController: IssueModelController
+    private var issue: Issue { issueModelController.issue }
 
-    init?(coder: NSCoder, issue: Issue) {
-        self.issue = issue
+    init?(coder: NSCoder, issueModelController: IssueModelController) {
+        self.issueModelController = issueModelController
         super.init(coder: coder)
     }
 
