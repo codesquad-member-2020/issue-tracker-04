@@ -49,6 +49,10 @@ struct IssueCollection {
     func filter(comment author: User) -> Self {
         return Self(items: filter { $0.comments.contains(author: author) })
     }
+    
+    mutating func insert(contentsOf issueList: Self, at row: Int) {
+        self.items.insert(contentsOf: issueList, at: row)
+    }
 }
 
 extension IssueCollection: Collection {
