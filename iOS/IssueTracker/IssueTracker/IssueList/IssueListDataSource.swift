@@ -18,7 +18,7 @@ class IssueListDataSource: NSObject {
     }
 
     func add(issue: Issue) {
-        issueList.append(issue)
+        issueList.add(issue)
     }
 
     func issue(at index: Int) -> Issue {
@@ -43,9 +43,4 @@ extension IssueListDataSource: UITableViewDataSource {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            debugPrint("delete cell")
-        }
-    }
 }

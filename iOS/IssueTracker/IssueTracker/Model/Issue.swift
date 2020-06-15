@@ -24,7 +24,11 @@ extension Issue {
 struct IssueCollection {
     typealias IssueType = [Issue]
 
-    var items: IssueType = .init()
+    private var items: IssueType = .init()
+
+    mutating func add(_ issue: IssueType.Element) {
+        items.append(issue)
+    }
 
     mutating func remove(at index: Index) {
         items.remove(at: index)

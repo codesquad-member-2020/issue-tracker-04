@@ -1,5 +1,5 @@
 enum SystemImageName {
-    static let cellShare = "checkmark.rectangle"
+    static let cellClose = "checkmark.rectangle"
     static let cellDelete = "trash"
 }
 
