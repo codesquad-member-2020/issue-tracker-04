@@ -33,3 +33,14 @@ spring:
     baseline-on-migrate: true
     baseline-version: 0
 ---
+cloud:
+  aws:
+    credentials:
+      accessKey: 액세스
+      secretKey: 시크릿 키
+    s3:
+      bucket: issue-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
