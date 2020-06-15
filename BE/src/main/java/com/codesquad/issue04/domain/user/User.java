@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,4 +42,14 @@ public class User implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Issue> issues;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role_key")
+    private Role role;
+
+    public User update(String name, String picture) {
+        this.name = name;
+        this.image = picture;
+        return this;
+    }
 }
