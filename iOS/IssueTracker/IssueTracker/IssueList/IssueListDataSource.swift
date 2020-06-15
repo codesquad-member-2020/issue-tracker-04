@@ -16,6 +16,14 @@ class IssueListDataSource: NSObject {
     func removeIssue(at index: IssueCollection.Index) {
         issueList.remove(at: index)
     }
+
+    func add(issue: Issue) {
+        issueList.append(issue)
+    }
+
+    func issue(at index: Int) -> Issue {
+        return issueList[index]
+    }
 }
 
 extension IssueListDataSource: UITableViewDataSource {

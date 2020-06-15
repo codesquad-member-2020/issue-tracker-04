@@ -119,15 +119,21 @@ class IssueListViewController: UIViewController {
         navigationController?.setToolbarHidden(true, animated: false)
     }
   
-    // MARK: - IBActions
+    // MARK: - Navigation
 
-    @IBAction func newIssueDidSaved(_ segue: UIStoryboardSegue) {
-        debugPrint("Detail ViewController")
-        guard let newIssueViewController = segue.source as? NewIssueViewController,
-            let issue = newIssueViewController.issue
-            else { return }
+    @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
+        guard let viewController = segue.source as? IssueFormViewController,
+            let issue = viewController.issue else { return }
 
-        debugPrint(issue)
+        dataSource.add(issue: issue)
+        tableView.reloadData()
+    }
+
+    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+
+        let issue = dataSource.issue(at: indexPath.row)
+        return IssueDetailViewController(coder: coder, issue: issue)
     }
 
 }
