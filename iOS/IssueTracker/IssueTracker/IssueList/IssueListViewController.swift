@@ -140,11 +140,11 @@ class IssueListViewController: UIViewController {
 
 extension IssueListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal, title: "Share") { action, view, completion in
+        let close = UIContextualAction(style: .normal, title: "Close") { action, view, completion in
             guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
             dataSource.closeIssue(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Share")
+            debugPrint("Close")
             completion(true)
         }
         
@@ -155,13 +155,13 @@ extension IssueListViewController: UITableViewDelegate {
             debugPrint("Delete")
             completion(true)
         }
-        
-        share.backgroundColor = .systemGreen
-        share.image = UIImage(systemName: SystemImageName.cellShare)
+
+        close.backgroundColor = .systemGreen
+        close.image = UIImage(systemName: SystemImageName.cellClose)
         delete.image = UIImage(systemName: SystemImageName.cellDelete)
-        
-        let swipeAction = UISwipeActionsConfiguration(actions: [share, delete])
-        
+
+        let swipeAction = UISwipeActionsConfiguration(actions: [close, delete])
+
         return swipeAction
     }
     

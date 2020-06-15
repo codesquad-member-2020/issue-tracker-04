@@ -18,7 +18,7 @@ class IssueListDataSource: NSObject {
     }
 
     func add(issue: Issue) {
-        issueList.append(issue)
+        issueList.add(issue)
     }
 
     func issue(at index: Int) -> Issue {
@@ -44,7 +44,7 @@ extension IssueListDataSource: UITableViewDataSource {
         
         return cell
     }
-    
+
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         self.issueList.remove(at: sourceIndexPath.row)
         self.issueList.insert(contentsOf: issueList, at: destinationIndexPath.row)
