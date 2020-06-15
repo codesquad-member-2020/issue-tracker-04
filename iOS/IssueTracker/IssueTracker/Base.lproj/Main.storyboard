@@ -59,14 +59,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074.4000000000001" y="-447.04433497536945"/>
+            <point key="canvasLocation" x="2481" y="-1163"/>
         </scene>
         <!--Issue Form View Controller-->
         <scene sceneID="sqK-Wx-tFl">
             <objects>
                 <viewController id="QLA-dI-SMY" customClass="IssueFormViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Hx-Aw-G4K">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Issue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gob-Jf-JzZ">
@@ -147,7 +147,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNK-Zc-9cd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="FNo-bo-tQG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="169" y="336"/>
+            <point key="canvasLocation" x="2481" y="-428"/>
         </scene>
         <!--Issue List View Controller-->
         <scene sceneID="eSg-V6-B2u">

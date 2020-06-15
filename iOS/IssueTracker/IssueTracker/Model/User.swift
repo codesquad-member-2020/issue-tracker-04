@@ -1,6 +1,5 @@
 import Foundation
 
-
 struct User: CustomStringConvertible {
     let id: ID
     let name: String
@@ -10,6 +9,7 @@ struct User: CustomStringConvertible {
     }
     
 }
+
 extension User: Equatable {
     
 }
