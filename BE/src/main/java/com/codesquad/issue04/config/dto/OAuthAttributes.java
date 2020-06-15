@@ -29,10 +29,10 @@ public class OAuthAttributes {
 	}
 
 	public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-		return ofGoogle(userNameAttributeName, attributes);
+		return ofGithub(userNameAttributeName, attributes);
 	}
 
-	private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+	private static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder()
 			.name((String)Optional.ofNullable(attributes.get("name")).orElse(attributes.get("login")))
 			.githubId((String) attributes.get("login"))
@@ -47,7 +47,7 @@ public class OAuthAttributes {
 			.name(name)
 			.githubId(githubId)
 			.image(image)
-			.role(Role.GUEST)
+			.role(Role.USER)
 			.build();
 	}
 }
