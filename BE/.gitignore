@@ -154,3 +154,6 @@ Temporary Items
 .gradle/6.4.1/vcsMetadata-1/
 build/
 
+.gradle/
+.idea/
+
