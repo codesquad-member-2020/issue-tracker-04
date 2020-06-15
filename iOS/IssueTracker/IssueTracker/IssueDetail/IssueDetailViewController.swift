@@ -1,9 +1,7 @@
 import UIKit
 
 class IssueDetailViewController: UIViewController {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var bodyView: UITextView!
-    @IBOutlet weak var ownerLabel: UILabel!
+    @IBOutlet weak var issueDetailView: IssueDetailView!
 
     var issue: Issue
 
@@ -19,9 +17,6 @@ class IssueDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabel.text = issue.title
-        bodyView.text = issue.body
-        ownerLabel.text = String(describing: issue.owner)
     }
 
     // MARK: - Navigation
@@ -31,4 +26,14 @@ class IssueDetailViewController: UIViewController {
         return IssueFormViewController(coder: coder, issue: issue)
     }
 
+    private func configure(view: IssueDetailView) {
+        view.titleLabel.text = issue.title
+        view.bodyView.text = issue.body
+        view.ownerLabel.text = String(describing: issue.owner)
+    }
+
+}
+
+class IssueDetailViewConfigurator {
+//    func configure(_ view: )
 }

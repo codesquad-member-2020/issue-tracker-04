@@ -34,6 +34,7 @@
 		8D9E97C52497E1990048F699 /* IssueModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C42497E1990048F699 /* IssueModelController.swift */; };
 		8D9E97C72497E1AD0048F699 /* IssueCollectionModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C62497E1AD0048F699 /* IssueCollectionModelController.swift */; };
 		8D9E97C92497E21D0048F699 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C82497E21D0048F699 /* UserModelController.swift */; };
+		8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		8D9E97C42497E1990048F699 /* IssueModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueModelController.swift; sourceTree = "<group>"; };
 		8D9E97C62497E1AD0048F699 /* IssueCollectionModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCollectionModelController.swift; sourceTree = "<group>"; };
 		8D9E97C82497E21D0048F699 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
+		8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */,
+				8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */,
 			);
 			path = IssueDetail;
 			sourceTree = "<group>";
@@ -317,6 +320,7 @@
 				6A676FC72490BC4100FFA67E /* IssueStateController.swift in Sources */,
 				6A676FBF248F71B200FFA67E /* Comment.swift in Sources */,
 				8D47AA7C2498EC5E001A715C /* NavigationController.swift in Sources */,
+				8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */,
 				8D9E97C02497DFD40048F699 /* IssueCollection.swift in Sources */,
 				8D17E58D249131A400F78815 /* IssueFormView.swift in Sources */,
 				8D9E97C52497E1990048F699 /* IssueModelController.swift in Sources */,
