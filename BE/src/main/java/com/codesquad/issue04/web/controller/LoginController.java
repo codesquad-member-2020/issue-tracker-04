@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codesquad.issue04.service.LoginService;
+// import com.codesquad.issue04.service.LoginService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -19,11 +19,11 @@ public class LoginController {
 
 	private final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-	private final LoginService loginService;
+	// private final LoginService loginService;
 
-	@GetMapping("/login/oauth2/code/github")
-	public ResponseEntity<Void> login(@RequestParam("code") String code,
-		HttpServletResponse response) {
-		return loginService.login(code, response);
-	}
+	// @GetMapping("/login/oauth2/code/github")
+	// public ResponseEntity<Void> login(@RequestParam("code") String code,
+	// 	HttpServletResponse response) {
+	// 	return loginService.login(code, response);
+	// }
 }

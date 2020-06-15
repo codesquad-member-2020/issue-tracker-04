@@ -31,7 +31,18 @@ spring:
     locations: classpath:/db/migration
     baseline-on-migrate: true
     baseline-version: 0
----
-spring:
-  profiles:
-    include: oauth
+cloud:
+  aws:
+    credentials:
+      accessKey: 액세스
+      secretKey: 시크릿 키
+    s3:
+      bucket: issue-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+#---
+#spring:
+#  profiles:
+#    include: oauth
