@@ -2,6 +2,14 @@ import UIKit
 
 class IssueListViewController: UIViewController {
     
+    
+    enum IssueListState {
+        case normal
+        case edit(isSelected: Bool)
+    }
+    
+    // MARK: - Property
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -38,6 +46,8 @@ class IssueListViewController: UIViewController {
         }
     }
     
+    // MARK: - View Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -48,44 +58,89 @@ class IssueListViewController: UIViewController {
         return !tableView.isEditing
     }
     
+    private func setupTableView() {
+        // fake 데이터
+        let user = User(id: 1, name: "모오오오스")
+        let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
+        
+        // 테이블 뷰 데이터 소스/델리게이트 설정
+        dataSource = IssueListDataSource(issueList)
+        tableView.dataSource = dataSource
+        tableView.delegate = self
+        
+        // 테이블 뷰 다중 선택
+        tableView.allowsMultipleSelectionDuringEditing = true
+        
+        configureBarWhenNormal()
+    }
+
+    // MARK: - tableview state
+
+    private func setupButtons() {
+        switch isEditing {
+        case true:
+            configureBarWhenEdit()
+            
+        case false:
+            configureBarWhenNormal()
+        }
+    }
+    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         tableView.setEditing(editing, animated: true)
     }
     
-    private func setupTableView() {
-        let user = User(id: 1, name: "모오오오스")
-        let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
-        self.dataSource = IssueListDataSource(issueList)
-        self.tableView.dataSource = dataSource
-        self.tableView.delegate = self
+    // MARK: - Normal -> Edit(Non)
+    private func changeModeToEdit() {
         tableView.allowsMultipleSelectionDuringEditing = true
-        self.navigationItem.rightBarButtonItem = editBarButton
+        isEditing = true
+    }
+    
+    fileprivate func configureBarWhenEdit() {
+        navigationItem.rightBarButtonItem = cancelBarButton
+        navigationItem.leftBarButtonItem = selectAllBarButton
+    }
+    
+    // MARK: - Edit(Non) -> Normal
+    private func configureBarWhenNormal() {
         navigationController?.setToolbarHidden(true, animated: false)
-        self.navigationItem.leftBarButtonItem = filterBarButton
+        navigationItem.rightBarButtonItem = editBarButton
+        navigationItem.leftBarButtonItem = filterBarButton
     }
     
-    private func setupButtons() {
-        switch isEditing {
-        case true:
-        self.navigationItem.rightBarButtonItem = cancelBarButton
-        self.navigationItem.leftBarButtonItem = selectAllBarButton
-            
-        case false:
-            navigationController?.setToolbarHidden(true, animated: false)
-            self.navigationItem.rightBarButtonItem = editBarButton
-            self.navigationItem.leftBarButtonItem = filterBarButton
-        }
-    }
-    
-    @objc private func didCancelButtonPressed() {
+    private func changeModeToNormal() {
         isEditing = false
     }
     
+    // MARK: - Edit(Non) -> Edit(Sel)
+    private func updateBarButtonWhenSelected() {
+        navigationItem.leftBarButtonItem = deselectAllBarButton
+        navigationController?.setToolbarHidden(false, animated: false)
+        toolbarItems = [closeBarButton]
+    }
+    // MARK: - Edit(Sel) -> Edit(Non)
+    private func updateBarButtonWhenNonSelected() {
+        navigationItem.leftBarButtonItem = selectAllBarButton
+        navigationController?.setToolbarHidden(true, animated: false)
+    }
     
+    // MARK: - Edit(Sel) -> Normal
+
+
+    fileprivate func toggleIsEditing() {
+        isEditing = !isEditing
+    }
+    
+    // MARK: - Selector Method
+    
+    @objc private func didCancelButtonPressed() {
+        changeModeToNormal()
+    }
+    
+
     @objc private func didEditButtonPressed() {
-        tableView.allowsMultipleSelectionDuringEditing = true
-        isEditing = true
+        changeModeToEdit()
     }
     
     // TODO: present view to select filtering options.
@@ -93,30 +148,42 @@ class IssueListViewController: UIViewController {
         
     }
     
-    @objc private func didSelectAllButtonPressed(_ sender: UIBarButtonItem) {
+    fileprivate func selectAllRowsWhenEdit() {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
         }
-        navigationItem.leftBarButtonItem = deselectAllBarButton
-        toolbarItems = [closeBarButton]
-        navigationController?.setToolbarHidden(false, animated: false)
+        titleLabel.text = titleWhenEdit()
     }
     
-    @objc private func didDeselectAllButtonPressed() {
+    @objc private func didSelectAllButtonPressed(_ sender: UIBarButtonItem) {
+        selectAllRowsWhenEdit()
+        updateBarButtonWhenSelected()
+    }
+    
+    
+    fileprivate func deselectAllRowsWhenSelected() {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
-        navigationItem.leftBarButtonItem = selectAllBarButton
-        navigationController?.setToolbarHidden(true, animated: false)
-        navigationController?.setToolbarHidden(true, animated: false)
     }
     
-    @objc private func didCloseButtonPressed() {
+    @objc private func didDeselectAllButtonPressed() {
+        deselectAllRowsWhenSelected()
+        updateBarButtonWhenNonSelected()
+    }
+    
+    
+    
+    fileprivate func closeIssuesWhenSelected() {
         tableView.indexPathsForSelectedRows?.forEach{
             dataSource.closeIssue(at: $0.row)
         }
-        isEditing = !isEditing
-        navigationController?.setToolbarHidden(true, animated: false)
+    }
+    
+    @objc private func didCloseButtonPressed() {
+        closeIssuesWhenSelected()
+        
+        toggleIsEditing()
     }
   
     // MARK: - Navigation
@@ -167,21 +234,36 @@ extension IssueListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.navigationItem.leftBarButtonItem = deselectAllBarButton
-        if tableView.indexPathsForSelectedRows != nil {
-            titleLabel.text = "\(tableView.indexPathsForSelectedRows!.count)개 선택"
-            toolbarItems = [closeBarButton]
-            navigationController?.setToolbarHidden(false, animated: false)
+        if isSelectedRows() {
+            titleLabel.text = titleWhenEdit()
+            showCloseButtonWhenSelected()
         }
     }
     
+    private func titleWhenEdit() -> String {
+        "\(tableView.indexPathsForSelectedRows?.count ?? 0)개 선택"
+    }
+    
+    private func showCloseButtonWhenSelected() {
+        toolbarItems = [closeBarButton]
+        navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if tableView.indexPathsForSelectedRows == nil {
-            navigationItem.leftBarButtonItem = selectAllBarButton
-            navigationController?.setToolbarHidden(true, animated: false)
-            titleLabel.text = "0개 선택"
-        } else {
-            titleLabel.text = "\(tableView.indexPathsForSelectedRows!.count)개 선택"
+        if !isSelectedRows() {
+            
+            barButtonWhenNonSelected()
         }
+        titleLabel.text = titleWhenEdit()
+    }
+    
+    private func barButtonWhenNonSelected() {
+        navigationItem.leftBarButtonItem = selectAllBarButton
+        navigationController?.setToolbarHidden(true, animated: false)
+    }
+    
+    func isSelectedRows() -> Bool {
+        tableView.indexPathsForSelectedRows != nil
     }
     
 }
