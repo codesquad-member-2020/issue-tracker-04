@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
+import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;
@@ -67,7 +68,7 @@ public class Issue {
 		this.title = Optional.ofNullable(title).orElse("직박구리");
 		this.comments = Optional.ofNullable(comments).orElse(Collections.emptyList());
 		this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
-		this.milestone = Optional.ofNullable(milestone).orElse(new Milestone());
+		this.milestone = Optional.ofNullable(milestone).orElse(NullMilestone.of());
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
 	}
 
