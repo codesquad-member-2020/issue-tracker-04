@@ -22,20 +22,20 @@ public class MilestoneService {
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
 	}
 
-	protected List<Milestone> findAllLabels() {
+	protected List<Milestone> findAllMilestones() {
 		return milestoneRepository.findAll();
 	}
 
-	private List<MilestoneResponseDto> findAllMilestones() {
-		List<Milestone> labels = findAllLabels();
-		return labels.stream()
+	protected List<MilestoneResponseDto> getAllMilestones() {
+		List<Milestone> milestones = findAllMilestones();
+		return milestones.stream()
 			.map(MilestoneResponseDto::of)
 			.collect(Collectors.toList());
 	}
 
 	public MilestoneResponseDtos getLabelOverviews() {
 		return MilestoneResponseDtos.builder()
-			.allData(findAllMilestones())
+			.allData(getAllMilestones())
 			.build();
 	}
 }
