@@ -22,7 +22,7 @@ public class MilestoneServiceTest {
 	@DisplayName("마일스톤을 아이디로 검색한다.")
 	@Test
 	void 마일스톤을_아이디로_검색한다() {
-		assertThat(milestoneService.findLabelById(1L)).isInstanceOf(Milestone.class);
+		assertThat(milestoneService.findMilestoneById(1L)).isInstanceOf(Milestone.class);
 	}
 
 	@DisplayName("마일스톤 전체가 리스트로 반환된다.")
@@ -42,6 +42,6 @@ public class MilestoneServiceTest {
 	@DisplayName("마일스톤 DTO 전체가 일급 콜렉션 형태로 변환된다.")
 	@Test
 	void 마일스톤_전체가_일급콜렉션으로_DTO에_리턴된다() {
-		assertThat(milestoneService.getLabelOverviews()).isInstanceOf(MilestoneResponseDtos.class);
+		assertThat(milestoneService.getMilestoneOverviews()).isInstanceOf(MilestoneResponseDtos.class);
 	}
 }

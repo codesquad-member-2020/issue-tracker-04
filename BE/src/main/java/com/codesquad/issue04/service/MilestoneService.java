@@ -17,7 +17,7 @@ public class MilestoneService {
 
 	private final MilestoneRepository milestoneRepository;
 
-	protected Milestone findLabelById(Long labelId) {
+	protected Milestone findMilestoneById(Long labelId) {
 		return milestoneRepository.findById(labelId)
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
 	}
@@ -33,7 +33,7 @@ public class MilestoneService {
 			.collect(Collectors.toList());
 	}
 
-	public MilestoneResponseDtos getLabelOverviews() {
+	public MilestoneResponseDtos getMilestoneOverviews() {
 		return MilestoneResponseDtos.builder()
 			.allData(getAllMilestones())
 			.build();
