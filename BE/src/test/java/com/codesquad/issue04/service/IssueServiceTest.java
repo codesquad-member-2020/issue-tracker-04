@@ -17,17 +17,17 @@ import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.IssueOverviewDto;
 
 @SpringBootTest
-public class TestServiceTest {
+public class IssueServiceTest {
 
 	@Autowired
-	private TestService testService;
+	private IssueService issueService;
 
 	@Transactional
 	@DisplayName("이슈 하나를 테스트로 가져온다.")
 	@Test
 	void 이슈_하나를_가져온다() {
 
-		Issue issueById = testService.findIssueById(1L);
+		Issue issueById = issueService.findIssueById(1L);
 		assertThat(issueById).isInstanceOf(Issue.class);
 		assertThat(issueById.getTitle()).isEqualTo("SQL 작성");
 		assertThat(issueById.getComments().get(0).getContent()).isEqualTo("아하하 어렵네요.");
@@ -39,7 +39,7 @@ public class TestServiceTest {
 	@CsvSource({"0, 1", "1, 1"})
 	@ParameterizedTest
 	void 댓글_별로_이모지가_불러진다(int commentIndex, int expectedSize) {
-		assertThat(testService.findIssueById(1L).getComments().get(commentIndex).getEmojis().size()).isEqualTo(
+		assertThat(issueService.findIssueById(1L).getComments().get(commentIndex).getEmojis().size()).isEqualTo(
 			expectedSize);
 	}
 
@@ -49,7 +49,7 @@ public class TestServiceTest {
 	@ParameterizedTest
 	void 이슈_전체를_가져온다(int index, String expectedTitle) {
 
-		List<Issue> issues = testService.findAllIssues();
+		List<Issue> issues = issueService.findAllIssues();
 		assertThat(issues.get(index).getTitle()).isEqualTo(expectedTitle);
 	}
 
@@ -58,7 +58,7 @@ public class TestServiceTest {
 	@Test
 	void 전체_이슈의_요약을_생성한다() {
 
-		List<IssueOverviewDto> issueOverviewDtos = testService.findAllIssuesOverview();
+		List<IssueOverviewDto> issueOverviewDtos = issueService.findAllIssuesOverview();
 
 		assertThat(issueOverviewDtos.get(0)).isInstanceOf(IssueOverviewDto.class);
 	}
@@ -69,7 +69,7 @@ public class TestServiceTest {
 	@ParameterizedTest
 	void 각_이슈의_디테일을_보여준다(Long id, String title) {
 
-		IssueDetailResponseDto issueDetailResponseDto = testService.findIssueDetailById(id);
+		IssueDetailResponseDto issueDetailResponseDto = issueService.findIssueDetailById(id);
 
 		assertThat(issueDetailResponseDto.getId()).isEqualTo(id);
 		assertThat(issueDetailResponseDto.getTitle()).isEqualTo(title);

@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDtos;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class TestControllerTest {
+public class IssueControllerTest {
 
 	@LocalServerPort
 	private int port;
