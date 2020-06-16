@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TestService {
+public class IssueService {
 
 	private final IssueRepository issueRepository;
 
