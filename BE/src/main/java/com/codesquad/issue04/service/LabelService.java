@@ -27,7 +27,7 @@ public class LabelService {
 		return labelRepository.findAll();
 	}
 
-	private List<LabelOverviewDto> findAllLabelsOverview() {
+	protected List<LabelOverviewDto> findAllLabelsOverview() {
 		List<Label> labels = findAllLabels();
 		return labels.stream()
 			.map(LabelOverviewDto::of)
