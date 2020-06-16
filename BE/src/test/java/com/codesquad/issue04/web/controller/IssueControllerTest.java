@@ -10,7 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.codesquad.issue04.web.dto.response.IssueOverviewResponseDtos;
+import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IssueControllerTest {
