@@ -10,22 +10,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
 
 @SpringBootTest
 public class IssueTest {
 
-	private User user;
+	private RealUser user;
 
 	@BeforeEach
 	void setUp() {
-		this.user = User.builder()
-		.id(1L)
-		.githubId("guswns1659")
-		.image("image")
-		.name("Jack")
-		.issues(Collections.emptyList())
-		.build();
+		this.user = RealUser.builder()
+			.id(1L)
+			.githubId("guswns1659")
+			.image("image")
+			.name("Jack")
+			.issues(Collections.emptyList())
+			.build();
 	}
 
 	@DisplayName("Null인 필드의 빈 객체를 반환한다.")

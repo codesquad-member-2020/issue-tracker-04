@@ -20,9 +20,8 @@ import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.domain.user.User;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import com.codesquad.issue04.domain.user.NullUser;
+import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,18 +57,18 @@ public class Issue {
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
-    private User user;
+    private RealUser user;
 
     @Builder
     public Issue(Long id, String title, List<Comment> comments,
-        Set<Label> labels, Milestone milestone, User user) {
+        Set<Label> labels, Milestone milestone, RealUser user) {
 
         this.id = id;
         this.title = Optional.ofNullable(title).orElse("직박구리");
         this.comments = Optional.ofNullable(comments).orElse(Collections.emptyList());
         this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
         this.milestone = Optional.ofNullable(milestone).orElse(new Milestone());
-        this.user = Optional.ofNullable(user).orElse(User.builder().name("존재하지 않는 사용자입니다.").build());
+        this.user = Optional.ofNullable(user).orElse(NullUser.of());
     }
 
 

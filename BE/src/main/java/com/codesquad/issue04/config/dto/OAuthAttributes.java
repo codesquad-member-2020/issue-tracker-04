@@ -3,8 +3,8 @@ package com.codesquad.issue04.config.dto;
 import java.util.Map;
 import java.util.Optional;
 
+import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.Role;
-import com.codesquad.issue04.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -34,7 +34,7 @@ public class OAuthAttributes {
 
 	private static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
 		return OAuthAttributes.builder()
-			.name((String)Optional.ofNullable(attributes.get("name")).orElse(attributes.get("login")))
+			.name((String) Optional.ofNullable(attributes.get("name")).orElse(attributes.get("login")))
 			.githubId((String) attributes.get("login"))
 			.image((String) attributes.get("avatar_url"))
 			.attributes(attributes)
@@ -42,8 +42,8 @@ public class OAuthAttributes {
 			.build();
 	}
 
-	public User toEntity() {
-		return User.builder()
+	public RealUser toEntity() {
+		return RealUser.builder()
 			.name(name)
 			.githubId(githubId)
 			.image(image)

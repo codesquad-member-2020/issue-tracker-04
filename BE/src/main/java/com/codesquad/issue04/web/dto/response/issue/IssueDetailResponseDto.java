@@ -7,7 +7,7 @@ import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +23,7 @@ public class IssueDetailResponseDto {
 	private List<Comment> comments;
 	private Set<Label> labels;
 	private Milestone milestone;
-	private User user;
+	private RealUser realUser;
 
 	@Builder
 	public IssueDetailResponseDto(Issue issue) {
@@ -33,7 +33,7 @@ public class IssueDetailResponseDto {
 		this.comments = issue.getComments();
 		this.labels = issue.getLabels();
 		this.milestone = issue.getMilestone();
-		this.user = issue.getUser();
+		this.realUser = issue.getUser();
 	}
 
 	public static IssueDetailResponseDto of(Issue issue) {
