@@ -35,41 +35,40 @@ import lombok.ToString;
 @Entity
 public class Issue {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String title;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "issue", cascade = CascadeType.REMOVE)
-    private List<Comment> comments;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "issue", cascade = CascadeType.REMOVE)
+	private List<Comment> comments;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name = "label_has_issue",
-        joinColumns = @JoinColumn(name = "issue_id"),
-        inverseJoinColumns = @JoinColumn(name = "label_id")
-    )
-    private Set<Label> labels;
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "label_has_issue",
+		joinColumns = @JoinColumn(name = "issue_id"),
+		inverseJoinColumns = @JoinColumn(name = "label_id")
+	)
+	private Set<Label> labels;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
-    private Milestone milestone;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
+	private Milestone milestone;
 
-    @ManyToOne
-    @JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
-    private RealUser user;
+	@ManyToOne
+	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
+	private RealUser user;
 
-    @Builder
-    public Issue(Long id, String title, List<Comment> comments,
-        Set<Label> labels, Milestone milestone, RealUser user) {
+	@Builder
+	public Issue(Long id, String title, List<Comment> comments,
+		Set<Label> labels, Milestone milestone, RealUser user) {
 
-        this.id = id;
-        this.title = Optional.ofNullable(title).orElse("직박구리");
-        this.comments = Optional.ofNullable(comments).orElse(Collections.emptyList());
-        this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
-        this.milestone = Optional.ofNullable(milestone).orElse(new Milestone());
-        this.user = Optional.ofNullable(user).orElse(NullUser.of());
-    }
-
+		this.id = id;
+		this.title = Optional.ofNullable(title).orElse("직박구리");
+		this.comments = Optional.ofNullable(comments).orElse(Collections.emptyList());
+		this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
+		this.milestone = Optional.ofNullable(milestone).orElse(new Milestone());
+		this.user = Optional.ofNullable(user).orElse(NullUser.of());
+	}
 
 }
