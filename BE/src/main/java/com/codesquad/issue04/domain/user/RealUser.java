@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +29,8 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class User extends AbstractUser implements Serializable {
+@Table(name = "user")
+public class RealUser implements Serializable, AbstractUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +49,7 @@ public class User extends AbstractUser implements Serializable {
     @Column(name = "role_key")
     private Role role;
 
-    public User update(String name, String picture) {
+    public RealUser update(String name, String picture) {
         this.name = name;
         this.image = picture;
         return this;
