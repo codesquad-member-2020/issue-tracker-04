@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.web.dto.response.IssueDetailResponseDto;
-import com.codesquad.issue04.web.dto.response.IssueOverviewDto;
+import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
+import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
 @SpringBootTest
 public class IssueServiceTest {
@@ -35,12 +35,12 @@ public class IssueServiceTest {
 	}
 
 	@Transactional
-	@DisplayName("댓글 별로 이모지가 별도로 가져와진다. 0번째 댓글은 1개의 이모지를 지니고, 1번째 댓글은 2개의 이모지를 지닌다.")
-	@CsvSource({"0, 1", "1, 1"})
+	@DisplayName("댓글 별로 이모지가 별도로 가져와진다. 1번째 댓글은 1개의 이모지를 지니고, 2번째 댓글은 2개의 이모지를 지닌다. 유의할 점은 commentId가 아니라 commentIndex라는 점이다.")
+	@CsvSource({"1, 0, 1", "1, 1, 2"})
 	@ParameterizedTest
-	void 댓글_별로_이모지가_불러진다(int commentIndex, int expectedSize) {
-		assertThat(issueService.findIssueById(1L).getComments().get(commentIndex).getEmojis().size()).isEqualTo(
-			expectedSize);
+	void 댓글_별로_이모지가_불러진다(Long issueId, int commentIndex, int expectedSize) {
+		assertThat(issueService.findIssueById(issueId).getComments().get(commentIndex).getEmojis().size())
+			.isEqualTo(expectedSize);
 	}
 
 	@Transactional
