@@ -28,7 +28,7 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class User implements Serializable {
+public class User extends AbstractUser implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,5 +51,10 @@ public class User implements Serializable {
         this.name = name;
         this.image = picture;
         return this;
+    }
+
+    @Override
+    public boolean isNil() {
+        return false;
     }
 }
