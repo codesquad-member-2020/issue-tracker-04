@@ -4,7 +4,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.codesquad.issue04.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,10 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 			.headers().frameOptions().disable()
 			.and()
-				.authorizeRequests()
-				.antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-				.antMatchers("/api/v1/**").hasRole(Role.USER.name())
-				.anyRequest().authenticated()
+			.authorizeRequests()
+			//TODO: 스프링 시큐리티 테스트를 적용한다.
+			.antMatchers("/", "/api/**", "/css/**", "/images/**", "/js/**").permitAll()
+			// .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+			.anyRequest().authenticated()
 			.and()
 				.logout()
 					.logoutSuccessUrl("/")

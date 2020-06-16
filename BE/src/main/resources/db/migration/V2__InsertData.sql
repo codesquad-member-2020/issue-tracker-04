@@ -16,7 +16,10 @@ INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
 VALUES ('아하하 어렵네요.', '2020-06-25', '2020-06-26', 1, 1);
 
 INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
-VALUES ('아하하 쉽네요.', '2020-06-25', '2020-06-26', 1, 2);
+VALUES ('아하하 쉽네요.', '2020-06-25', '2020-06-26', 1, 1);
+
+INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
+VALUES ('아하하 그저 그렇네요.', '2020-06-25', '2020-06-26', 1, 2);
 
 INSERT INTO label (title, color, description)
 VALUES ('BE-배포', '#FF5733', '백엔드 배포 라벨');

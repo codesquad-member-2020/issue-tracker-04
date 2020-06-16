@@ -1,4 +1,4 @@
-package com.codesquad.issue04.web.dto.response;
+package com.codesquad.issue04.web.dto.response.issue;
 
 import java.util.ArrayList;
 import java.util.List;
