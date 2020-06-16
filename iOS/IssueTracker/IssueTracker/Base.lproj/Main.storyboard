@@ -242,7 +242,7 @@
         <!--Navigation Controller-->
         <scene sceneID="BIX-0t-0Wf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vE2-t8-VNE" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="vE2-t8-VNE" customClass="NavigationController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="dRk-Hn-A0u">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -259,7 +259,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Joi-vM-t2l"/>
+        <segue reference="uCt-3O-ftf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>
