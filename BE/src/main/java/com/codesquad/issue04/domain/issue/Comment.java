@@ -3,8 +3,6 @@ package com.codesquad.issue04.domain.issue;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -60,7 +58,7 @@ public class Comment implements Serializable {
 	@ElementCollection
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
 	@Column(name = "url")
-	private List<Photo> photos = new ArrayList<>();
+	private List<Photo> photos;
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
