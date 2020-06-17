@@ -23,7 +23,7 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Builder
-public class Milestone {
+public class Milestone implements AbstractMilestone {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +34,9 @@ public class Milestone {
 
 	@OneToMany(mappedBy = "milestone")
 	private List<Issue> issues;
+
+	@Override
+	public boolean isNil() {
+		return false;
+	}
 }

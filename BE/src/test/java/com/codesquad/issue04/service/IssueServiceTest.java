@@ -73,7 +73,7 @@ public class IssueServiceTest {
 
 		assertThat(issueDetailResponseDto.getId()).isEqualTo(id);
 		assertThat(issueDetailResponseDto.getTitle()).isEqualTo(title);
-		assertThat(issueDetailResponseDto.getUser().getIssues().size()).isGreaterThan(0);
+		assertThat(issueDetailResponseDto.getRealUser().getIssues().size()).isGreaterThan(0);
 	}
 
 }

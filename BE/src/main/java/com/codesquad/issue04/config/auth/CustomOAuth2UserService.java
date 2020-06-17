@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.codesquad.issue04.config.dto.OAuthAttributes;
 import com.codesquad.issue04.config.dto.SessionUser;
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -34,8 +34,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 		String registrationId = userRequest.getClientRegistration().getRegistrationId();
 		String userNameAttributename = userRequest.getClientRegistration().getProviderDetails()
 			.getUserInfoEndpoint().getUserNameAttributeName();
-		OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributename, oAuth2User.getAttributes());
-		User user = saveOrUpdate(attributes);
+		OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributename,
+			oAuth2User.getAttributes());
+		RealUser user = saveOrUpdate(attributes);
 		httpSession.setAttribute("user", new SessionUser(user));
 
 		return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole().getKey())),
@@ -43,12 +44,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 			attributes.getNameAttributeKey());
 	}
 
-	private User saveOrUpdate(OAuthAttributes attributes) {
+	private RealUser saveOrUpdate(OAuthAttributes attributes) {
 
-		User user = userRepository.findByGithubId(attributes.getGithubId())
+		RealUser realUser = userRepository.findByGithubId(attributes.getGithubId())
 			.map(entity -> entity.update(attributes.getName(), attributes.getImage()))
 			.orElse(attributes.toEntity());
 
-		return userRepository.save(user);
+		return userRepository.save(realUser);
 	}
 }

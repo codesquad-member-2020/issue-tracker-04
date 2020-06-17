@@ -21,7 +21,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -62,7 +62,7 @@ public class Comment implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
-	private User user;
+	private RealUser user;
 
 	@JsonIgnore
 	@ManyToOne

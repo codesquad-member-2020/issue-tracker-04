@@ -10,7 +10,7 @@ import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,7 +35,7 @@ public class IssueOverviewDto {
 		List<Comment> comments = Optional.ofNullable(issue.getComments()).orElse(new ArrayList<>());
 		Milestone milestone = issue.getMilestone();
 		Set<Label> labels = issue.getLabels();
-		User user = issue.getUser();
+		RealUser realUser = issue.getUser();
 
 		this.id = issue.getId();
 		this.title = issue.getTitle();
@@ -45,7 +45,7 @@ public class IssueOverviewDto {
 		this.labelTitles = labels.stream()
 			.map(Label::getTitle)
 			.collect(Collectors.toSet());
-		this.githubId = user.getGithubId();
+		this.githubId = realUser.getGithubId();
 	}
 
 	public static IssueOverviewDto of(Issue issue) {
