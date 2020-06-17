@@ -10,8 +10,6 @@ struct User: CustomStringConvertible {
     
 }
 
-extension User: Equatable {
-    
-}
+extension User: Equatable { }
 
 typealias UserCollection = [User]

@@ -19,4 +19,8 @@ extension Issue {
     }
 }
 
-
+extension Issue: Equatable {
+    static func == (lhs: Issue, rhs: Issue) -> Bool {
+        return lhs.id == rhs.id
+    }
+}

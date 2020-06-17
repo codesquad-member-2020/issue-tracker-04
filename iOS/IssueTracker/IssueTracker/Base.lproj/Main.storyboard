@@ -50,19 +50,17 @@
                                     <outlet property="titleLabel" destination="DEq-uW-hxQ" id="G4A-zj-DSO"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYp-jo-UqQ">
-                                <rect key="frame" x="329" y="100" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Edit"/>
-                                <connections>
-                                    <segue destination="QLA-dI-SMY" kind="showDetail" destinationCreationSelector="showEditIssueWithCoder:" id="Ls8-fK-J6G"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NkC-mg-wyw"/>
+                    <navigationItem key="navigationItem" id="NkC-mg-wyw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="usC-g3-rFv">
+                            <connections>
+                                <segue destination="QLA-dI-SMY" kind="showDetail" destinationCreationSelector="showEditIssueWithCoder:" id="uqC-4B-hLk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="issueDetailView" destination="tya-f0-XsJ" id="yl9-lj-1t3"/>
                     </connections>
@@ -91,7 +89,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
-                                    <action selector="cancelTouched:" destination="QLA-dI-SMY" eventType="touchUpInside" id="WPG-0I-EKp"/>
+                                    <action selector="didTouchCancel:" destination="QLA-dI-SMY" eventType="touchUpInside" id="WPG-0I-EKp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Lz-MV-awf">
@@ -99,7 +97,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
-                                    <segue destination="FNo-bo-tQG" kind="unwind" identifier="CreatedSegue" unwindAction="newIssueDidCreated:" id="Qz5-9e-wvy"/>
+                                    <action selector="didTouchSave:" destination="QLA-dI-SMY" eventType="touchUpInside" id="rEh-Yj-2yF"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hwr-FN-k6n" customClass="IssueFormView" customModule="IssueTracker" customModuleProvider="target">
@@ -155,9 +153,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNK-Zc-9cd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="FNo-bo-tQG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2079" y="-370"/>
+            <point key="canvasLocation" x="2481" y="-425"/>
         </scene>
         <!--Issue List View Controller-->
         <scene sceneID="eSg-V6-B2u">
@@ -247,7 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EMR-Tc-Np1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="-1163.0541871921182"/>
+            <point key="canvasLocation" x="1706" y="-1163"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BIX-0t-0Wf">
@@ -265,11 +262,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3rs-cM-E6Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="677.60000000000002" y="-1163.0541871921182"/>
+            <point key="canvasLocation" x="940" y="-1163"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ls8-fK-J6G"/>
+        <segue reference="urR-VM-l5m"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>

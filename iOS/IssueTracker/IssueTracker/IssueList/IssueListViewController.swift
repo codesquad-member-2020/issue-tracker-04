@@ -10,6 +10,8 @@ enum IssueListState: Equatable {
 }
 
 class IssueListViewController: UIViewController {
+    private let issueListModelController = IssueListModelController(.createFakeData())
+
     var issueListState: IssueListState = .normal {
         didSet {
             let group = makeButtonGroup(issueListState)

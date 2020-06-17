@@ -5,7 +5,7 @@ struct IssueCollection {
 
     private var items: IssueType = .init()
 
-    // MARK: - Mutated
+    // MARK: - Mutating
 
     mutating func add(_ issue: IssueType.Element) {
         items.append(issue)
@@ -64,5 +64,13 @@ extension IssueCollection: ExpressibleByArrayLiteral {
 
     init(arrayLiteral elements: Element...) {
         self.items = elements
+    }
+}
+
+extension IssueCollection {
+    static func createFakeData() -> IssueCollection {
+        let user = User(id: 1, name: "모오오오스")
+
+        return [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
     }
 }

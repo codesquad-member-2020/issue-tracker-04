@@ -117,7 +117,6 @@
 			children = (
 				8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */,
 				8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */,
-				6A676FC1248F723E00FFA67E /* IssueCell.swift */,
 				6A676FC3248F736F00FFA67E /* IssueListDataSource.swift */,
 				6A676FC1248F723E00FFA67E /* IssueCell.swift */,
 			);
