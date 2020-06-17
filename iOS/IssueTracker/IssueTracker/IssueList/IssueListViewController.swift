@@ -23,6 +23,7 @@ class IssueListViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     private var dataSource: IssueListDataSource = .init()
+    private let defaultTitle = "Issue"
 
     func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
         var group: BarButtonGroup
@@ -61,26 +62,20 @@ class IssueListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-            let group = makeButtonGroup(issueListState)
-            setupBarButtons(group: group)
-        // 화면이 처음 그려질 때 TableView를 세팅하기 위한 메소드 호출
+        let group = makeButtonGroup(issueListState)
+        setupBarButtons(group: group)
         setupTableView()
-//        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.allowsMultipleSelectionDuringEditing = true
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        // normal 모드일 경우에는 perfom segue가 true이고 셀을 터치하면 상세 화면이 열린다.
-        // edit 모드(isEditing = true)일 경우에는 false가 되어서 이슈 상세화면이 열리지 않는다.
         return issueListState == .normal
-//        return !tableView.isEditing
     }
     
     private func setupTableView() {
-        // fake 데이터
         let user = User(id: 1, name: "모오오오스")
         let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
         
-        // TableView DataSource / Delegate 설정
         dataSource = IssueListDataSource(issueList)
         tableView.dataSource = dataSource
         tableView.delegate = self
@@ -88,41 +83,28 @@ class IssueListViewController: UIViewController {
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        // 현재 화면의 edit 여부와  tableView의 edit을 isEditing을 같게 함. 동치.
-        // viewController의 editing에 따라서 네비게이션바,툴바 버튼을 바꾸기 위해서.
         tableView.setEditing(editing, animated: true)
     }
 
-    // MARK: - Normal -> Edit(Non)
-    private func changeModeToEdit() {
-        // TableView 다중 선택 (TableView row 왼쪽에 check mark를 활성화)
-        tableView.allowsMultipleSelectionDuringEditing = true
-        // 현재 화면을 edit 모드로 바꿈.
-        isEditing = true
-        issueListState = .edit(select: .none)
-    }
-
-    private func changeModeToNormal() {
-        // 화면의 edit 모드를 종료. normal 모드로 변경
-        isEditing = false
-        issueListState = .normal
-    }
-
-    // MARK: - Edit(Sel) -> Normal
-
-    fileprivate func toggleIsEditing() {
-        // 화면의 Edit 모드를 바꾼다.
-        isEditing = !isEditing
+    func changeState(to state: IssueListState) {
+        switch state {
+        case .normal:
+            isEditing = false
+            issueListState = .normal
+        case .edit(select: _):
+            isEditing = true
+            issueListState = .edit(select: .none)
+        }
     }
     
     // MARK: - Selector Method
-    // 네비게이션
     @objc private func didCancelButtonPressed() {
-        changeModeToNormal()
+        changeState(to: .normal)
+        titleLabel.text = defaultTitle
     }
     
     @objc private func didEditButtonPressed() {
-        changeModeToEdit()
+        changeState(to: .edit(select: .none))
     }
     
     // TODO: present view to select filtering options.
@@ -131,30 +113,24 @@ class IssueListViewController: UIViewController {
     }
 
     @objc private func didSelectAllButtonPressed() {
-        // 현재 이슈 목록의 모든 이슈의 check mark를 선택으로 표시한다
         selectAllRowsWhenEdit()
         issueListState = .edit(select: .some)
     }
 
     @objc private func didDeselectAllButtonPressed() {
-        // 선택한 이슈가 하나 이상일 경우 선택한 모든 이슈의 check mark를 선택 해제한다.
         deselectAllRowsWhenSelected()
 
     }
 
     @objc private func didCloseButtonPressed() {
-        // 선택한 이슈의 상태를 close로 변경한다
         closeIssuesWhenSelected()
-        // 화면을 normal 모드로 변경한다
-        toggleIsEditing()
+        changeState(to: .normal)
     }
 
     fileprivate func selectAllRowsWhenEdit() {
-        // 이슈 목록에 있는 모든 이슈의 check mark를 선택 표시한다.
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
         }
-        // 선택된 이슈의 개수를 title에 표시한다.
         titleLabel.text = titleWhenEditing()
     }
     
@@ -162,13 +138,11 @@ class IssueListViewController: UIViewController {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
-        // 선택된 이슈의 개수를 title에 표시한다.
         titleLabel.text = titleWhenEditing()
         issueListState = .edit(select: .none)
     }
     
     fileprivate func closeIssuesWhenSelected() {
-        // 이슈 목록에서 선택한 이슈의 상태롤 close로 바꾼다.
         tableView.indexPathsForSelectedRows?.forEach{
             dataSource.closeIssue(at: $0.row)
         }
@@ -221,7 +195,6 @@ extension IssueListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        self.navigationItem.leftBarButtonItem = deselectAllBarButton
         if case .edit(select: _) = issueListState, isSelectedRows() {
             titleLabel.text = titleWhenEditing()
             issueListState = .edit(select: .some)
@@ -233,7 +206,6 @@ extension IssueListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        // 선택된 이슈의 개수를 title에 표시한다.
         titleLabel.text = titleWhenEditing()
         if !isSelectedRows() {
             issueListState = .edit(select: .none)
@@ -241,8 +213,7 @@ extension IssueListViewController: UITableViewDelegate {
     }
     
     func isSelectedRows() -> Bool {
-        // 선택된 이슈가 하나 이상일 때 true를 반환한다.
-        !(tableView.indexPathsForSelectedRows?.isEmpty ?? false)
+        !(tableView.indexPathsForSelectedRows?.isEmpty ?? true)
     }
     
 }
