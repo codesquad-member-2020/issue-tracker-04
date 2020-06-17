@@ -24,9 +24,8 @@ class IssueDetailViewController: UIViewController {
 
     // MARK: - Navigation
 
-    @IBSegueAction
-    private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
-        return IssueFormViewController(coder: coder, issue: issue)
+    @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
+        IssueFormViewController(coder: coder, state: .edit(issue: issue), delegate: self)
     }
 
 }
@@ -36,5 +35,11 @@ class IssueDetailViewConfigurator {
         view.titleLabel.text = issue.title
         view.bodyView.text = issue.body
         view.authorLabel.text = String(describing: issue.owner)
+    }
+}
+
+extension IssueDetailViewController: IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidEdit(issue: Issue) {
+        issueModelController.update(issue: issue)
     }
 }
