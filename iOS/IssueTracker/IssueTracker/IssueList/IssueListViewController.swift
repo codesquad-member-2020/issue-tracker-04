@@ -1,8 +1,12 @@
 import UIKit
 
-enum IssueListState {
+enum IssueListState: Equatable {
     case normal
-    case edit(isSelected: Bool)
+    case edit(select: Select)
+
+    enum Select {
+        case some, none
+    }
 }
 
 class IssueListViewController: UIViewController {
@@ -27,13 +31,14 @@ class IssueListViewController: UIViewController {
             group.left = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(didFilterButtonPressed))
             group.right = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
             group.bottom = []
-        case .edit(let isSelected):
+        case .edit(let select):
             navigationController?.setToolbarHidden(false, animated: true)
-            if isSelected {
+            switch select {
+            case .some:
                 group.left = UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(didDeselectAllButtonPressed))
                 group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
                 group.bottom = [UIBarButtonItem(title: "Close Issue", style: .plain, target: self, action: #selector(didCloseButtonPressed))]
-            } else {
+            case .none:
                 group.left = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(didSelectAllButtonPressed))
                 group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
                 group.bottom = []
@@ -60,12 +65,14 @@ class IssueListViewController: UIViewController {
             setupBarButtons(group: group)
         // 화면이 처음 그려질 때 TableView를 세팅하기 위한 메소드 호출
         setupTableView()
+//        tableView.allowsMultipleSelectionDuringEditing = true
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         // normal 모드일 경우에는 perfom segue가 true이고 셀을 터치하면 상세 화면이 열린다.
         // edit 모드(isEditing = true)일 경우에는 false가 되어서 이슈 상세화면이 열리지 않는다.
-        return !tableView.isEditing
+        return issueListState == .normal
+//        return !tableView.isEditing
     }
     
     private func setupTableView() {
@@ -79,28 +86,28 @@ class IssueListViewController: UIViewController {
         tableView.delegate = self
     }
 
-    // MARK: - Normal -> Edit(Non)
-    private func changeModeToEdit() {
-        // TableView 다중 선택 (TableView row 왼쪽에 check mark를 활성화)
-        tableView.allowsMultipleSelectionDuringEditing = true
-        // 현재 화면을 edit 모드로 바꿈.
-        isEditing = true
-        issueListState = .edit(isSelected: false)
-    }
-
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         // 현재 화면의 edit 여부와  tableView의 edit을 isEditing을 같게 함. 동치.
         // viewController의 editing에 따라서 네비게이션바,툴바 버튼을 바꾸기 위해서.
         tableView.setEditing(editing, animated: true)
     }
-    
+
+    // MARK: - Normal -> Edit(Non)
+    private func changeModeToEdit() {
+        // TableView 다중 선택 (TableView row 왼쪽에 check mark를 활성화)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        // 현재 화면을 edit 모드로 바꿈.
+        isEditing = true
+        issueListState = .edit(select: .none)
+    }
+
     private func changeModeToNormal() {
         // 화면의 edit 모드를 종료. normal 모드로 변경
         isEditing = false
         issueListState = .normal
     }
-    
+
     // MARK: - Edit(Sel) -> Normal
 
     fileprivate func toggleIsEditing() {
@@ -119,23 +126,36 @@ class IssueListViewController: UIViewController {
     }
     
     // TODO: present view to select filtering options.
-    @objc func didFilterButtonPressed() {
+    @objc private func didFilterButtonPressed() {
         
     }
-    
+
+    @objc private func didSelectAllButtonPressed() {
+        // 현재 이슈 목록의 모든 이슈의 check mark를 선택으로 표시한다
+        selectAllRowsWhenEdit()
+        issueListState = .edit(select: .some)
+    }
+
+    @objc private func didDeselectAllButtonPressed() {
+        // 선택한 이슈가 하나 이상일 경우 선택한 모든 이슈의 check mark를 선택 해제한다.
+        deselectAllRowsWhenSelected()
+
+    }
+
+    @objc private func didCloseButtonPressed() {
+        // 선택한 이슈의 상태를 close로 변경한다
+        closeIssuesWhenSelected()
+        // 화면을 normal 모드로 변경한다
+        toggleIsEditing()
+    }
+
     fileprivate func selectAllRowsWhenEdit() {
         // 이슈 목록에 있는 모든 이슈의 check mark를 선택 표시한다.
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
         }
         // 선택된 이슈의 개수를 title에 표시한다.
-        titleLabel.text = titleWhenEdit()
-    }
-    
-    @objc private func didSelectAllButtonPressed() {
-        // 현재 이슈 목록의 모든 이슈의 check mark를 선택으로 표시한다
-        selectAllRowsWhenEdit()
-        issueListState = .edit(isSelected: true)
+        titleLabel.text = titleWhenEditing()
     }
     
     fileprivate func deselectAllRowsWhenSelected() {
@@ -143,14 +163,8 @@ class IssueListViewController: UIViewController {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
         // 선택된 이슈의 개수를 title에 표시한다.
-        titleLabel.text = titleWhenEdit()
-        issueListState = .edit(isSelected: false)
-    }
-    
-    @objc private func didDeselectAllButtonPressed() {
-        // 선택한 이슈가 하나 이상일 경우 선택한 모든 이슈의 check mark를 선택 해제한다.
-        deselectAllRowsWhenSelected()
-
+        titleLabel.text = titleWhenEditing()
+        issueListState = .edit(select: .none)
     }
     
     fileprivate func closeIssuesWhenSelected() {
@@ -160,13 +174,6 @@ class IssueListViewController: UIViewController {
         }
     }
     
-    @objc private func didCloseButtonPressed() {
-        // 선택한 이슈의 상태를 close로 변경한다
-        closeIssuesWhenSelected()
-        // 화면을 normal 모드로 변경한다
-        toggleIsEditing()
-    }
-  
     // MARK: - Navigation
 
     @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
@@ -177,12 +184,12 @@ class IssueListViewController: UIViewController {
         tableView.reloadData()
     }
 
-//    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
-//        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
-//
-//        let issue = dataSource.issue(at: indexPath.row)
-//        return IssueDetailViewController(coder: coder, issue: issue)
-//    }
+    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+
+        let issue = dataSource.issue(at: indexPath.row)
+        return IssueDetailViewController(coder: coder, issue: issue)
+    }
 
 }
 
@@ -215,27 +222,27 @@ extension IssueListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        self.navigationItem.leftBarButtonItem = deselectAllBarButton
-        if isSelectedRows() {
-            titleLabel.text = titleWhenEdit()
-            issueListState = .edit(isSelected: true)
+        if case .edit(select: _) = issueListState, isSelectedRows() {
+            titleLabel.text = titleWhenEditing()
+            issueListState = .edit(select: .some)
         }
     }
     
-    private func titleWhenEdit() -> String {
+    private func titleWhenEditing() -> String {
         "\(tableView.indexPathsForSelectedRows?.count ?? 0)개 선택"
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         // 선택된 이슈의 개수를 title에 표시한다.
-        titleLabel.text = titleWhenEdit()
+        titleLabel.text = titleWhenEditing()
         if !isSelectedRows() {
-            issueListState = .edit(isSelected: false)
+            issueListState = .edit(select: .none)
         }
     }
     
     func isSelectedRows() -> Bool {
         // 선택된 이슈가 하나 이상일 때 true를 반환한다.
-        tableView.indexPathsForSelectedRows != nil
+        !(tableView.indexPathsForSelectedRows?.isEmpty ?? false)
     }
     
 }

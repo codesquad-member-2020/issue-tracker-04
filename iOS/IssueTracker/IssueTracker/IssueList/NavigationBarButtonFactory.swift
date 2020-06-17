@@ -42,10 +42,11 @@ extension BarButtonFactory {
 //            let left = create(.filter)
 //            let right = create(.edit)
             return Group(left: create(.filter), right: create(.edit), bottom: nil)
-        case .edit(let isSelected):
-            if isSelected {
+        case .edit(let selected):
+            switch selected {
+            case .some:
                 return Group(left: create(.deselectAll), right: create(.cancel), bottom: create(.close))
-            } else {
+            case .none:
                 return Group(left: create(.selectAll), right: create(.cancel), bottom: nil)
             }
         }
