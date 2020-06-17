@@ -18,6 +18,11 @@ class IssueDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        issueModelController.add(observer: self)
+        configureView()
+    }
+
+    private func configureView() {
         let configurator = IssueDetailViewConfigurator()
         configurator.configure(issueDetailView, with: issue)
     }
@@ -41,5 +46,11 @@ class IssueDetailViewConfigurator {
 extension IssueDetailViewController: IssueFormViewControllerDelegate {
     func issueFormViewControllerDidEdit(issue: Issue) {
         issueModelController.update(issue: issue)
+    }
+}
+
+extension IssueDetailViewController: IssueModelControllerObserver {
+    func issueModelControllerDidUpdate(_ controller: IssueModelController) {
+        configureView()
     }
 }
