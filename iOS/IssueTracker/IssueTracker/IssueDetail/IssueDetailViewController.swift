@@ -3,8 +3,7 @@ import UIKit
 class IssueDetailViewController: UIViewController {
     @IBOutlet weak var issueDetailView: IssueDetailView!
 
-    let issueModelController: IssueModelController
-    private var issue: Issue { issueModelController.issue }
+    private let issueModelController: IssueModelController
 
     init?(coder: NSCoder, issueModelController: IssueModelController) {
         self.issueModelController = issueModelController
@@ -24,13 +23,13 @@ class IssueDetailViewController: UIViewController {
 
     private func configureView() {
         let configurator = IssueDetailViewConfigurator()
-        configurator.configure(issueDetailView, with: issue)
+        configurator.configure(issueDetailView, with: issueModelController.issue)
     }
 
     // MARK: - Navigation
 
     @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
-        IssueFormViewController(coder: coder, state: .edit(issue: issue), delegate: self)
+        IssueFormViewController(coder: coder, state: .edit(issue: issueModelController.issue), delegate: self)
     }
 
 }

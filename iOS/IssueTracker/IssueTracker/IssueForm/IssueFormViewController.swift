@@ -1,5 +1,9 @@
 import UIKit
 
+protocol IssueFormViewControllerDelegate: class {
+    func issueFormViewControllerDidEdit(issue: Issue)
+}
+
 class IssueFormViewController: UIViewController {
     enum State {
         case create
@@ -82,21 +86,17 @@ extension IssueFormViewController {
 
         return alert
     }
-}
 
-enum ValidateType {
-    case invalidNewIssueTitle
+    enum ValidateType {
+        case invalidNewIssueTitle
 
-    typealias Content = (title: String, message: String)
+        typealias Content = (title: String, message: String)
 
-    var content: Content {
-        switch self {
-        case .invalidNewIssueTitle:
-            return Content(title: "이슈 작성", message: "제목을 입력해야 합니다.")
+        var content: Content {
+            switch self {
+            case .invalidNewIssueTitle:
+                return Content(title: "이슈 작성", message: "제목을 입력해야 합니다.")
+            }
         }
     }
-}
-
-protocol IssueFormViewControllerDelegate: class {
-    func issueFormViewControllerDidEdit(issue: Issue)
 }
