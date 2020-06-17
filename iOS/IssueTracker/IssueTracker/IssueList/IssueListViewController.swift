@@ -14,8 +14,7 @@ class IssueListViewController: UIViewController {
 
     var issueListState: IssueListState = .normal {
         didSet {
-            let group = makeButtonGroup(issueListState)
-            setupBarButtons(group: group)
+            updateIssueListState()
         }
     }
 
@@ -27,74 +26,58 @@ class IssueListViewController: UIViewController {
     private var dataSource: IssueListDataSource = .init()
     private let defaultTitle = "Issue"
 
-    func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
-        var group: BarButtonGroup
-        switch state {
-        case .normal:
-            group.left = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(didFilterButtonPressed))
-            group.right = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
-            group.bottom = []
-        case .edit(let select):
-            navigationController?.setToolbarHidden(false, animated: true)
-            switch select {
-            case .some:
-                group.left = UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(didDeselectAllButtonPressed))
-                group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
-                group.bottom = [UIBarButtonItem(title: "Close Issue", style: .plain, target: self, action: #selector(didCloseButtonPressed))]
-            case .none:
-                group.left = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(didSelectAllButtonPressed))
-                group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
-                group.bottom = []
-            }
-        }
-
-        return group
-    }
-
-    func setupBarButtons(group: BarButtonGroup) {
-        navigationItem.leftBarButtonItem = group.left
-        navigationItem.rightBarButtonItem = group.right
-
-        toolbarItems = group.bottom
-
-    }
-
     // MARK: - View Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let group = makeButtonGroup(issueListState)
-        setupBarButtons(group: group)
+        updateIssueListState()
         setupTableView()
-        tableView.allowsMultipleSelectionDuringEditing = true
     }
 
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return issueListState == .normal
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    // MARK: - Setup Views
+
+    private func updateIssueListState() {
+        let group = makeButtonGroup(issueListState)
+        setupBarButtons(group: group)
     }
 
     private func setupTableView() {
         let issueList = issueListModelController.issueCollection
         dataSource = IssueListDataSource(issueList)
+
         tableView.dataSource = dataSource
         tableView.delegate = self
+        tableView.allowsMultipleSelectionDuringEditing = true
     }
 
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: true)
+    // MARK: - Navigation
+
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return issueListState == .normal
     }
 
-    func changeState(to state: IssueListState) {
-        switch state {
-        case .normal:
-            isEditing = false
-            issueListState = .normal
-        case .edit(select: _):
-            isEditing = true
-            issueListState = .edit(select: .none)
-        }
+    @IBAction func newIssueDidCreated(_ unwindSegue: UIStoryboardSegue) {
+        //        guard let viewController = unwindSegue.source as? IssueFormViewController,
+        //            let issue = viewController.issue else { return }
+
+        //        dataSource.add(issue: issue)
+        tableView.reloadData()
+    }
+
+    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+
+        let issue = dataSource.issue(at: indexPath.row)
+        return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
     }
 
     // MARK: - Selector Method
@@ -143,26 +126,60 @@ class IssueListViewController: UIViewController {
     }
 
     fileprivate func closeIssuesWhenSelected() {
-        tableView.indexPathsForSelectedRows?.forEach{
+        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
+        indexPaths.forEach{
             dataSource.closeIssue(at: $0.row)
+        }
+        tableView.deleteRows(at: indexPaths, with: .automatic)
+    }
+
+    // MARK: - Manage State
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+    }
+
+    private func setupBarButtons(group: BarButtonGroup) {
+        navigationItem.leftBarButtonItem = group.left
+        navigationItem.rightBarButtonItem = group.right
+
+        toolbarItems = group.bottom
+    }
+
+    func changeState(to state: IssueListState) {
+        switch state {
+        case .normal:
+            isEditing = false
+            issueListState = .normal
+        case .edit(select: _):
+            isEditing = true
+            issueListState = .edit(select: .none)
         }
     }
 
-    // MARK: - Navigation
+    private func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
+        var group: BarButtonGroup
+        switch state {
+        case .normal:
+            group.left = UIBarButtonItem(title: "Filter", style: .plain, target: self, action: #selector(didFilterButtonPressed))
+            group.right = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(didEditButtonPressed))
+            group.bottom = []
+        case .edit(let select):
+            navigationController?.setToolbarHidden(false, animated: true)
+            switch select {
+            case .some:
+                group.left = UIBarButtonItem(title: "Deselect All", style: .plain, target: self, action: #selector(didDeselectAllButtonPressed))
+                group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
+                group.bottom = [UIBarButtonItem(title: "Close Issue", style: .plain, target: self, action: #selector(didCloseButtonPressed))]
+            case .none:
+                group.left = UIBarButtonItem(title: "Select All", style: .plain, target: self, action: #selector(didSelectAllButtonPressed))
+                group.right = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didCancelButtonPressed))
+                group.bottom = []
+            }
+        }
 
-    @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
-        guard let viewController = segue.source as? IssueFormViewController,
-            let issue = viewController.issue else { return }
-
-        dataSource.add(issue: issue)
-        tableView.reloadData()
-    }
-
-    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
-
-        let issue = dataSource.issue(at: indexPath.row)
-        return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
+        return group
     }
 
 }
