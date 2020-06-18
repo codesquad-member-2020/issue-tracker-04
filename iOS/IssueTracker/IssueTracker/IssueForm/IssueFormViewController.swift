@@ -1,19 +1,31 @@
 import UIKit
 
+protocol IssueFormViewControllerDelegate: class {
+    func issueFormViewControllerDidEdit(issue: Issue)
+}
+
 class IssueFormViewController: UIViewController {
+    enum State {
+        case create
+        case edit(issue: Issue)
+    }
+
     typealias Texts = (title: String, body: String?)
 
     @IBOutlet weak var formView: IssueFormView!
 
-    private(set) var issue: Issue?
     private let user: User = .init(id: 1, name: "Foo")
+    weak var delegate: IssueFormViewControllerDelegate?
+    let state: State
 
-    init?(coder: NSCoder, issue: Issue?) {
-        self.issue = issue
+    init?(coder: NSCoder, state: State, delegate: IssueFormViewControllerDelegate? = nil) {
+        self.state = state
+        self.delegate = delegate
         super.init(coder: coder)
     }
 
     required init?(coder: NSCoder) {
+        self.state = .create
         super.init(coder: coder)
     }
 
@@ -26,39 +38,33 @@ class IssueFormViewController: UIViewController {
     }
 
     private func configureFormView() {
-        formView.titleTextField.text = issue?.title
-        formView.bodyTextView.text = issue?.body
-    }
+        guard case .edit(let issue) = state else { return }
 
-    // MARK: - Navigation
-
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        super.shouldPerformSegue(withIdentifier: identifier, sender: sender)
-
-        if formView.userInput.title.isEmpty {
-            showMessage(for: .invalidNewIssueTitle)
-            return false
-        }
-
-        return true
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let identifier = segue.identifier, identifier == Identifier.Segue.save else { return }
-
-        save(texts: formView.userInput)
+        formView.titleTextField.text = issue.title
+        formView.bodyTextView.text = issue.body
     }
 
     // MARK: - IBAction
 
-    @IBAction func cancelTouched(_ sender: UIButton) {
+    @IBAction func didTouchSave(_ sender: UIButton) {
+        if formView.userInput.title.isEmpty {
+            showMessage(for: .invalidNewIssueTitle)
+            return
+        }
+
+        save(texts: formView.userInput)
+        dismiss(animated: true, completion: nil)
+    }
+
+    @IBAction func didTouchCancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Business Logic?
 
     private func save(texts: Texts) {
-        self.issue = Issue(id: 1, title: texts.title, body: texts.body, owner: user)
+        let issue = Issue(id: 1, title: texts.title, body: texts.body, owner: user)
+        delegate?.issueFormViewControllerDidEdit(issue: issue)
     }
 
 }
@@ -80,17 +86,17 @@ extension IssueFormViewController {
 
         return alert
     }
-}
 
-enum ValidateType {
-    case invalidNewIssueTitle
+    enum ValidateType {
+        case invalidNewIssueTitle
 
-    typealias Content = (title: String, message: String)
+        typealias Content = (title: String, message: String)
 
-    var content: Content {
-        switch self {
-        case .invalidNewIssueTitle:
-            return Content(title: "이슈 작성", message: "제목을 입력해야 합니다.")
+        var content: Content {
+            switch self {
+            case .invalidNewIssueTitle:
+                return Content(title: "이슈 작성", message: "제목을 입력해야 합니다.")
+            }
         }
     }
 }

@@ -1,14 +1,12 @@
 import UIKit
 
 class IssueDetailViewController: UIViewController {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var bodyView: UITextView!
-    @IBOutlet weak var ownerLabel: UILabel!
+    @IBOutlet weak var issueDetailView: IssueDetailView!
 
-    var issue: Issue
+    private let issueModelController: IssueModelController
 
-    init?(coder: NSCoder, issue: Issue) {
-        self.issue = issue
+    init?(coder: NSCoder, issueModelController: IssueModelController) {
+        self.issueModelController = issueModelController
         super.init(coder: coder)
     }
 
@@ -19,16 +17,39 @@ class IssueDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        titleLabel.text = issue.title
-        bodyView.text = issue.body
-        ownerLabel.text = String(describing: issue.owner)
+        issueModelController.add(observer: self)
+        configureView()
+    }
+
+    private func configureView() {
+        let configurator = IssueDetailViewConfigurator()
+        configurator.configure(issueDetailView, with: issueModelController.issue)
     }
 
     // MARK: - Navigation
 
-    @IBSegueAction
-    private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
-        return IssueFormViewController(coder: coder, issue: issue)
+    @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
+        IssueFormViewController(coder: coder, state: .edit(issue: issueModelController.issue), delegate: self)
     }
 
+}
+
+class IssueDetailViewConfigurator {
+    func configure(_ view: IssueDetailView, with issue: Issue) {
+        view.titleLabel.text = issue.title
+        view.bodyView.text = issue.body
+        view.authorLabel.text = String(describing: issue.owner)
+    }
+}
+
+extension IssueDetailViewController: IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidEdit(issue: Issue) {
+        issueModelController.update(issue: issue)
+    }
+}
+
+extension IssueDetailViewController: IssueModelControllerObserver {
+    func issueModelControllerDidUpdate(_ controller: IssueModelController) {
+        configureView()
+    }
 }
