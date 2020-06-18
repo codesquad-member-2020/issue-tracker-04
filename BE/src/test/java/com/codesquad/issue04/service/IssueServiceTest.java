@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
@@ -71,6 +72,17 @@ public class IssueServiceTest {
         IssueDetailResponseDto issueDetailResponseDto = issueService.findIssueDetailById(id);
         assertThat(issueDetailResponseDto.getId()).isEqualTo(id);
         assertThat(issueDetailResponseDto.getTitle()).isEqualTo(title);
-        assertThat(issueDetailResponseDto.getRealUser().getIssues().size()).isGreaterThan(0);
+        assertThat(issueDetailResponseDto.getRealUser().getOwnedIssues().size()).isGreaterThan(0);
+    }
+
+    @Transactional
+    @DisplayName("이슈가 할당된 유저를 가져온다.")
+    @Test
+    void 이슈가_할당된_유저를_가져온다() {
+        Long issueId = 1L;
+        Issue issue = issueService.findIssueById(issueId);
+
+        assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
+        assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
     }
 }
