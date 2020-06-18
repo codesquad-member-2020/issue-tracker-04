@@ -9,22 +9,33 @@ enum IssueListState: Equatable {
     }
 }
 
+class IssueListTableView: UITableView {
+    var issueState: IssueListState = .normal
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    func titleWhenEditing() -> String {
+        "\(self.indexPathsForSelectedRows?.count ?? 0)개 선택"
+    }
+
+}
+
 class IssueListViewController: UIViewController {
+    
+    let delegate = IssueListTableViewDelegate()
     var issueListState: IssueListState = .normal {
         didSet {
             let group = makeButtonGroup(issueListState)
             setupBarButtons(group: group)
         }
     }
-
     // MARK: - Property
 
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: IssueListTableView!
     @IBOutlet weak var titleLabel: UILabel!
     
     private var dataSource: IssueListDataSource = .init()
     private let defaultTitle = "Issue"
-
+    
     func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
         var group: BarButtonGroup
         switch state {
@@ -78,7 +89,7 @@ class IssueListViewController: UIViewController {
         
         dataSource = IssueListDataSource(issueList)
         tableView.dataSource = dataSource
-        tableView.delegate = self
+        tableView.delegate = delegate
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -131,14 +142,14 @@ class IssueListViewController: UIViewController {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
         }
-        titleLabel.text = titleWhenEditing()
+        titleLabel.text = tableView.titleWhenEditing()
     }
     
     fileprivate func deselectAllRowsWhenSelected() {
         for row in 0..<tableView.numberOfRows(inSection: 0) {
             tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
         }
-        titleLabel.text = titleWhenEditing()
+        titleLabel.text = tableView.titleWhenEditing()
         issueListState = .edit(select: .none)
     }
     
@@ -165,55 +176,4 @@ class IssueListViewController: UIViewController {
         return IssueDetailViewController(coder: coder, issue: issue)
     }
 
-}
-
-extension IssueListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let close = UIContextualAction(style: .normal, title: "Close") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.closeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Close")
-            completion(true)
-        }
-        
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.removeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Delete")
-            completion(true)
-        }
-
-        close.backgroundColor = .systemGreen
-        close.image = UIImage(systemName: SystemImageName.cellClose)
-        delete.image = UIImage(systemName: SystemImageName.cellDelete)
-
-        let swipeAction = UISwipeActionsConfiguration(actions: [close, delete])
-
-        return swipeAction
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if case .edit(select: _) = issueListState, isSelectedRows() {
-            titleLabel.text = titleWhenEditing()
-            issueListState = .edit(select: .some)
-        }
-    }
-    
-    private func titleWhenEditing() -> String {
-        "\(tableView.indexPathsForSelectedRows?.count ?? 0)개 선택"
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        titleLabel.text = titleWhenEditing()
-        if !isSelectedRows() {
-            issueListState = .edit(select: .none)
-        }
-    }
-    
-    func isSelectedRows() -> Bool {
-        !(tableView.indexPathsForSelectedRows?.isEmpty ?? true)
-    }
-    
 }
