@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.Status;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
@@ -76,4 +77,46 @@ public class IssueServiceTest {
 		assertThat(issueDetailResponseDto.getRealUser().getIssues().size()).isGreaterThan(0);
 	}
 
+	@Transactional
+	@DisplayName("이슈에 열린 이슈 또는 닫힌 이슈가 표시되며, 기본은 열린 이슈이다.")
+	@Test
+	void 이슈는_기본적으로_열려있다() {
+		Issue issue = issueService.findIssueById(1L);
+		assertThat(issue.getStatus().isOpen()).isEqualTo(true);
+	}
+
+	@Transactional
+	@DisplayName("열린 이슈를 닫고 이를 검증한 후, 닫힌 이슈를 다시 열어서 이를 검증한다.")
+	@Test
+	void 열린_이슈를_닫고_닫힌_이슈를_열_수_있다() {
+		//open to closed
+		Issue issueBeforeClosed = issueService.findIssueById(1L);
+		issueBeforeClosed.changeStatusToClosed();
+		assertThat(issueService.findIssueById(1L).getStatus()).isEqualTo(Status.CLOSED);
+
+		//closed to open
+		Issue issueAfterClosed = issueService.findIssueById(1L);
+		issueAfterClosed.changeStatusToOpen();
+		assertThat(issueService.findIssueById(1L).getStatus()).isEqualTo(Status.OPEN);
+	}
+
+	@Transactional
+	@DisplayName("열린 이슈만 필터링하여 가져올 수 있다.")
+	@Test
+	void 열린_이슈만_보여줄_수_있다() {
+		List<IssueOverviewDto> OpenIssueOverviewDtoList = issueService.findAllOpenIssuesOverview();
+		assertThat(
+			OpenIssueOverviewDtoList.stream().map(IssueOverviewDto::getStatus)
+		).isNotEqualTo(Status.CLOSED);
+	}
+
+	@Transactional
+	@DisplayName("닫힌 이슈만 필터링하여 가져올 수 있다.")
+	@Test
+	void 닫힌_이슈만_보여줄_수_있다() {
+		List<IssueOverviewDto> ClosedIssueOverviewDtoList = issueService.findAllClosedIssuesOverview();
+		assertThat(
+			ClosedIssueOverviewDtoList.stream().map(IssueOverviewDto::getStatus)
+		).isNotEqualTo(Status.OPEN);
+	}
 }

@@ -7,6 +7,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -60,6 +62,9 @@ public class Issue {
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
 
+	@Enumerated(EnumType.STRING)
+	private Status status;
+
 	@Builder
 	public Issue(Long id, String title, List<Comment> comments,
 		Set<Label> labels, Milestone milestone, RealUser user) {
@@ -72,4 +77,29 @@ public class Issue {
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
 	}
 
+	public boolean isOpen() {
+		return this.status == Status.OPEN;
+	}
+
+	public boolean isClosed() {
+		return this.status == Status.CLOSED;
+	}
+
+	public Status changeStatusToOpen() {
+		if (this.status.isOpen()) {
+			throw new IllegalArgumentException("this issue is already opened.");
+		}
+		Status openStatus = Status.OPEN;
+		this.status = openStatus;
+		return openStatus;
+	}
+
+	public Status changeStatusToClosed() {
+		if (! this.status.isOpen()) {
+			throw new IllegalArgumentException("this issue is already closed.");
+		}
+		Status closedStatus = Status.CLOSED;
+		this.status = closedStatus;
+		return closedStatus;
+	}
 }

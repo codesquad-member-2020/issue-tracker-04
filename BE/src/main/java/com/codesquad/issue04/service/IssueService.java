@@ -34,13 +34,41 @@ public class IssueService {
 			.collect(Collectors.toList());
 	}
 
+	List<IssueOverviewDto> findAllOpenIssuesOverview() {
+		List<Issue> issues = findAllIssues();
+		return issues.stream()
+			.filter(Issue::isOpen)
+			.map(IssueOverviewDto::of)
+			.collect(Collectors.toList());
+	}
+
+	List<IssueOverviewDto> findAllClosedIssuesOverview() {
+		List<Issue> issues = findAllIssues();
+		return issues.stream()
+			.filter(Issue::isClosed)
+			.map(IssueOverviewDto::of)
+			.collect(Collectors.toList());
+	}
+
 	public IssueDetailResponseDto findIssueDetailById(Long issueId) {
 		return IssueDetailResponseDto.of(findIssueById(issueId));
 	}
 
-	public IssueOverviewResponseDtos getIssueOverviews() {
+	public IssueOverviewResponseDtos getAllIssueOverviews() {
 		return IssueOverviewResponseDtos.builder()
 			.allData(findAllIssuesOverview())
+			.build();
+	}
+
+	public IssueOverviewResponseDtos getOpenIssueOverviews() {
+		return IssueOverviewResponseDtos.builder()
+			.allData(findAllOpenIssuesOverview())
+			.build();
+	}
+
+	public IssueOverviewResponseDtos getClosedIssueOverviews() {
+		return IssueOverviewResponseDtos.builder()
+			.allData(findAllClosedIssuesOverview())
 			.build();
 	}
 }

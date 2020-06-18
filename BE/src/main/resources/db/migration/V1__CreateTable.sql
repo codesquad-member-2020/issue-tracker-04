@@ -29,7 +29,8 @@ CREATE TABLE IF NOT EXISTS milestone
 CREATE TABLE IF NOT EXISTS issue
 (
     id           INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title        VARCHAR(45)                    NULL,
+    title        VARCHAR(45)                    NOT NULL,
+    status       VARCHAR(45)                    NOT NULL DEFAULT 'OPEN',
     user_id      INT                            NOT NULL,
     milestone_id INT                            NOT NULL,
     CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id),

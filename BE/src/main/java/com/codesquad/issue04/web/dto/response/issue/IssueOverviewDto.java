@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.Status;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
@@ -28,6 +29,7 @@ public class IssueOverviewDto {
 	private String mileStonesTitle;
 	private Set<String> labelTitles;
 	private String githubId;
+	private Status status;
 
 	@Builder
 	public IssueOverviewDto(Issue issue) {
@@ -46,6 +48,7 @@ public class IssueOverviewDto {
 			.map(Label::getTitle)
 			.collect(Collectors.toSet());
 		this.githubId = realUser.getGithubId();
+		this.status = issue.getStatus();
 	}
 
 	public static IssueOverviewDto of(Issue issue) {
