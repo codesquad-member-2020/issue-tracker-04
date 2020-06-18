@@ -24,7 +24,7 @@ public class IssueTest {
 			.githubId("guswns1659")
 			.image("image")
 			.name("Jack")
-			.issues(Collections.emptyList())
+			.ownedIssues(Collections.emptyList())
 			.build();
 	}
 

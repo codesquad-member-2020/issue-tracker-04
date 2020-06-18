@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<RealUser, Long> {
 
 	Optional<RealUser> findByGithubId(String githubId);
+
+	Optional<RealUser> findUserByGithubId(String githubId);
 }

@@ -8,9 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,7 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@ToString(exclude = "issues")
+@ToString(exclude = {"ownedIssues", "assignedIssues"})
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
@@ -43,7 +47,15 @@ public class RealUser implements Serializable, AbstractUser {
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Issue> issues;
+    private List<Issue> ownedIssues;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "assignee",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "issue_id")
+    )
+    protected List<Issue> assignedIssues;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role_key")
@@ -58,5 +70,9 @@ public class RealUser implements Serializable, AbstractUser {
     @Override
     public boolean isNil() {
         return false;
+    }
+
+    public boolean hasOwnedIssues() {
+        return this.getOwnedIssues().size() > 0;
     }
 }

@@ -34,7 +34,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = "comments")
+@ToString(exclude = {"comments", "assignees"})
 @Entity
 public class Issue {
 
@@ -43,7 +43,7 @@ public class Issue {
 	private Long id;
 	private String title;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "issue", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.REMOVE)
 	private List<Comment> comments;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -53,6 +53,14 @@ public class Issue {
 		inverseJoinColumns = @JoinColumn(name = "label_id")
 	)
 	private Set<Label> labels;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(
+		name = "assignee",
+		joinColumns = @JoinColumn(name = "issue_id"),
+		inverseJoinColumns = @JoinColumn(name = "user_id")
+	)
+	private List<RealUser> assignees;
 
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
