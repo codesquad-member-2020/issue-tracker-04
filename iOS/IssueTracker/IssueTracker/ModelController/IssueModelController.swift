@@ -19,6 +19,16 @@ class IssueModelController {
         self.issue = issue
     }
 
+    func makeNewIssue(_ partial: PartialIssue) -> Issue {
+        return makeFakeIssue(partial)
+    }
+}
+
+extension IssueModelController {
+    private struct Observation {
+        weak var observer: IssueModelControllerObserver?
+    }
+
     func notifyObservers() {
         for (id, observation) in observations {
             guard let observer = observation.observer else {
@@ -27,12 +37,6 @@ class IssueModelController {
             }
             observer.issueModelControllerDidUpdate(self)
         }
-    }
-}
-
-extension IssueModelController {
-    private struct Observation {
-        weak var observer: IssueModelControllerObserver?
     }
 
     func add(observer: IssueModelControllerObserver) {
@@ -43,5 +47,12 @@ extension IssueModelController {
     func remove(observer: IssueModelControllerObserver) {
         let id = ObjectIdentifier(observer)
         observations.removeValue(forKey: id)
+    }
+}
+
+extension IssueModelController {
+    func makeFakeIssue(_ partial: PartialIssue) -> Issue {
+        let user = User(id: 1, name: "Foo")
+        return Issue(id: 1, title: partial.title, body: partial.body, owner: user)
     }
 }

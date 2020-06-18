@@ -218,7 +218,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" image="plus" catalog="system"/>
                                 <connections>
-                                    <segue destination="QLA-dI-SMY" kind="showDetail" id="urR-VM-l5m"/>
+                                    <segue destination="QLA-dI-SMY" kind="showDetail" destinationCreationSelector="showIssueFormWithCoder:" id="urR-VM-l5m"/>
                                 </connections>
                             </button>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XYl-Og-PSf">

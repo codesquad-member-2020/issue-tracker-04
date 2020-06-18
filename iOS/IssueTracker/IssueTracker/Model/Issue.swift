@@ -2,8 +2,8 @@ import Foundation
 
 struct Issue {
     let id: ID
-    let title: String
-    let body: String?
+    var title: String
+    var body: String?
     var comments: CommentCollection = .init()
     let owner: User
     var assignees: UserCollection = .init()
@@ -23,4 +23,9 @@ extension Issue: Equatable {
     static func == (lhs: Issue, rhs: Issue) -> Bool {
         return lhs.id == rhs.id
     }
+}
+
+struct PartialIssue {
+    let title: String
+    let body: String
 }

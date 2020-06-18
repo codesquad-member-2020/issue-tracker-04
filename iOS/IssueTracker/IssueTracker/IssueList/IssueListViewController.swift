@@ -77,19 +77,15 @@ class IssueListViewController: UIViewController {
         return issueListState == .normal
     }
 
-    @IBAction func newIssueDidCreated(_ unwindSegue: UIStoryboardSegue) {
-        //        guard let viewController = unwindSegue.source as? IssueFormViewController,
-        //            let issue = viewController.issue else { return }
-
-        //        dataSource.add(issue: issue)
-        tableView.reloadData()
-    }
-
     @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
 
         let issue = dataSource.issue(at: indexPath.row)
         return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
+    }
+
+    @IBSegueAction func showIssueForm(coder: NSCoder) -> IssueFormViewController? {
+        IssueFormViewController(coder: coder, state: .new, delegate: self)
     }
 
     // MARK: - Selector Method
@@ -176,5 +172,11 @@ class IssueListViewController: UIViewController {
 extension IssueListViewController: IssueStateDelegate {
     func stateDidChange(to state: IssueListState) {
         self.issueListState = state
+    }
+}
+
+extension IssueListViewController: IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidCreate(_ partial: PartialIssue) {
+        debugPrint("Issue created: \(partial)")
     }
 }

@@ -148,7 +148,7 @@ class IssueDetailViewConfigurator {
 }
 
 extension IssueDetailViewController: IssueFormViewControllerDelegate {
-    func issueFormViewControllerDidEdit(issue: Issue) {
+    func issueFormViewControllerDidEdit(_ issue: Issue) {
         issueModelController.update(issue: issue)
     }
 }
