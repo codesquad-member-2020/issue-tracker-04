@@ -5,9 +5,11 @@ import java.util.Set;
 
 import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.Status;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.web.dto.response.ResponseDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class IssueDetailResponseDto {
+public class IssueDetailResponseDto implements ResponseDto {
 
 	private Long id;
 	private String title;
@@ -24,6 +26,7 @@ public class IssueDetailResponseDto {
 	private Set<Label> labels;
 	private Milestone milestone;
 	private RealUser realUser;
+	private Status status;
 
 	@Builder
 	public IssueDetailResponseDto(Issue issue) {
@@ -34,6 +37,7 @@ public class IssueDetailResponseDto {
 		this.labels = issue.getLabels();
 		this.milestone = issue.getMilestone();
 		this.realUser = issue.getUser();
+		this.status = issue.getStatus();
 	}
 
 	public static IssueDetailResponseDto of(Issue issue) {
