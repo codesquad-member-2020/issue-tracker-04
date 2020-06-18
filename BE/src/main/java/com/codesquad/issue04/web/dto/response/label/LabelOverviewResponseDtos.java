@@ -2,6 +2,7 @@ package com.codesquad.issue04.web.dto.response.label;
 
 import java.util.List;
 
+import com.codesquad.issue04.web.dto.response.ResponseDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class LabelOverviewResponseDtos {
+public class LabelOverviewResponseDtos implements ResponseDto {
 
 	private List<LabelOverviewDto> allData;
 }

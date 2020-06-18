@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.domain.issue.Status;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
