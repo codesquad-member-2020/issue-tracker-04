@@ -9,6 +9,7 @@
 import UIKit
 
 class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let close = UIContextualAction(style: .normal, title: "Close") { action, view, completion in
             guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
@@ -56,3 +57,9 @@ class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
     }
 
 }
+//extension IssueListTableViewDelegate: IssueStateDelegate {
+//    func changeState(to state: IssueListState) {
+//
+//    }
+//
+//}

@@ -9,12 +9,44 @@ enum IssueListState: Equatable {
     }
 }
 
+protocol IssueStateDelegate: class {
+    func stateDidChange(to state: IssueListState)
+}
+
 class IssueListTableView: UITableView {
-    var issueState: IssueListState = .normal
+    
+    weak var issueStateDelegate: IssueStateDelegate?
+    var issueState: IssueListState = .normal {
+        didSet {
+            issueStateDelegate?.stateDidChange(to: issueState)
+        }
+    }
     @IBOutlet weak var titleLabel: UILabel!
     
     func titleWhenEditing() -> String {
         "\(self.indexPathsForSelectedRows?.count ?? 0)개 선택"
+    }
+    
+    func selectAllRowsWhenEdit() {
+        for row in 0..<self.numberOfRows(inSection: 0) {
+            self.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
+        }
+        titleLabel.text = self.titleWhenEditing()
+    }
+    
+    func deselectAllRowsWhenSelected() {
+        for row in 0 ..< self.numberOfRows(inSection: 0) {
+            self.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
+        }
+        titleLabel.text = self.titleWhenEditing()
+        issueState = .edit(select: .none)
+    }
+    
+    func closeIssuesWhenSelected() {
+        self.indexPathsForSelectedRows?.forEach{
+            guard let dataSource = self.dataSource as? IssueListDataSource else { return }
+            dataSource.closeIssue(at: $0.row)
+        }
     }
 
 }
@@ -77,6 +109,7 @@ class IssueListViewController: UIViewController {
         setupBarButtons(group: group)
         setupTableView()
         tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.issueStateDelegate = self
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -124,39 +157,18 @@ class IssueListViewController: UIViewController {
     }
 
     @objc private func didSelectAllButtonPressed() {
-        selectAllRowsWhenEdit()
+        tableView.selectAllRowsWhenEdit()
         issueListState = .edit(select: .some)
     }
 
     @objc private func didDeselectAllButtonPressed() {
-        deselectAllRowsWhenSelected()
+        tableView.deselectAllRowsWhenSelected()
 
     }
 
     @objc private func didCloseButtonPressed() {
-        closeIssuesWhenSelected()
+        tableView.closeIssuesWhenSelected()
         changeState(to: .normal)
-    }
-
-    fileprivate func selectAllRowsWhenEdit() {
-        for row in 0..<tableView.numberOfRows(inSection: 0) {
-            tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
-        }
-        titleLabel.text = tableView.titleWhenEditing()
-    }
-    
-    fileprivate func deselectAllRowsWhenSelected() {
-        for row in 0..<tableView.numberOfRows(inSection: 0) {
-            tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
-        }
-        titleLabel.text = tableView.titleWhenEditing()
-        issueListState = .edit(select: .none)
-    }
-    
-    fileprivate func closeIssuesWhenSelected() {
-        tableView.indexPathsForSelectedRows?.forEach{
-            dataSource.closeIssue(at: $0.row)
-        }
     }
     
     // MARK: - Navigation
@@ -176,4 +188,12 @@ class IssueListViewController: UIViewController {
         return IssueDetailViewController(coder: coder, issue: issue)
     }
 
+}
+
+extension IssueListViewController: IssueStateDelegate {
+    func stateDidChange(to state: IssueListState) {
+        self.issueListState = state
+    }
+    
+    
 }
