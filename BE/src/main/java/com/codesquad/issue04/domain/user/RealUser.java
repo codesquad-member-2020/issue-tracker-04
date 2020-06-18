@@ -59,4 +59,8 @@ public class RealUser implements Serializable, AbstractUser {
     public boolean isNil() {
         return false;
     }
+
+    public boolean hasIssue() {
+        return this.getIssues().size() > 0;
+    }
 }
