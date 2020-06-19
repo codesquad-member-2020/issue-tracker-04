@@ -39,10 +39,17 @@ public class UserService {
     public List<Issue> getAllAssignedIssues() {
 
         String userId = "guswns1659";
-        RealUser realUser = userRepository.findUserByGithubId(userId)
+        RealUser realUser = userRepository.findByGithubId(userId)
             .orElse(NullUser.of());
 
         return realUser.getAssignedIssues();
     }
 
+    public List<RealUser> findUsersHasIssues() {
+        List<RealUser> users = userRepository.findAll();
+
+        return users.stream()
+            .filter(RealUser::hasAssignedIssues)
+            .collect(Collectors.toList());
+    }
 }

@@ -16,31 +16,39 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IssueService {
 
-	private final IssueRepository issueRepository;
+    private final IssueRepository issueRepository;
 
-	protected Issue findIssueById(Long issueId) {
-		return issueRepository.findById(issueId)
-			.orElseThrow(() -> new IllegalArgumentException("issue not found id: " + issueId));
-	}
+    protected Issue findIssueById(Long issueId) {
+        return issueRepository.findById(issueId)
+            .orElseThrow(() -> new IllegalArgumentException("issue not found id: " + issueId));
+    }
 
-	protected List<Issue> findAllIssues() {
-		return issueRepository.findAll();
-	}
+    protected List<Issue> findAllIssues() {
+        return issueRepository.findAll();
+    }
 
-	List<IssueOverviewDto> findAllIssuesOverview() {
-		List<Issue> issues = findAllIssues();
-		return issues.stream()
-			.map(IssueOverviewDto::of)
-			.collect(Collectors.toList());
-	}
+    List<IssueOverviewDto> findAllIssuesOverview() {
+        List<Issue> issues = findAllIssues();
+        return issues.stream()
+            .map(IssueOverviewDto::of)
+            .collect(Collectors.toList());
+    }
 
-	public IssueDetailResponseDto findIssueDetailById(Long issueId) {
-		return IssueDetailResponseDto.of(findIssueById(issueId));
-	}
+    public IssueDetailResponseDto findIssueDetailById(Long issueId) {
+        return IssueDetailResponseDto.of(findIssueById(issueId));
+    }
 
-	public IssueOverviewResponseDtos getIssueOverviews() {
-		return IssueOverviewResponseDtos.builder()
-			.allData(findAllIssuesOverview())
-			.build();
-	}
+    public IssueOverviewResponseDtos getIssueOverviews() {
+        return IssueOverviewResponseDtos.builder()
+            .allData(findAllIssuesOverview())
+            .build();
+    }
+
+    public List<Issue> getAllAssignedIssues() {
+        List<Issue> issues = issueRepository.findAll();
+
+        return issues.stream()
+            .filter(Issue::hasAssignees)
+            .collect(Collectors.toList());
+    }
 }

@@ -76,13 +76,11 @@ public class IssueServiceTest {
     }
 
     @Transactional
-    @DisplayName("이슈가 할당된 유저를 가져온다.")
+    @DisplayName("할당된 이슈 전체를 가져온다.")
     @Test
-    void 이슈가_할당된_유저를_가져온다() {
-        Long issueId = 1L;
-        Issue issue = issueService.findIssueById(issueId);
-
-        assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
-        assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
+    void 할당된_전체이슈를_가져온다() {
+        List<Issue> assignedIssues = issueService.getAllAssignedIssues();
+        assertThat(assignedIssues.get(0)).isInstanceOf(Issue.class);
+        assertThat(assignedIssues.get(0).getUser().getGithubId()).isEqualTo("guswns1659");
     }
 }

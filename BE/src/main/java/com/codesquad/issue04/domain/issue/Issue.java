@@ -80,4 +80,7 @@ public class Issue {
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
 	}
 
+	public boolean hasAssignees() {
+		return this.getAssignees().size() > 0;
+	}
 }
