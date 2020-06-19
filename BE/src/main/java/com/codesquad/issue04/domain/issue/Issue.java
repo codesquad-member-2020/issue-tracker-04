@@ -103,11 +103,15 @@ public class Issue {
 	}
 
 	public Status changeStatusToClosed() {
-		if (! this.status.isOpen()) {
+		if (!this.status.isOpen()) {
 			throw new IllegalArgumentException("this issue is already closed.");
 		}
 		Status closedStatus = Status.CLOSED;
 		this.status = closedStatus;
 		return closedStatus;
+	}
+
+	public boolean hasAssignees() {
+		return this.getAssignees().size() > 0;
 	}
 }

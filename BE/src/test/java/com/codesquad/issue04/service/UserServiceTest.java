@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.response.user.AllAuthorsResponseDto;
 import com.codesquad.issue04.web.dto.response.user.AuthorDto;
 
@@ -31,12 +31,13 @@ public class UserServiceTest {
     }
 
     @Transactional
-    @DisplayName("할당된 이슈 전체를 가져온다.")
+    @DisplayName("이슈가 할당된 전체 유저를 가져온다.")
     @Test
-    void 할당된_전체이슈를_가져온다() {
-        List<Issue> issues = userService.getAllAssignedIssues();
-        assertThat(issues.get(0)).isInstanceOf(Issue.class);
-        assertThat(issues.get(0).getUser().getGithubId()).isEqualTo("guswns1659");
+    void 이슈가_할당된_전체유저를_가져온다() {
+        List<RealUser> usersHasIssues = userService.findUsersHasIssues();
+
+        assertThat(usersHasIssues.get(0)).isInstanceOf(RealUser.class);
+        assertThat(usersHasIssues.get(0).getGithubId()).isEqualTo("guswns1659");
     }
 }
 
