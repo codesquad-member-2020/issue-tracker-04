@@ -1,11 +1,3 @@
-//
-//  IssueListTableViewDelegate.swift
-//  IssueTracker
-//
-//  Created by Keunna Lee on 2020/06/17.
-//  Copyright © 2020 Codesquad. All rights reserved.
-//
-
 import UIKit
 
 class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
@@ -57,9 +49,3 @@ class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
     }
 
 }
-//extension IssueListTableViewDelegate: IssueStateDelegate {
-//    func changeState(to state: IssueListState) {
-//
-//    }
-//
-//}
