@@ -41,6 +41,7 @@ class IssueListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        issueListModelController.addObserver(self)
         updateIssueListState()
         setupTableView()
     }
@@ -178,5 +179,11 @@ extension IssueListViewController: IssueStateDelegate {
 extension IssueListViewController: IssueFormViewControllerDelegate {
     func issueFormViewControllerDidCreate(_ partial: PartialIssue) {
         debugPrint("Issue created: \(partial)")
+    }
+}
+
+extension IssueListViewController: IssueListModelControllerObserver {
+    func issueListModelControllerDidUpdate(_ controller: IssueListModelController) {
+        debugPrint("List Model is Updated")
     }
 }
