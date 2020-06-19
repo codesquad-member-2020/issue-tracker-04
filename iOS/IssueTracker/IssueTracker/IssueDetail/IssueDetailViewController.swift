@@ -6,11 +6,11 @@ class IssueDetailViewController: UIViewController {
         case expanded
         case collpased
     }
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyView: UITextView!
     @IBOutlet weak var ownerLabel: UILabel!
-
+    
     var issue: Issue
     var issueInfoViewController: IssueInfoViewController!
     var handleAreaHeight:CGFloat {self.view.frame.height * 0.2}
@@ -22,25 +22,25 @@ class IssueDetailViewController: UIViewController {
     var nextState:IssueInfoState {
         issueInfoVisible ? .collpased : .expanded
     }
-
-
+    
+    
     init?(coder: NSCoder, issue: Issue) {
         self.issue = issue
         super.init(coder: coder)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         titleLabel.text = issue.title
         bodyView.text = issue.body
         ownerLabel.text = String(describing: issue.owner)
         setupButtomIssueInfoView()
-
+        
     }
     
     func setupButtomIssueInfoView() {
@@ -72,6 +72,16 @@ class IssueDetailViewController: UIViewController {
     }
     
     // MARK: - Selector
+    
+    @objc func moveToPreviousComment() {
+        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
+    }
+    
+    @objc func moveToNextComment() {
+        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
+    }
     
     @objc func gestureStarted(_ recognizer:UIPanGestureRecognizer) {
         self.visualEffectView.isHidden = false
@@ -111,13 +121,13 @@ class IssueDetailViewController: UIViewController {
         }
         visualEffectAnimation.startAnimation()
     }
-
-
+    
+    
     // MARK: - Navigation
-
+    
     @IBSegueAction
     private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
         return IssueFormViewController(coder: coder, issue: issue)
     }
-
+    
 }
