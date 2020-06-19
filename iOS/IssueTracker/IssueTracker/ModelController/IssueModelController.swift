@@ -1,15 +1,11 @@
 import Foundation
 
-protocol IssueModelControllerObserver: class {
-    func issueModelControllerDidUpdate(_ controller: IssueModelController)
-}
-
-class IssueModelController {
+class IssueModelController: Observable {
     private(set) var issue: Issue {
         didSet { notifyObservers() }
     }
 
-    private var observations = [ObjectIdentifier: Observation]()
+    var observations = [ObjectIdentifier: Observation]()
 
     init(_ issue: Issue) {
         self.issue = issue
@@ -25,34 +21,48 @@ class IssueModelController {
 }
 
 extension IssueModelController {
-    private struct Observation {
-        weak var observer: IssueModelControllerObserver?
+    func makeFakeIssue(_ partial: PartialIssue) -> Issue {
+        let user = User(id: 1, name: "Foo")
+        return Issue(id: 1, title: partial.title, body: partial.body, owner: user)
     }
+}
 
+// MARK: - Observer Protocols
+
+struct Observation {
+    weak var observer: Observer?
+}
+
+protocol Observer: class {
+    func ObservingObjectDidUpdate()
+}
+
+protocol Observable: class {
+    var observations: [ObjectIdentifier: Observation] { get set }
+
+    func notifyObservers()
+    func addObserver(_ observer: Observer)
+    func removeObserver(_ observer: Observer)
+}
+
+extension Observable {
     func notifyObservers() {
         for (id, observation) in observations {
             guard let observer = observation.observer else {
                 observations.removeValue(forKey: id)
                 continue
             }
-            observer.issueModelControllerDidUpdate(self)
+            observer.ObservingObjectDidUpdate()
         }
     }
 
-    func add(observer: IssueModelControllerObserver) {
+    func addObserver(_ observer: Observer) {
         let id = ObjectIdentifier(observer)
         observations[id] = Observation(observer: observer)
     }
 
-    func remove(observer: IssueModelControllerObserver) {
+    func removeObserver(_ observer: Observer) {
         let id = ObjectIdentifier(observer)
         observations.removeValue(forKey: id)
-    }
-}
-
-extension IssueModelController {
-    func makeFakeIssue(_ partial: PartialIssue) -> Issue {
-        let user = User(id: 1, name: "Foo")
-        return Issue(id: 1, title: partial.title, body: partial.body, owner: user)
     }
 }

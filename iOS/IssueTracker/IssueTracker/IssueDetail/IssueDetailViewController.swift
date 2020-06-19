@@ -40,7 +40,7 @@ class IssueDetailViewController: UIViewController {
         super.viewDidLoad()
 
         setupButtonIssueInfoView()
-        issueModelController.add(observer: self)
+        issueModelController.addObserver(self)
         configureView()
     }
 
@@ -50,54 +50,54 @@ class IssueDetailViewController: UIViewController {
         let configurator = IssueDetailViewConfigurator()
         configurator.configure(issueDetailView, with: issueModelController.issue)
     }
-    
+
     func setupButtonIssueInfoView() {
         setupVisualEffectView()
         setupIssueInfoView()
-        
+
     }
     private func setupVisualEffectView() {
         visualEffectView = UIVisualEffectView(frame: self.view.bounds) // 블러 화면
         self.view.addSubview(visualEffectView)
-        
+
         visualEffectView.isHidden = true
     }
-    
+
     private func setupIssueInfoView() {
         issueInfoViewController = IssueInfoViewController(nibName:"IssueInfoViewController",bundle:nil)
         self.addChild(issueInfoViewController)
         self.view.addSubview(issueInfoViewController.view)
         issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
         issueInfoViewController.view.clipsToBounds = true
-        
+
         issueInfoViewController.view.layer.cornerRadius = 15
-        
+
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(gestureStarted))
         issueInfoViewController.handlerArea.addGestureRecognizer(panGestureRecognizer)
-        
+
         issueInfoViewController.moveBeforeCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
         issueInfoViewController.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
     }
-    
+
     // MARK: - Selector
-    
+
     @objc func moveToPreviousComment() {
         //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
-    
+
     @objc func moveToNextComment() {
         //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
-    
+
     @objc func gestureStarted(_ recognizer:UIPanGestureRecognizer) {
         self.visualEffectView.isHidden = false
         createAnimation(state: nextState, duration: 0.5)
     }
-    
+
     // MARK: - Animation
-    
+
     private func createAnimation(state:IssueInfoState, duration:TimeInterval) {
         let cardMoveUpAnimation = UIViewPropertyAnimator(duration: duration, curve: .linear) { [weak self] in
             guard let `self` = self else  { return }
@@ -112,31 +112,31 @@ class IssueDetailViewController: UIViewController {
             self?.issueInfoVisible =  state ==  .collapsed ? false : true
         }
         cardMoveUpAnimation.startAnimation()
-        
+
         createBlurViewAnimation(state: state, duration: duration)
-        
+
     }
-    
+
     private func createBlurViewAnimation(state:IssueInfoState, duration:TimeInterval) {
         let visualEffectAnimation = UIViewPropertyAnimator.init(duration: duration, curve: .linear) { [weak self ] in
             switch state {
             case .expanded:
                 self?.visualEffectView.effect = UIBlurEffect(style: .dark)
-                
+
             case .collapsed:
                 self?.visualEffectView.effect =  nil
             }
         }
         visualEffectAnimation.startAnimation()
     }
-    
-    
+
+
     // MARK: - Navigation
 
     @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
         IssueFormViewController(coder: coder, state: .edit(issue: issueModelController.issue), delegate: self)
     }
-    
+
 }
 
 class IssueDetailViewConfigurator {
@@ -153,8 +153,8 @@ extension IssueDetailViewController: IssueFormViewControllerDelegate {
     }
 }
 
-extension IssueDetailViewController: IssueModelControllerObserver {
-    func issueModelControllerDidUpdate(_ controller: IssueModelController) {
+extension IssueDetailViewController: Observer {
+    func ObservingObjectDidUpdate() {
         configureView()
     }
 }

@@ -182,8 +182,8 @@ extension IssueListViewController: IssueFormViewControllerDelegate {
     }
 }
 
-extension IssueListViewController: IssueListModelControllerObserver {
-    func issueListModelControllerDidUpdate(_ controller: IssueListModelController) {
+extension IssueListViewController: Observer {
+    func ObservingObjectDidUpdate() {
         debugPrint("List Model is Updated")
     }
 }
