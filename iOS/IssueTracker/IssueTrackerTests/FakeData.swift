@@ -1,7 +1,7 @@
 import Foundation
 @testable import IssueTracker
 
-class Faker {
+enum Faker {
     static func makeIssues() -> IssueCollection {
         let user = makeUser()
         let anotherUser = makeAnotherUser()
@@ -42,5 +42,13 @@ class Faker {
         ]
 
         return comments
+    }
+
+    class ModelControllerObserver: Observer {
+        var isNotified = false
+
+        func ObservingObjectDidUpdate() {
+            isNotified = true
+        }
     }
 }

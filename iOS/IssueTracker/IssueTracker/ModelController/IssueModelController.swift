@@ -16,7 +16,9 @@ class IssueModelController: Observable {
     }
 
     func update(issue: Issue) {
-        self.issue = issue
+        if self.issue != issue {
+            self.issue = issue
+        }
     }
 }
 

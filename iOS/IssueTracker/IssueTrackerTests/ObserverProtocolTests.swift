@@ -1,7 +1,7 @@
 import XCTest
 @testable import IssueTracker
 
-class ModelControllerObserverTests: XCTestCase {
+class ObserverProtocolTests: XCTestCase {
     func testAddAndRemoveObserver() {
         let observer = FakeObserver()
         let controller = FakeModelController()

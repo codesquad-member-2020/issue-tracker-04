@@ -30,7 +30,8 @@
 		8D1E58A1248EE30F002C2F3D /* Issue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1E58A0248EE30F002C2F3D /* Issue.swift */; };
 		8D202FC6249E21F700A5F379 /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FC5249E21F700A5F379 /* Observer.swift */; };
 		8D202FC9249E38C300A5F379 /* IssueListModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FC8249E38C300A5F379 /* IssueListModelControllerTests.swift */; };
-		8D202FCB249E662900A5F379 /* ModelControllerObserverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FCA249E662900A5F379 /* ModelControllerObserverTests.swift */; };
+		8D202FCB249E662900A5F379 /* ObserverProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FCA249E662900A5F379 /* ObserverProtocolTests.swift */; };
+		8D202FCD249E6E1900A5F379 /* IssueModelControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FCC249E6E1900A5F379 /* IssueModelControllerTests.swift */; };
 		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
 		8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49D2490CDF800C0FFA3 /* FakeData.swift */; };
 		8D47AA7A2498DA73001A715C /* NavigationBarButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */; };
@@ -82,7 +83,8 @@
 		8D1E58A0248EE30F002C2F3D /* Issue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Issue.swift; sourceTree = "<group>"; };
 		8D202FC5249E21F700A5F379 /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
 		8D202FC8249E38C300A5F379 /* IssueListModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListModelControllerTests.swift; sourceTree = "<group>"; };
-		8D202FCA249E662900A5F379 /* ModelControllerObserverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelControllerObserverTests.swift; sourceTree = "<group>"; };
+		8D202FCA249E662900A5F379 /* ObserverProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverProtocolTests.swift; sourceTree = "<group>"; };
+		8D202FCC249E6E1900A5F379 /* IssueModelControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueModelControllerTests.swift; sourceTree = "<group>"; };
 		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
 		8D46A49D2490CDF800C0FFA3 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarButtonFactory.swift; sourceTree = "<group>"; };
@@ -203,8 +205,9 @@
 			isa = PBXGroup;
 			children = (
 				8D1E5895248E2FCA002C2F3D /* IssueTrackerTests.swift */,
+				8D202FCA249E662900A5F379 /* ObserverProtocolTests.swift */,
+				8D202FCC249E6E1900A5F379 /* IssueModelControllerTests.swift */,
 				8D202FC8249E38C300A5F379 /* IssueListModelControllerTests.swift */,
-				8D202FCA249E662900A5F379 /* ModelControllerObserverTests.swift */,
 				8D46A49D2490CDF800C0FFA3 /* FakeData.swift */,
 				8D1E5897248E2FCA002C2F3D /* Info.plist */,
 			);
@@ -375,8 +378,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D202FCD249E6E1900A5F379 /* IssueModelControllerTests.swift in Sources */,
 				8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */,
-				8D202FCB249E662900A5F379 /* ModelControllerObserverTests.swift in Sources */,
+				8D202FCB249E662900A5F379 /* ObserverProtocolTests.swift in Sources */,
 				8D202FC9249E38C300A5F379 /* IssueListModelControllerTests.swift in Sources */,
 				8D1E5896248E2FCA002C2F3D /* IssueTrackerTests.swift in Sources */,
 			);

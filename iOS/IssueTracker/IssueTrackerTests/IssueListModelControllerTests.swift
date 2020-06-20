@@ -45,7 +45,7 @@ class IssueListModelControllerTests: XCTestCase {
     }
 
     func testUpdateIssueWithSameValue() {
-        let observer = FakeIssueListModelControllerObserver()
+        let observer = Faker.ModelControllerObserver()
         let issue = controller.issueCollection[0]
         controller.addObserver(observer)
         let newIssue = issue
@@ -56,7 +56,7 @@ class IssueListModelControllerTests: XCTestCase {
     }
 
     func testUpdateIssueWithDifferentValue() {
-        let observer = FakeIssueListModelControllerObserver()
+        let observer = Faker.ModelControllerObserver()
         let issue = controller.issueCollection[0]
         controller.addObserver(observer)
         var newIssue = issue
@@ -68,10 +68,3 @@ class IssueListModelControllerTests: XCTestCase {
     }
 }
 
-class FakeIssueListModelControllerObserver: Observer {
-    var isNotified = false
-
-    func ObservingObjectDidUpdate() {
-        isNotified = true
-    }
-}
