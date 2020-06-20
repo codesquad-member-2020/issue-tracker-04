@@ -9,6 +9,9 @@ class IssueDetailViewController: UIViewController {
     // MARK: - Property
 
     @IBOutlet weak var issueDetailView: IssueDetailView!
+    @IBOutlet weak var commentTableView: UITableView!
+
+    var commentDataSource: TableViewDataSource<CommentCollection>! = nil
 
     private let issueModelController: IssueModelController
     var issue: Issue { issueModelController.issue }
@@ -43,6 +46,7 @@ class IssueDetailViewController: UIViewController {
         setupButtonIssueInfoView()
         issueModelController.addObserver(self)
         configureView()
+        configureCommentTableView()
     }
 
     // MARK: - Setup
@@ -159,5 +163,20 @@ extension IssueDetailViewController: IssueFormViewControllerDelegate {
 extension IssueDetailViewController: Observer {
     func ObservingObjectDidUpdate() {
         configureView()
+    }
+}
+
+// MARK: - CommentTableView
+
+extension IssueDetailViewController {
+    private func configureCommentTableView() {
+        commentDataSource = .make(for: issue.comments, reuseIdentifier: Identifier.Cell.comment)
+        commentTableView.dataSource = commentDataSource
+    }
+
+    private func configureCell(comment: CommentCollection.Element, cell: UITableViewCell) {
+        guard let cell = cell as? CommentCell else { return }
+
+        cell.bodyLabel.text = "Foooooo"
     }
 }

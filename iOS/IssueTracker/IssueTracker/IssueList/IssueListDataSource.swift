@@ -39,7 +39,7 @@ extension IssueListDataSource: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: IssueCell.identifier, for: indexPath) as? IssueCell else { return IssueCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.Cell.issue, for: indexPath) as? IssueCell else { return IssueCell() }
 
         let issue = self.issueList[indexPath.row]
 

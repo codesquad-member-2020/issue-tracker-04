@@ -5,6 +5,14 @@ struct CommentCollection {
 
     private var elements: CommentType = .init()
 
+    // MARK: - Mutating
+
+    mutating func add(_ element: Element) {
+        elements.append(element)
+    }
+
+    // MARK: - Filter
+
     func contains(author: User) -> Bool {
         self.contains { $0.author == author }
     }
@@ -40,3 +48,12 @@ extension CommentCollection: ExpressibleByArrayLiteral {
 }
 
 extension CommentCollection: Hashable { }
+
+extension CommentCollection {
+    static func makeFake() -> CommentCollection {
+        let user = User(id: FakeID.userId, name: "ffff")
+        let comments: CommentCollection = [Comment(id: FakeID.make(), body: "eee", author: user)]
+
+        return comments
+    }
+}

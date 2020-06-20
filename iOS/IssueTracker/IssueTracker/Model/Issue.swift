@@ -9,7 +9,9 @@ struct Issue {
     var assignees: UserCollection = .init()
     var status: Status = .open
 
-    func addComment(_ comment: Comment) { }
+    mutating func addComment(_ comment: Comment) {
+        comments.add(comment)
+    }
 }
 
 extension Issue {
