@@ -66,13 +66,15 @@ class IssueDetailViewController: UIViewController {
 
     private func setupIssueInfoView() {
         issueInfoViewController = IssueInfoViewController(nibName:"IssueInfoViewController",bundle:nil)
-        self.addChild(issueInfoViewController)
-        self.view.addSubview(issueInfoViewController.view)
+        self.add(issueInfoViewController)
+
+        // Configure ChildView
         issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
         issueInfoViewController.view.clipsToBounds = true
 
         issueInfoViewController.view.layer.cornerRadius = 15
 
+        // Add Gesture
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(gestureStarted))
         issueInfoViewController.handlerArea.addGestureRecognizer(panGestureRecognizer)
 

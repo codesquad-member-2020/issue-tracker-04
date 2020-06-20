@@ -3,6 +3,7 @@ import UIKit
 class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let tableView = tableView as? IssueListTableView else { return }
+
         if case .edit(select: _) = tableView.issueState, isSelectedRows(tableView) {
             tableView.titleLabel.text = tableView.titleWhenEditing()
             tableView.issueState = .edit(select: .some)
@@ -40,6 +41,8 @@ class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
     }
 
 }
+
+// MARK: - SwipeAction
 
 extension IssueListTableViewDelegate {
     enum ActionType {

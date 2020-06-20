@@ -46,8 +46,8 @@ class IssueListViewController: UIViewController {
         setupTableView()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -96,6 +96,7 @@ class IssueListViewController: UIViewController {
     }
 
     // MARK: - Selector Method
+    
     @objc private func didCancelButtonPressed() {
         changeState(to: .normal)
         titleLabel.text = defaultTitle
@@ -184,16 +185,12 @@ extension IssueListViewController: IssueStateDelegate {
 
 extension IssueListViewController: IssueFormViewControllerDelegate {
     func issueFormViewControllerDidCreate(_ partial: PartialIssue) {
-        debugPrint("Issue created: \(partial)")
-
         issueListModelController.addPartialIssue(partial)
-
     }
 }
 
 extension IssueListViewController: Observer {
     func ObservingObjectDidUpdate() {
-        debugPrint("List Model is Updated")
         dataSource.updateList(issueListModelController.issueCollection)
         tableView.reloadData()
     }
