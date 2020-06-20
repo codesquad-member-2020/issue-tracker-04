@@ -1,31 +1,19 @@
 import UIKit
 
 struct BarButtonFactory {
-    enum Kind {
-        case edit
-        case filter
-        case cancel
-        case selectAll
-        case close
-        case deselectAll
+    enum Kind: String, CustomStringConvertible {
+        var description: String { self.rawValue }
+        
+        case edit = "Edit"
+        case filter = "Filter"
+        case cancel = "Cancel"
+        case selectAll = "Select All"
+        case close = "Close Issue"
+        case deselectAll = "Deselect All"
     }
 
     func create(_ type: Kind) -> UIBarButtonItem {
-        switch type {
-        case .edit:
-            return UIBarButtonItem(title: "Edit")
-        case .filter:
-            return UIBarButtonItem(title: "Filter")
-        case .cancel:
-            return UIBarButtonItem(title: "Cancel")
-        case .selectAll:
-            return UIBarButtonItem(title: "Select All")
-        case .close:
-            return UIBarButtonItem(title: "Close Issue")
-        case .deselectAll:
-            return UIBarButtonItem(title: "Deselect All")
-        }
-
+        UIBarButtonItem(title: type.description)
     }
 }
 
@@ -39,8 +27,6 @@ extension BarButtonFactory {
     func makeButtonGroup(_ state: IssueListState) -> Group {
         switch state {
         case .normal:
-//            let left = create(.filter)
-//            let right = create(.edit)
             return Group(left: create(.filter), right: create(.edit), bottom: nil)
         case .edit(let selected):
             switch selected {

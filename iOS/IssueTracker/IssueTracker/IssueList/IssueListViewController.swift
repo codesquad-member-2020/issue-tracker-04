@@ -9,22 +9,32 @@ enum IssueListState: Equatable {
     }
 }
 
+protocol IssueStateDelegate: class {
+    func stateDidChange(to state: IssueListState)
+}
+
+enum IssueInfoState {
+    case expanded
+    case collapsed
+}
+
 class IssueListViewController: UIViewController {
+    // MARK: - Property
+
+    @IBOutlet weak var tableView: IssueListTableView!
+    @IBOutlet weak var titleLabel: UILabel!
+
+    private let defaultTitle = "Issue"
+
+    let delegate = IssueListTableViewDelegate()
     private let issueListModelController = IssueListModelController(.createFakeData())
+    private var dataSource: IssueListDataSource = .init()
 
     var issueListState: IssueListState = .normal {
         didSet {
             updateIssueListState()
         }
     }
-
-    // MARK: - Property
-
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var titleLabel: UILabel!
-
-    private var dataSource: IssueListDataSource = .init()
-    private let defaultTitle = "Issue"
 
     // MARK: - View Cycle
 
@@ -48,15 +58,17 @@ class IssueListViewController: UIViewController {
     private func updateIssueListState() {
         let group = makeButtonGroup(issueListState)
         setupBarButtons(group: group)
+        setupTableView()
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.issueStateDelegate = self
     }
-
+    
     private func setupTableView() {
         let issueList = issueListModelController.issueCollection
         dataSource = IssueListDataSource(issueList)
 
         tableView.dataSource = dataSource
-        tableView.delegate = self
-        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.delegate = delegate
     }
 
     // MARK: - Navigation
@@ -96,41 +108,18 @@ class IssueListViewController: UIViewController {
     }
 
     @objc private func didSelectAllButtonPressed() {
-        selectAllRowsWhenEdit()
+        tableView.selectAllRowsWhenEdit()
         issueListState = .edit(select: .some)
     }
 
     @objc private func didDeselectAllButtonPressed() {
-        deselectAllRowsWhenSelected()
+        tableView.deselectAllRowsWhenSelected()
 
     }
 
     @objc private func didCloseButtonPressed() {
-        closeIssuesWhenSelected()
+        tableView.closeIssuesWhenSelected()
         changeState(to: .normal)
-    }
-
-    fileprivate func selectAllRowsWhenEdit() {
-        for row in 0..<tableView.numberOfRows(inSection: 0) {
-            tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
-        }
-        titleLabel.text = titleWhenEditing()
-    }
-
-    fileprivate func deselectAllRowsWhenSelected() {
-        for row in 0..<tableView.numberOfRows(inSection: 0) {
-            tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
-        }
-        titleLabel.text = titleWhenEditing()
-        issueListState = .edit(select: .none)
-    }
-
-    fileprivate func closeIssuesWhenSelected() {
-        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-        indexPaths.forEach{
-            dataSource.closeIssue(at: $0.row)
-        }
-        tableView.deleteRows(at: indexPaths, with: .automatic)
     }
 
     // MARK: - Manage State
@@ -184,53 +173,8 @@ class IssueListViewController: UIViewController {
 
 }
 
-extension IssueListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let close = UIContextualAction(style: .normal, title: "Close") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.closeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Close")
-            completion(true)
-        }
-
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { action, view, completion in
-            guard let dataSource = tableView.dataSource as? IssueListDataSource else { return }
-            dataSource.removeIssue(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            debugPrint("Delete")
-            completion(true)
-        }
-
-        close.backgroundColor = .systemGreen
-        close.image = UIImage(systemName: SystemImageName.cellClose)
-        delete.image = UIImage(systemName: SystemImageName.cellDelete)
-
-        let swipeAction = UISwipeActionsConfiguration(actions: [close, delete])
-
-        return swipeAction
+extension IssueListViewController: IssueStateDelegate {
+    func stateDidChange(to state: IssueListState) {
+        self.issueListState = state
     }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if case .edit(select: _) = issueListState, isSelectedRows() {
-            titleLabel.text = titleWhenEditing()
-            issueListState = .edit(select: .some)
-        }
-    }
-
-    private func titleWhenEditing() -> String {
-        "\(tableView.indexPathsForSelectedRows?.count ?? 0)개 선택"
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        titleLabel.text = titleWhenEditing()
-        if !isSelectedRows() {
-            issueListState = .edit(select: .none)
-        }
-    }
-
-    func isSelectedRows() -> Bool {
-        !(tableView.indexPathsForSelectedRows?.isEmpty ?? true)
-    }
-
 }
