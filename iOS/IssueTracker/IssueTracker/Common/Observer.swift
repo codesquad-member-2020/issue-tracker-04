@@ -1,11 +1,11 @@
 import Foundation
 
-struct Observation {
-    weak var observer: Observer?
-}
-
 protocol Observer: class {
     func ObservingObjectDidUpdate()
+}
+
+struct Observation {
+    weak var observer: Observer?
 }
 
 protocol Observable: class {

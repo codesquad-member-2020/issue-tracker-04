@@ -1,11 +1,15 @@
 import Foundation
 
 class IssueModelController: Observable {
+    // MARK: - Observable
+
     private(set) var issue: Issue {
         didSet { notifyObservers() }
     }
 
     var observations = [ObjectIdentifier: Observation]()
+
+    // MARK: - Init
 
     init(_ issue: Issue) {
         self.issue = issue
@@ -14,16 +18,13 @@ class IssueModelController: Observable {
     func update(issue: Issue) {
         self.issue = issue
     }
-
-    func makeNewIssue(_ partial: PartialIssue) -> Issue {
-        return makeFakeIssue(partial)
-    }
 }
 
 extension IssueModelController {
-    func makeFakeIssue(_ partial: PartialIssue) -> Issue {
+    static func makeWithFakeIssue() -> IssueModelController {
         let user = User(id: FakeID.userId, name: "Foo")
-        return Issue(id: FakeID.make(), title: partial.title, body: partial.body, owner: user)
+        let issue = Issue(id: FakeID.make(), title: "Fake Title", owner: user)
+
+        return .init(issue)
     }
 }
-

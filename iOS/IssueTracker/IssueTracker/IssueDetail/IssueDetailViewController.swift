@@ -15,7 +15,7 @@ class IssueDetailViewController: UIViewController {
 
     var issueInfoViewController: IssueInfoViewController!
 
-    var nextState:IssueInfoState {
+    var nextState: IssueInfoState {
         issueInfoVisible ? .collapsed : .expanded
     }
 

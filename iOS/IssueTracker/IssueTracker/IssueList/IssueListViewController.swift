@@ -27,7 +27,7 @@ class IssueListViewController: UIViewController {
     private let defaultTitle = "Issue"
 
     let delegate = IssueListTableViewDelegate()
-    private let issueListModelController = IssueListModelController(.createFakeData())
+    private let issueListModelController = IssueListModelController.createWithFakeData()
     private var dataSource: IssueListDataSource = .init()
 
     var issueListState: IssueListState = .normal {
