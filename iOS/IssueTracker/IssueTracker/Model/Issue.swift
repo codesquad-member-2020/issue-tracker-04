@@ -9,8 +9,7 @@ struct Issue {
     var assignees: UserCollection = .init()
     var status: Status = .open
 
-    func addComment(_ comment: Comment) {
-    }
+    func addComment(_ comment: Comment) { }
 }
 
 extension Issue {
@@ -19,11 +18,7 @@ extension Issue {
     }
 }
 
-extension Issue: Equatable {
-    static func == (lhs: Issue, rhs: Issue) -> Bool {
-        return lhs.id == rhs.id
-    }
-}
+extension Issue: Hashable { }
 
 struct PartialIssue {
     let title: String

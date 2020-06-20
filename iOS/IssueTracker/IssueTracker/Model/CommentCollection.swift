@@ -38,3 +38,5 @@ extension CommentCollection: ExpressibleByArrayLiteral {
     }
 
 }
+
+extension CommentCollection: Hashable { }

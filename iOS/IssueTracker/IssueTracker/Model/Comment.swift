@@ -8,3 +8,4 @@ struct Comment {
 
 typealias ID = Int
 
+extension Comment: Hashable { }
