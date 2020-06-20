@@ -15,7 +15,7 @@ protocol IssueStateDelegate: class {
 
 enum IssueInfoState {
     case expanded
-    case collpased
+    case collapsed
 }
 
 class IssueListViewController: UIViewController {
@@ -160,6 +160,4 @@ extension IssueListViewController: IssueStateDelegate {
     func stateDidChange(to state: IssueListState) {
         self.issueListState = state
     }
-    
-    
 }

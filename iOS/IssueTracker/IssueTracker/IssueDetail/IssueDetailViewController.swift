@@ -4,7 +4,7 @@ class IssueDetailViewController: UIViewController {
     
     enum IssueInfoState {
         case expanded
-        case collpased
+        case collapsed
     }
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -13,14 +13,14 @@ class IssueDetailViewController: UIViewController {
     
     var issue: Issue
     var issueInfoViewController: IssueInfoViewController!
-    var handleAreaHeight:CGFloat {self.view.frame.height * 0.2}
+    var handleAreaHeight: CGFloat {self.view.frame.height * 0.2}
     var issueInfoVisible = false
     var visualEffectView: UIVisualEffectView!
-    var issueInfoViewHeight:CGFloat  {
+    var issueInfoViewHeight: CGFloat  {
         self.view.frame.height * 0.8
     }
     var nextState:IssueInfoState {
-        issueInfoVisible ? .collpased : .expanded
+        issueInfoVisible ? .collapsed : .expanded
     }
     
     
@@ -39,11 +39,11 @@ class IssueDetailViewController: UIViewController {
         titleLabel.text = issue.title
         bodyView.text = issue.body
         ownerLabel.text = String(describing: issue.owner)
-        setupButtomIssueInfoView()
+        setupButtonIssueInfoView()
         
     }
     
-    func setupButtomIssueInfoView() {
+    func setupButtonIssueInfoView() {
         setupVisualEffectView()
         setupIssueInfoView()
         
@@ -94,14 +94,14 @@ class IssueDetailViewController: UIViewController {
         let cardMoveUpAnimation = UIViewPropertyAnimator(duration: duration, curve: .linear) { [weak self] in
             guard let `self` = self else  { return }
             switch state {
-            case .collpased:
+            case .collapsed:
                 self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.handleAreaHeight
             case .expanded:
                 self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
             }
         }
         cardMoveUpAnimation.addCompletion { [weak self] _ in
-            self?.issueInfoVisible =  state ==  .collpased ? false : true
+            self?.issueInfoVisible =  state ==  .collapsed ? false : true
         }
         cardMoveUpAnimation.startAnimation()
         
@@ -115,7 +115,7 @@ class IssueDetailViewController: UIViewController {
             case .expanded:
                 self?.visualEffectView.effect = UIBlurEffect(style: .dark)
                 
-            case .collpased:
+            case .collapsed:
                 self?.visualEffectView.effect =  nil
             }
         }

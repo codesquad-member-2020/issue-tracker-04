@@ -147,7 +147,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNK-Zc-9cd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="FNo-bo-tQG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="169" y="336"/>
+            <point key="canvasLocation" x="1900" y="-447"/>
         </scene>
         <!--Issue List View Controller-->
         <scene sceneID="eSg-V6-B2u">
