@@ -11,8 +11,12 @@ struct IssueCollection {
         items.append(issue)
     }
 
-    mutating func insert(contentsOf issueList: Self, at row: Int) {
+    mutating func insert(contentsOf issueList: Self, at row: Index) {
         items.insert(contentsOf: issueList, at: row)
+    }
+
+    mutating func insert(newElement issue: Issue, at i: Index) {
+        items.insert(issue, at: i)
     }
 
     mutating func remove(at index: Index) {

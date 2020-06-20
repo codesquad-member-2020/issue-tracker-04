@@ -11,6 +11,7 @@ class IssueDetailViewController: UIViewController {
     @IBOutlet weak var issueDetailView: IssueDetailView!
 
     private let issueModelController: IssueModelController
+    var issue: Issue { issueModelController.issue }
 
     var issueInfoViewController: IssueInfoViewController!
 

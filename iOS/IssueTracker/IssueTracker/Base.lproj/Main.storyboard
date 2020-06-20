@@ -55,6 +55,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="NkC-mg-wyw">
+                        <barButtonItem key="leftBarButtonItem" title="back" image="chevron.left" catalog="system" id="rh2-UH-SOp">
+                            <connections>
+                                <segue destination="ooR-6Q-ykr" kind="unwind" unwindAction="backFromDetailWithUnwindSegue:" id="Vqe-qL-f2l"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="usC-g3-rFv">
                             <connections>
                                 <segue destination="QLA-dI-SMY" kind="showDetail" destinationCreationSelector="showEditIssueWithCoder:" id="uqC-4B-hLk"/>
@@ -66,6 +71,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="ooR-6Q-ykr" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2481" y="-1163"/>
         </scene>
@@ -197,7 +203,7 @@
                                         <connections>
                                             <outlet property="detailLabel" destination="ISi-i1-PHl" id="Y1w-Rv-ydy"/>
                                             <outlet property="titleLabel" destination="iuU-Eo-WD0" id="wHg-5K-B2Y"/>
-                                            <segue destination="BYZ-38-t0r" kind="show" destinationCreationSelector="showDetailWithCoder:sender:" id="ijE-aI-qwp"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" identifier="IssueDetailSegue" destinationCreationSelector="showDetailWithCoder:sender:" id="ijE-aI-qwp"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -269,9 +275,10 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="urR-VM-l5m"/>
+        <segue reference="uqC-4B-hLk"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>

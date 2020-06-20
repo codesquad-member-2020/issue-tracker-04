@@ -16,8 +16,18 @@ class IssueListModelController: Observable {
     }
 
     func updateIssue(with newIssue: Issue) {
-        guard let index = issueCollection.firstIndex(where: { $0 == newIssue }) else { return }
+        guard let index = issueCollection.firstIndex(where: { $0.id == newIssue.id }) else { return }
+        
+        if issueCollection[index] != newIssue {
+            issueCollection[index] = newIssue
+        }
+    }
 
-        issueCollection[index] = newIssue
+    func addPartialIssue(_ partial: PartialIssue) {
+        let user = User(id: FakeID.userId, name: "Foo")
+        let issue = Issue(id: FakeID.make(), title: partial.title, body: partial.body,
+                          owner: user)
+        issueCollection.insert(newElement: issue, at: 0)
     }
 }
+

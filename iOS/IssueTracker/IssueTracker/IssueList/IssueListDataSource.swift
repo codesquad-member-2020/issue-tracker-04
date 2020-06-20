@@ -24,6 +24,10 @@ class IssueListDataSource: NSObject {
     func issue(at index: Int) -> Issue {
         return issueList[index]
     }
+
+    func updateList(_ issueList: IssueCollection) {
+        self.issueList = issueList
+    }
 }
 
 extension IssueListDataSource: UITableViewDataSource {
