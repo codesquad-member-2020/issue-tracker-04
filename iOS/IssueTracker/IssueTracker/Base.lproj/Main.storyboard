@@ -15,51 +15,59 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DEq-uW-hxQ">
-                                <rect key="frame" x="20" y="153" width="339" height="21"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tya-f0-XsJ" customClass="IssueDetailView" customModule="IssueTracker" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="133" width="379" height="299"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RPr-rF-okU">
-                                <rect key="frame" x="20" y="208" width="339" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nw-Xg-hLa">
+                                        <rect key="frame" x="20" y="258" width="339" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RPr-rF-okU">
+                                        <rect key="frame" x="20" y="75" width="339" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DEq-uW-hxQ">
+                                        <rect key="frame" x="20" y="20" width="339" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Author Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3nw-Xg-hLa">
-                                <rect key="frame" x="20" y="391" width="339" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZYp-jo-UqQ">
-                                <rect key="frame" x="321" y="20" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Edit"/>
                                 <connections>
-                                    <segue destination="QLA-dI-SMY" kind="show" destinationCreationSelector="showEditIssueWithCoder:" id="Joi-vM-t2l"/>
+                                    <outlet property="authorLabel" destination="3nw-Xg-hLa" id="mCN-bh-GNK"/>
+                                    <outlet property="bodyView" destination="RPr-rF-okU" id="XO4-WJ-LMD"/>
+                                    <outlet property="titleLabel" destination="DEq-uW-hxQ" id="G4A-zj-DSO"/>
                                 </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="NkC-mg-wyw"/>
+                    <navigationItem key="navigationItem" id="NkC-mg-wyw">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="usC-g3-rFv">
+                            <connections>
+                                <segue destination="QLA-dI-SMY" kind="showDetail" destinationCreationSelector="showEditIssueWithCoder:" id="uqC-4B-hLk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="bodyView" destination="RPr-rF-okU" id="PQc-AS-UqR"/>
-                        <outlet property="ownerLabel" destination="3nw-Xg-hLa" id="ccR-9k-e0d"/>
-                        <outlet property="titleLabel" destination="DEq-uW-hxQ" id="HnJ-r9-vJG"/>
+                        <outlet property="issueDetailView" destination="tya-f0-XsJ" id="yl9-lj-1t3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1074.4000000000001" y="-447.04433497536945"/>
+            <point key="canvasLocation" x="2481" y="-1163"/>
         </scene>
         <!--Issue Form View Controller-->
         <scene sceneID="sqK-Wx-tFl">
@@ -81,7 +89,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
-                                    <action selector="cancelTouched:" destination="QLA-dI-SMY" eventType="touchUpInside" id="WPG-0I-EKp"/>
+                                    <action selector="didTouchCancel:" destination="QLA-dI-SMY" eventType="touchUpInside" id="WPG-0I-EKp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Lz-MV-awf">
@@ -89,7 +97,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
-                                    <segue destination="FNo-bo-tQG" kind="unwind" identifier="CreatedSegue" unwindAction="newIssueDidCreated:" id="Qz5-9e-wvy"/>
+                                    <action selector="didTouchSave:" destination="QLA-dI-SMY" eventType="touchUpInside" id="rEh-Yj-2yF"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hwr-FN-k6n" customClass="IssueFormView" customModule="IssueTracker" customModuleProvider="target">
@@ -145,9 +153,8 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RNK-Zc-9cd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="FNo-bo-tQG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1900" y="-447"/>
+            <point key="canvasLocation" x="2481" y="-425"/>
         </scene>
         <!--Issue List View Controller-->
         <scene sceneID="eSg-V6-B2u">
@@ -190,7 +197,7 @@
                                         <connections>
                                             <outlet property="detailLabel" destination="ISi-i1-PHl" id="Y1w-Rv-ydy"/>
                                             <outlet property="titleLabel" destination="iuU-Eo-WD0" id="wHg-5K-B2Y"/>
-                                            <segue destination="BYZ-38-t0r" kind="show" destinationCreationSelector="showDetailWithCoder:sender:" id="lX8-TB-ZhA"/>
+                                            <segue destination="BYZ-38-t0r" kind="show" destinationCreationSelector="showDetailWithCoder:sender:" id="ijE-aI-qwp"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -211,7 +218,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <state key="normal" image="plus" catalog="system"/>
                                 <connections>
-                                    <segue destination="QLA-dI-SMY" kind="presentation" identifier="" id="uCt-3O-ftf"/>
+                                    <segue destination="QLA-dI-SMY" kind="showDetail" id="urR-VM-l5m"/>
                                 </connections>
                             </button>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XYl-Og-PSf">
@@ -240,7 +247,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EMR-Tc-Np1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="-1163.0541871921182"/>
+            <point key="canvasLocation" x="1706" y="-1163"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BIX-0t-0Wf">
@@ -258,11 +265,11 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3rs-cM-E6Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="677.60000000000002" y="-1163.0541871921182"/>
+            <point key="canvasLocation" x="940" y="-1163"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uCt-3O-ftf"/>
+        <segue reference="urR-VM-l5m"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="plus" catalog="system" width="128" height="113"/>

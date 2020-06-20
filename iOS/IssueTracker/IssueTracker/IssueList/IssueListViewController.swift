@@ -19,22 +19,135 @@ enum IssueInfoState {
 }
 
 class IssueListViewController: UIViewController {
-
     // MARK: - Property
 
     @IBOutlet weak var tableView: IssueListTableView!
     @IBOutlet weak var titleLabel: UILabel!
-    let delegate = IssueListTableViewDelegate()
-    private var dataSource: IssueListDataSource = .init()
+
     private let defaultTitle = "Issue"
+
+    let delegate = IssueListTableViewDelegate()
+    private let issueListModelController = IssueListModelController(.createFakeData())
+    private var dataSource: IssueListDataSource = .init()
+
     var issueListState: IssueListState = .normal {
         didSet {
-            let group = makeButtonGroup(issueListState)
-            setupBarButtons(group: group)
+            updateIssueListState()
         }
     }
 
-    func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
+    // MARK: - View Cycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        updateIssueListState()
+        setupTableView()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+
+    // MARK: - Setup Views
+
+    private func updateIssueListState() {
+        let group = makeButtonGroup(issueListState)
+        setupBarButtons(group: group)
+        setupTableView()
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.issueStateDelegate = self
+    }
+    
+    private func setupTableView() {
+        let issueList = issueListModelController.issueCollection
+        dataSource = IssueListDataSource(issueList)
+
+        tableView.dataSource = dataSource
+        tableView.delegate = delegate
+    }
+
+    // MARK: - Navigation
+
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        return issueListState == .normal
+    }
+
+    @IBAction func newIssueDidCreated(_ unwindSegue: UIStoryboardSegue) {
+        //        guard let viewController = unwindSegue.source as? IssueFormViewController,
+        //            let issue = viewController.issue else { return }
+
+        //        dataSource.add(issue: issue)
+        tableView.reloadData()
+    }
+
+    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
+
+        let issue = dataSource.issue(at: indexPath.row)
+        return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
+    }
+
+    // MARK: - Selector Method
+    @objc private func didCancelButtonPressed() {
+        changeState(to: .normal)
+        titleLabel.text = defaultTitle
+    }
+
+    @objc private func didEditButtonPressed() {
+        changeState(to: .edit(select: .none))
+    }
+
+    // TODO: present view to select filtering options.
+    @objc private func didFilterButtonPressed() {
+
+    }
+
+    @objc private func didSelectAllButtonPressed() {
+        tableView.selectAllRowsWhenEdit()
+        issueListState = .edit(select: .some)
+    }
+
+    @objc private func didDeselectAllButtonPressed() {
+        tableView.deselectAllRowsWhenSelected()
+
+    }
+
+    @objc private func didCloseButtonPressed() {
+        tableView.closeIssuesWhenSelected()
+        changeState(to: .normal)
+    }
+
+    // MARK: - Manage State
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: true)
+    }
+
+    private func setupBarButtons(group: BarButtonGroup) {
+        navigationItem.leftBarButtonItem = group.left
+        navigationItem.rightBarButtonItem = group.right
+
+        toolbarItems = group.bottom
+    }
+
+    func changeState(to state: IssueListState) {
+        switch state {
+        case .normal:
+            isEditing = false
+            issueListState = .normal
+        case .edit(select: _):
+            isEditing = true
+            issueListState = .edit(select: .none)
+        }
+    }
+
+    private func makeButtonGroup(_ state: IssueListState) -> BarButtonGroup {
         var group: BarButtonGroup
         switch state {
         case .normal:
@@ -56,102 +169,6 @@ class IssueListViewController: UIViewController {
         }
 
         return group
-    }
-
-    func setupBarButtons(group: BarButtonGroup) {
-        navigationItem.leftBarButtonItem = group.left
-        navigationItem.rightBarButtonItem = group.right
-
-        toolbarItems = group.bottom
-
-    }
-
-    // MARK: - View Cycle
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        let group = makeButtonGroup(issueListState)
-        setupBarButtons(group: group)
-        setupTableView()
-        tableView.allowsMultipleSelectionDuringEditing = true
-        tableView.issueStateDelegate = self
-    }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        return issueListState == .normal
-    }
-    
-    private func setupTableView() {
-        let user = User(id: 1, name: "모오오오스")
-        let issueList: IssueCollection = [Issue(id: 1, title: "title1", body: nil, owner: user),Issue(id: 2, title: "title2", body: "Something", owner: user),Issue(id: 3, title: "title3", body: "Special", owner: user)]
-        
-        dataSource = IssueListDataSource(issueList)
-        tableView.dataSource = dataSource
-        tableView.delegate = delegate
-    }
-
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        tableView.setEditing(editing, animated: true)
-    }
-
-    func changeState(to state: IssueListState) {
-        switch state {
-        case .normal:
-            isEditing = false
-            issueListState = .normal
-        case .edit(select: _):
-            isEditing = true
-            issueListState = .edit(select: .none)
-        }
-    }
-    
-    // MARK: - Selector Method
-    @objc private func didCancelButtonPressed() {
-        changeState(to: .normal)
-        titleLabel.text = defaultTitle
-    }
-    
-    @objc private func didEditButtonPressed() {
-        changeState(to: .edit(select: .none))
-    }
-    
-    // TODO: present view to select filtering options.
-    @objc private func didFilterButtonPressed() {
-        
-    }
-
-    @objc private func didSelectAllButtonPressed() {
-        tableView.selectAllRowsWhenEdit()
-        issueListState = .edit(select: .some)
-    }
-
-    @objc private func didDeselectAllButtonPressed() {
-        tableView.deselectAllRowsWhenSelected()
-
-    }
-
-    @objc private func didCloseButtonPressed() {
-        tableView.closeIssuesWhenSelected()
-        changeState(to: .normal)
-    }
-    
-    // MARK: - Navigation
-
-    @IBAction func newIssueDidCreated(_ segue: UIStoryboardSegue) {
-        guard let viewController = segue.source as? IssueFormViewController,
-            let issue = viewController.issue else { return }
-
-        dataSource.add(issue: issue)
-        tableView.reloadData()
-    }
-
-    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
-
-        let issue = dataSource.issue(at: indexPath.row)
-        return IssueDetailViewController(coder: coder, issue: issue)
     }
 
 }

@@ -30,8 +30,7 @@ class IssueStateController {
     }
     
     var commentedIssues: IssueCollection {
-        return openIssues
-            .filter{$0.comments.contains(author: user)}
+        return openIssues.filter{$0.comments.contains(author: user)}
     }
 
 }

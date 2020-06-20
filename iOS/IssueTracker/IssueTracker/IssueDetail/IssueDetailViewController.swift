@@ -1,46 +1,54 @@
 import UIKit
 
 class IssueDetailViewController: UIViewController {
-    
     enum IssueInfoState {
         case expanded
         case collapsed
     }
-    
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var bodyView: UITextView!
-    @IBOutlet weak var ownerLabel: UILabel!
-    
-    var issue: Issue
+
+    // MARK: - Property
+
+    @IBOutlet weak var issueDetailView: IssueDetailView!
+
+    private let issueModelController: IssueModelController
+
     var issueInfoViewController: IssueInfoViewController!
+
+    var nextState:IssueInfoState {
+        issueInfoVisible ? .collapsed : .expanded
+    }
+
     var handleAreaHeight: CGFloat {self.view.frame.height * 0.2}
     var issueInfoVisible = false
     var visualEffectView: UIVisualEffectView!
     var issueInfoViewHeight: CGFloat  {
         self.view.frame.height * 0.8
     }
-    var nextState:IssueInfoState {
-        issueInfoVisible ? .collapsed : .expanded
-    }
-    
-    
-    init?(coder: NSCoder, issue: Issue) {
-        self.issue = issue
+
+    init?(coder: NSCoder, issueModelController: IssueModelController) {
+        self.issueModelController = issueModelController
         super.init(coder: coder)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    // MARK: - View Cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        titleLabel.text = issue.title
-        bodyView.text = issue.body
-        ownerLabel.text = String(describing: issue.owner)
+
         setupButtonIssueInfoView()
-        
+        issueModelController.add(observer: self)
+        configureView()
+    }
+
+    // MARK: - Setup
+
+    private func configureView() {
+        let configurator = IssueDetailViewConfigurator()
+        configurator.configure(issueDetailView, with: issueModelController.issue)
     }
     
     func setupButtonIssueInfoView() {
@@ -124,10 +132,29 @@ class IssueDetailViewController: UIViewController {
     
     
     // MARK: - Navigation
-    
-    @IBSegueAction
-    private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
-        return IssueFormViewController(coder: coder, issue: issue)
+
+    @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
+        IssueFormViewController(coder: coder, state: .edit(issue: issueModelController.issue), delegate: self)
     }
     
+}
+
+class IssueDetailViewConfigurator {
+    func configure(_ view: IssueDetailView, with issue: Issue) {
+        view.titleLabel.text = issue.title
+        view.bodyView.text = issue.body
+        view.authorLabel.text = String(describing: issue.owner)
+    }
+}
+
+extension IssueDetailViewController: IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidEdit(issue: Issue) {
+        issueModelController.update(issue: issue)
+    }
+}
+
+extension IssueDetailViewController: IssueModelControllerObserver {
+    func issueModelControllerDidUpdate(_ controller: IssueModelController) {
+        configureView()
+    }
 }
