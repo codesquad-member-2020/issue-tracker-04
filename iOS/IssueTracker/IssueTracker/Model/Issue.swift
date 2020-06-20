@@ -24,3 +24,10 @@ struct PartialIssue {
     let title: String
     let body: String
 }
+
+struct BriefIssue {
+    let id: ID
+    let title: String
+    let body: String?
+    var status: Issue.Status = .open
+}

@@ -3,18 +3,6 @@ import XCTest
 
 class IssueTrackerTests: XCTestCase {
         
-    func testViewController() {
-        let viewController = viewControllerDidLoadView(identifier: "IssueDetailViewController") as! IssueDetailViewController
-
-        let issue: Issue = .init(id: 1, title: "첫 번째 이슈 테스트", body: "이슈 한 바퀴 \n이슈 목록 만들기", owner: User(id: 1, name: "Jane Doe"))
-        viewController.issue = issue
-
-        viewController.loadView()
-        viewController.viewDidLoad()
-        XCTAssertNotNil(viewController.titleLabel)
-        XCTAssertEqual(viewController.titleLabel.text, issue.title)
-    }
-    
     func testConfigureIssueListDataSource() {
         // given
         let user = User(id: 1, name: "모오오오스")
@@ -81,16 +69,4 @@ class IssueTrackerTests: XCTestCase {
         XCTAssertEqual(issues.filter(comment: user).count,1)
     }
     
-}
- 
-private extension IssueTrackerTests {
-    func viewControllerDidLoadView(identifier: String) -> UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = storyboard.instantiateViewController(identifier: identifier)
-
-        viewController.loadView()
-        viewController.viewDidLoad()
-
-        return viewController
-    }
 }

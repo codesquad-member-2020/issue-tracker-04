@@ -1,6 +1,8 @@
 import Foundation
 
 class IssueListModelController: Observable {
+    let user = User(id: FakeID.userId, name: "Foo")
+
     private(set) var issueCollection: IssueCollection {
         didSet { notifyObservers() }
     }
@@ -15,19 +17,30 @@ class IssueListModelController: Observable {
         issueCollection.first { $0.id == id }
     }
 
+    func findIndex(by issueId: ID) -> IssueCollection.Index? {
+        issueCollection.firstIndex { $0.id == issueId }
+    }
+
     func updateIssue(with newIssue: Issue) {
-        guard let index = issueCollection.firstIndex(where: { $0.id == newIssue.id }) else { return }
-        
+        guard let index = findIndex(by: newIssue.id) else { return }
+
         if issueCollection[index] != newIssue {
             issueCollection[index] = newIssue
         }
     }
 
     func addPartialIssue(_ partial: PartialIssue) {
-        let user = User(id: FakeID.userId, name: "Foo")
         let issue = Issue(id: FakeID.make(), title: partial.title, body: partial.body,
                           owner: user)
         issueCollection.insert(newElement: issue, at: 0)
+    }
+
+    func convertToBriefIssue(from detail: Issue) -> BriefIssue {
+        return BriefIssue(id: detail.id, title: detail.title, body: detail.body)
+    }
+
+    func convertToDetailIssue(from brief: BriefIssue) -> Issue {
+        return Issue(id: brief.id, title: brief.title, body: brief.body, owner: user)
     }
 }
 
