@@ -1,39 +1,48 @@
 package com.codesquad.issue04.web.controller;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.service.JwtService;
+import com.codesquad.issue04.service.LoginService;
+import com.codesquad.issue04.service.UserService;
+import com.codesquad.issue04.web.oauth.Github;
+import com.codesquad.issue04.web.oauth.GithubUser;
+import com.codesquad.issue04.web.oauth.Oauth;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
 
+    private final LoginService loginService;
     private final JwtService jwtService;
+    private final UserService userService;
 
-    @GetMapping("/api/authorization")
-    public ResponseEntity<HttpStatus> login(HttpServletResponse response,
-            @AuthenticationPrincipal OAuth2User oAuth2User) {
+    private final Integer EXPIRE_TIME = 60*60*6;
 
-        String userId = oAuth2User.getAttribute("login");
-        String jwt = jwtService.createJwt(userId);
+    @GetMapping("/callback")
+    public ResponseEntity<HttpStatus> oauthCallback(@Param("code") String code, HttpServletResponse response) {
+        Github github = loginService.requestAccessToken(code);
+        log.info("Github AccessToken, TokenType, Scope Data : {}", github);
+        GithubUser githubUser = loginService.requestUserInfo(github.getAccessToken());
+        log.info("Github UserId : {}", githubUser);
 
-        Cookie cookie = new Cookie("userId", userId);
-        cookie.setMaxAge(60*60*6);
+        userService.save(githubUser);
+        String jwt = jwtService.createJwt(githubUser.getUserId());
+
+        Cookie cookie = new Cookie(String.valueOf(Oauth.USER_ID), githubUser.getUserId());
+        cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
-        response.setHeader("Location", "token:" + jwt);
-
-        return new ResponseEntity<>(HttpStatus.FOUND);
+        response.setHeader(String.valueOf(Oauth.HEADER_LOCATION), String.valueOf(Oauth.MOBILE_REDIRECT_URL) + jwt);
+        return new ResponseEntity(HttpStatus.FOUND);
     }
 }

@@ -1,17 +1,8 @@
 ## security 설정
-#github:
-#  accessTokenUrl: https://github.com/login/oauth/access_token
-#  clientId : bdd909bfff2137535182
-#  clientSecret : 5de5688e0541838556d68954769ed7990ec54fac
-#  redirectUrl : http://localhost:8080/login/oauth2/code/github
-#  userEmailRequestUrl : https://api.github.com/user/emails
+github:
+  accessTokenUrl: https://github.com/login/oauth/access_token
+  clientId : bdd909bfff2137535182
+  clientSecret : 5de5688e0541838556d68954769ed7990ec54fac
+  redirectUrl : http://localhost:8080/callback
+  userEmailRequestUrl : https://api.github.com/user
 
-spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: bdd909bfff2137535182
-            client-secret: 5de5688e0541838556d68954769ed7990ec54fac
-            scope: profile,email

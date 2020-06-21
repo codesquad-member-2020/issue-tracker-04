@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.NullUser;
@@ -11,6 +12,7 @@ import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
 import com.codesquad.issue04.web.dto.response.user.AllAuthorsResponseDto;
 import com.codesquad.issue04.web.dto.response.user.AuthorDto;
+import com.codesquad.issue04.web.oauth.GithubUser;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -51,5 +53,13 @@ public class UserService {
         return users.stream()
             .filter(RealUser::hasAssignedIssues)
             .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void save(GithubUser githubUser) {
+        RealUser user = userRepository.findByGithubId(githubUser.getUserId()).orElse(NullUser.of());
+        if (user.isNil()) {
+            userRepository.save(RealUser.of(githubUser));
+        }
     }
 }

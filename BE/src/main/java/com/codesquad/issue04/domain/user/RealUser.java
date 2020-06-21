@@ -1,6 +1,7 @@
 package com.codesquad.issue04.domain.user;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.web.oauth.GithubUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -57,9 +59,15 @@ public class RealUser implements Serializable, AbstractUser {
     )
     protected List<Issue> assignedIssues;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role_key")
-    private Role role;
+    public static RealUser of(GithubUser githubUser) {
+        return RealUser.builder()
+            .githubId(githubUser.getUserId())
+            .name(githubUser.getName())
+            .image(githubUser.getImage())
+            .assignedIssues(Collections.emptyList())
+            .ownedIssues(Collections.emptyList())
+            .build();
+    }
 
     public RealUser update(String name, String picture) {
         this.name = name;

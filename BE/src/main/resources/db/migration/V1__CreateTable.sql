@@ -7,15 +7,13 @@ DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS issue;
 DROP TABLE IF EXISTS milestone;
 DROP TABLE IF EXISTS user;
-DROP TABLE IF EXISTS role;
 
 CREATE TABLE IF NOT EXISTS user
 (
     id        INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name      VARCHAR(45)                    NULL,
     github_id VARCHAR(45)                    NULL,
-    image     VARCHAR(500)                   NULL,
-    role_key  VARCHAR(500)                   NULL
+    image     VARCHAR(500)                   NULL
 );
 
 CREATE TABLE IF NOT EXISTS milestone
@@ -84,11 +82,4 @@ CREATE TABLE IF NOT EXISTS label_has_issue
     id       INT PRIMARY KEY AUTO_INCREMENT,
     label_id INT NOT NULL,
     issue_id INT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS role
-(
-    role_key VARCHAR(45) NULL,
-    user_id  INT         NOT NULL,
-    CONSTRAINT fk_role_user1 FOREIGN KEY (user_id) REFERENCES user (id)
 );
