@@ -24,7 +24,7 @@ public class UserControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
-    @DisplayName("작성자 전체를 요청하는 API")
+    @DisplayName("작성자 전체를 응답하는 테스트")
     @Test
     void 작성자_전체를_응답한다() {
         String url = "http://localhost:" + port + "/api/v1/allAuthors";
@@ -40,7 +40,7 @@ public class UserControllerTest {
                 assertThat(response.getResponseBody().getAllData().get(0).getGithubId()).isEqualTo("guswns1659"));
     }
 
-    @DisplayName("할당된 이슈가 있는 담당자를 가져오는 API")
+    @DisplayName("할당된 이슈가 있는 담당자를 응답하는 테스트")
     @Test
     void 담당자_전체를_응답한다() {
         String url = "http://localhost:" + port + "/api/v1/allAssignees";

@@ -1,6 +1,7 @@
 package com.codesquad.issue04.web.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.service.UserService;
@@ -10,16 +11,17 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api")
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("api/v1/allAuthors")
+    @GetMapping("v1/allAuthors")
     public AllAuthorsResponseDto getAllAuthors() {
         return userService.getAllAuthors();
     }
 
-    @GetMapping("api/v1/allAssignees")
+    @GetMapping("v1/allAssignees")
     public AllAssigneeResponseDto getAllAssignee() {
         return userService.getAllAssignee();
     }
