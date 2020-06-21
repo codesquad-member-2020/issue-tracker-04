@@ -28,14 +28,13 @@ import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.utils.BaseTimeEntity;
+import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @ToString(exclude = {"comments", "assignees"})
 @Entity
@@ -120,5 +119,12 @@ public class Issue extends BaseTimeEntity {
 		newCommentList.add(comment);
 		this.comments = newCommentList;
 		return comment;
+	}
+
+	public Issue updateIssue(IssueUpdateRequestDto dto) {
+		if (! dto.getTitle().equals(this.title)) {
+			this.title = dto.getTitle();
+		}
+		return this;
 	}
 }

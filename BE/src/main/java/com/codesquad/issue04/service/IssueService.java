@@ -11,7 +11,8 @@ import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.UserRepository;
-import com.codesquad.issue04.web.dto.request.IssueCreateUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
@@ -79,7 +80,7 @@ public class IssueService {
 	}
 
 	@Transactional
-	public IssueDetailResponseDto createNewIssue(IssueCreateUpdateRequestDto dto) {
+	public IssueDetailResponseDto createNewIssue(IssueCreateRequestDto dto) {
 		Issue newIssue = Issue.builder()
 			.title(dto.getTitle())
 			.build();
@@ -101,5 +102,12 @@ public class IssueService {
 		return IssueDetailResponseDto.builder()
 			.issue(latestIssue)
 			.build();
+	}
+
+	@Transactional
+	public IssueDetailResponseDto updateExistingIssue(IssueUpdateRequestDto dto) {
+		Issue issue = findIssueById(dto.getId());
+		issue.updateIssue(dto);
+		return IssueDetailResponseDto.of(issue);
 	}
 }
