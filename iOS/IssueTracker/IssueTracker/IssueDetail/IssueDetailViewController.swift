@@ -60,26 +60,19 @@ class IssueDetailViewController: UIViewController {
         self.addChild(issueInfoViewController)
         self.view.addSubview(issueInfoViewController.view)
         issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
-        issueInfoViewController.view.clipsToBounds = true
-        
-        issueInfoViewController.view.layer.cornerRadius = 15
-        
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(gestureStarted))
-        issueInfoViewController.handlerArea.addGestureRecognizer(panGestureRecognizer)
-        
-        issueInfoViewController.moveBeforeCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
-        issueInfoViewController.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
     }
     
     // MARK: - Selector
     
     @objc func moveToPreviousComment() {
-        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        print(#function)
+        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 1, section: 0)
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
     
     @objc func moveToNextComment() {
-        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        print(#function)
+        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
     

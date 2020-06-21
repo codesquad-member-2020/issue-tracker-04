@@ -1,11 +1,3 @@
-//
-//  IssueInfoViewController.swift
-//  IssueTracker
-//
-//  Created by Keunna Lee on 2020/06/19.
-//  Copyright © 2020 Codesquad. All rights reserved.
-//
-
 import UIKit
 
 class IssueInfoViewController: UIViewController {
@@ -18,7 +10,16 @@ class IssueInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        setupIssueInfoView()
+    }
+    
+    private func setupIssueInfoView() {
+        self.view.clipsToBounds = true
+        
+        self.view.layer.cornerRadius = 15
+        
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(IssueDetailViewController.gestureStarted))
+        self.handlerArea.addGestureRecognizer(panGestureRecognizer)
     }
 
 }
