@@ -1,11 +1,13 @@
 package com.codesquad.issue04.domain.issue;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,6 +27,7 @@ import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.utils.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,17 +39,18 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString(exclude = {"comments", "assignees"})
 @Entity
-public class Issue {
+public class Issue extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false, unique = true)
 	private Long id;
 	private String title;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.REMOVE)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "label_has_issue",
 		joinColumns = @JoinColumn(name = "issue_id"),
@@ -54,7 +58,7 @@ public class Issue {
 	)
 	private Set<Label> labels;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(
 		name = "assignee",
 		joinColumns = @JoinColumn(name = "issue_id"),
@@ -62,11 +66,11 @@ public class Issue {
 	)
 	private List<RealUser> assignees;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
 	private Milestone milestone;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
 
@@ -109,5 +113,12 @@ public class Issue {
 		Status closedStatus = Status.CLOSED;
 		this.status = closedStatus;
 		return closedStatus;
+	}
+
+	public Comment addComment(Comment comment) {
+		List<Comment> newCommentList = new ArrayList<>(this.comments);
+		newCommentList.add(comment);
+		this.comments = newCommentList;
+		return comment;
 	}
 }

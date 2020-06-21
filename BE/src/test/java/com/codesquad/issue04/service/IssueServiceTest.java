@@ -2,6 +2,7 @@ package com.codesquad.issue04.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
-import com.codesquad.issue04.domain.issue.Status;
+import com.codesquad.issue04.web.dto.request.IssueCreateUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
@@ -85,5 +86,25 @@ public class IssueServiceTest {
 
         assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
         assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
+    }
+
+    @Transactional
+    @DisplayName("새로운 이슈가 추가된다.")
+    @CsvSource({"test title, test comment, test_id"})
+    @ParameterizedTest
+    void 새로운_이슈_하나가_추가된다(String title, String comment, String githubId) {
+        List<String> photoUrls = Arrays.asList("naver.com", "yahoo.com", "google.com");
+        IssueCreateUpdateRequestDto dto = new IssueCreateUpdateRequestDto(title, comment, githubId, photoUrls);
+        issueService.createNewIssue(dto);
+
+        assertThat(issueService.findLatestIssue()).isInstanceOf(IssueDetailResponseDto.class);
+        assertThat(issueService.findLatestIssue().getTitle()).isEqualTo(title);
+    }
+
+    @Transactional
+    @DisplayName("기존의 이슈가 업데이트된다.")
+    @Test
+    void 기존의_이슈가_업데이트된다() {
+        //
     }
 }
