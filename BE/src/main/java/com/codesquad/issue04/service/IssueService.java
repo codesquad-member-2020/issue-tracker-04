@@ -110,8 +110,11 @@ public class IssueService {
 	}
 
 	@Transactional
-	public ResponseDto updateExistingIssue(IssueUpdateRequestDto dto) {
+	public ResponseDto updateExistingIssue(IssueUpdateRequestDto dto, RealUser user) {
 		Issue issue = findIssueById(dto.getId());
+		if (! validateUserPermission(issue, user)) {
+			return createErrorResponseDto();
+		}
 		issue.updateIssue(dto);
 		return IssueDetailResponseDto.of(issue);
 	}

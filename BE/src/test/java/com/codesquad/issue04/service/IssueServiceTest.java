@@ -19,6 +19,7 @@ import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
@@ -109,16 +110,20 @@ public class IssueServiceTest {
 
 	@Transactional
 	@DisplayName("기존의 이슈가 업데이트된다.")
-	@CsvSource({"1, updated title"})
+	@CsvSource({"1, updated title, guswns1659, jypthemiracle"})
 	@ParameterizedTest
-	void 기존의_이슈의_제목이_업데이트된다(Long id, String title) {
+	void 기존의_이슈의_제목이_업데이트된다(Long id, String title, String githubId, String notAuthorUserId) {
 		IssueUpdateRequestDto dto = new IssueUpdateRequestDto(id, title);
-		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.updateExistingIssue(dto);
+		RealUser user = userService.getUserByGitHubId(githubId);
+		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.updateExistingIssue(dto, user);
 
 		assertAll(
 			() -> assertThat(detailResponseDto.getTitle()).isEqualTo(title),
 			() -> assertThat(issueService.findIssueById(1L).getTitle()).isEqualTo(title)
 		);
+
+		RealUser notAuthorUser = userService.getUserByGitHubId(notAuthorUserId);
+		assertThat(issueService.updateExistingIssue(dto, notAuthorUser)).isInstanceOf(ErrorResponseDto.class);
 	}
 
 	@Transactional
