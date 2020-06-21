@@ -3,6 +3,7 @@ package com.codesquad.issue04.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,9 +11,13 @@ import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.user.NullUser;
+import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.codesquad.issue04.web.dto.response.ResponseDto;
+import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
@@ -105,9 +110,27 @@ public class IssueService {
 	}
 
 	@Transactional
-	public IssueDetailResponseDto updateExistingIssue(IssueUpdateRequestDto dto) {
+	public ResponseDto updateExistingIssue(IssueUpdateRequestDto dto) {
 		Issue issue = findIssueById(dto.getId());
 		issue.updateIssue(dto);
 		return IssueDetailResponseDto.of(issue);
+	}
+
+	@Transactional
+	public ResponseDto deleteExistingIssue(IssueDeleteRequestDto dto, RealUser user) {
+		Issue issue = findIssueById(dto.getId());
+		if (! validateUserPermission(issue, user)) {
+			return createErrorResponseDto();
+		}
+		issueRepository.delete(issue);
+		return IssueDetailResponseDto.of(issue);
+	}
+
+	private boolean validateUserPermission(Issue issue, RealUser user) {
+		return issue.getUser().equals(user);
+	}
+
+	private ErrorResponseDto createErrorResponseDto() {
+		return new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), new IllegalArgumentException("not allowed."));
 	}
 }

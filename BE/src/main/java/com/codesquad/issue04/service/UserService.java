@@ -45,4 +45,9 @@ public class UserService {
         return realUser.getAssignedIssues();
     }
 
+    public RealUser getUserByGitHubId(String githubId) {
+        return userRepository.findByGithubId(githubId)
+            .orElseThrow(() -> new IllegalArgumentException("no user found: " + githubId));
+    }
+
 }

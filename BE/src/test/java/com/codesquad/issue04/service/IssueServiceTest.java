@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
@@ -26,6 +27,9 @@ public class IssueServiceTest {
 
 	@Autowired
 	private IssueService issueService;
+
+	@Autowired
+	private UserService userService;
 
 	@Transactional
 	@DisplayName("이슈 하나를 테스트로 가져온다.")
@@ -109,11 +113,25 @@ public class IssueServiceTest {
 	@ParameterizedTest
 	void 기존의_이슈의_제목이_업데이트된다(Long id, String title) {
 		IssueUpdateRequestDto dto = new IssueUpdateRequestDto(id, title);
-		IssueDetailResponseDto detailResponseDto = issueService.updateExistingIssue(dto);
+		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.updateExistingIssue(dto);
 
 		assertAll(
 			() -> assertThat(detailResponseDto.getTitle()).isEqualTo(title),
 			() -> assertThat(issueService.findIssueById(1L).getTitle()).isEqualTo(title)
+		);
+	}
+
+	@Transactional
+	@DisplayName("기존의 이슈를 삭제한다. 이 때 사용자를 비교하여 자신의 이슈만 삭제할 수 있도록 한다.")
+	@CsvSource({"1, guswns1659"})
+	@ParameterizedTest
+	void 기존의_이슈를_삭제한다(Long id, String githubId) {
+		IssueDeleteRequestDto dto = new IssueDeleteRequestDto(id);
+		RealUser user = userService.getUserByGitHubId(githubId);
+		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.deleteExistingIssue(dto, user);
+		assertThat(detailResponseDto.getId()).isEqualTo(id);
+		assertThatThrownBy(
+			() -> issueService.findIssueById(id)
 		);
 	}
 }
