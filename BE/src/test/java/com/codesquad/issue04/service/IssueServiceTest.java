@@ -40,8 +40,8 @@ public class IssueServiceTest {
 		Issue issueById = issueService.findIssueById(1L);
 		assertThat(issueById).isInstanceOf(Issue.class);
 		assertThat(issueById.getTitle()).isEqualTo("SQL 작성");
-		assertThat(issueById.getComments().get(0).getContent()).isEqualTo("아하하 어렵네요.");
-		assertThat(issueById.getComments().get(0).getPhotos().size()).isGreaterThan(0);
+		assertThat(issueById.getIssueOverview().getContent()).isEqualTo("아하하 어렵네요.");
+		assertThat(issueById.getIssueOverview().getPhotos().size()).isGreaterThan(0);
 	}
 
 	@Transactional
@@ -49,7 +49,7 @@ public class IssueServiceTest {
 	@CsvSource({"1, 0, 1", "1, 1, 2"})
 	@ParameterizedTest
 	void 댓글_별로_이모지가_불러진다(Long issueId, int commentIndex, int expectedSize) {
-		assertThat(issueService.findIssueById(issueId).getComments().get(commentIndex).getEmojis().size())
+		assertThat(issueService.findIssueById(issueId).getCommentByIndex(commentIndex).getEmojis().size())
 			.isEqualTo(expectedSize);
 	}
 
