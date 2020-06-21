@@ -1,6 +1,12 @@
 INSERT INTO user (name, github_id, image, role_key)
 VALUES ('Jack', 'guswns1659',
-        'https://avatars3.githubusercontent.com/u/55608425?s=400&u=bb7394a04f87d003a70fe15c3d88cdc370171e5b&v=4', 'GUEST');
+        'https://avatars3.githubusercontent.com/u/55608425?s=400&u=bb7394a04f87d003a70fe15c3d88cdc370171e5b&v=4',
+        'GUEST');
+
+INSERT INTO user (name, github_id, image, role_key)
+VALUES ('Sigrid Jin', 'jypthemiracle',
+        'https://avatars3.githubusercontent.com/u/55608425?s=400&u=bb7394a04f87d003a70fe15c3d88cdc370171e5b&v=4',
+        'GUEST');
 
 INSERT INTO milestone (title, due_date, description)
 VALUES ('1차 배포', '2020-06-28', '1차 배포');

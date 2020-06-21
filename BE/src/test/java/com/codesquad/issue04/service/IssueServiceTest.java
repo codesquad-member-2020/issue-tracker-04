@@ -1,7 +1,9 @@
 package com.codesquad.issue04.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
-import com.codesquad.issue04.domain.issue.Status;
+import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 
@@ -23,6 +28,9 @@ public class IssueServiceTest {
 
     @Autowired
     private IssueService issueService;
+
+    @Autowired
+    private UserService userService;
 
     @Transactional
     @DisplayName("이슈 하나를 테스트로 가져온다.")
@@ -77,11 +85,58 @@ public class IssueServiceTest {
     }
 
     @Transactional
-    @DisplayName("할당된 이슈 전체를 가져온다.")
+    @DisplayName("이슈가 할당된 유저를 가져온다.")
     @Test
-    void 할당된_전체이슈를_가져온다() {
-        List<Issue> assignedIssues = issueService.getAllAssignedIssues();
-        assertThat(assignedIssues.get(0)).isInstanceOf(Issue.class);
-        assertThat(assignedIssues.get(0).getUser().getGithubId()).isEqualTo("guswns1659");
+    void 이슈가_할당된_유저를_가져온다() {
+        Long issueId = 1L;
+        Issue issue = issueService.findIssueById(issueId);
+
+        assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
+        assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
+    }
+
+    @Transactional
+    @DisplayName("새로운 이슈가 추가된다.")
+    @CsvSource({"test title, test comment, test_id"})
+    @ParameterizedTest
+    void 새로운_이슈_하나가_추가된다(String title, String comment, String githubId) {
+        List<String> photoUrls = Arrays.asList("codesquad.kr", "edu.nextstep.camp", "woowacourse.github.io");
+        IssueCreateRequestDto dto = new IssueCreateRequestDto(title, comment, githubId, photoUrls);
+        issueService.createNewIssue(dto);
+
+        assertThat(issueService.findLatestIssue()).isInstanceOf(IssueDetailResponseDto.class);
+        assertThat(issueService.findLatestIssue().getTitle()).isEqualTo(title);
+    }
+
+    @Transactional
+    @DisplayName("기존의 이슈가 업데이트된다.")
+    @CsvSource({"1, updated title, guswns1659, jypthemiracle"})
+    @ParameterizedTest
+    void 기존의_이슈의_제목이_업데이트된다(Long id, String title, String githubId, String notAuthorUserId) {
+        IssueUpdateRequestDto dto = new IssueUpdateRequestDto(id, title);
+        RealUser user = userService.getUserByGitHubId(githubId);
+        IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto)issueService.updateExistingIssue(dto, user);
+
+        assertAll(
+            () -> assertThat(detailResponseDto.getTitle()).isEqualTo(title),
+            () -> assertThat(issueService.findIssueById(1L).getTitle()).isEqualTo(title)
+        );
+
+        RealUser notAuthorUser = userService.getUserByGitHubId(notAuthorUserId);
+        assertThat(issueService.updateExistingIssue(dto, notAuthorUser)).isInstanceOf(ErrorResponseDto.class);
+    }
+
+    @Transactional
+    @DisplayName("기존의 이슈를 삭제한다. 이 때 사용자를 비교하여 자신의 이슈만 삭제할 수 있도록 한다.")
+    @CsvSource({"1, guswns1659"})
+    @ParameterizedTest
+    void 기존의_이슈를_삭제한다(Long id, String githubId) {
+        IssueDeleteRequestDto dto = new IssueDeleteRequestDto(id);
+        RealUser user = userService.getUserByGitHubId(githubId);
+        IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto)issueService.deleteExistingIssue(dto, user);
+        assertThat(detailResponseDto.getId()).isEqualTo(id);
+        assertThatThrownBy(
+            () -> issueService.findIssueById(id)
+        );
     }
 }

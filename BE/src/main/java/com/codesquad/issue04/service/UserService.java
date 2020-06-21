@@ -52,4 +52,9 @@ public class UserService {
             .map(AssigneeDto::of)
             .collect(Collectors.toList());
     }
+
+    public RealUser getUserByGitHubId(String githubId) {
+        return userRepository.findByGithubId(githubId)
+            .orElseThrow(() -> new IllegalArgumentException("no user found: " + githubId));
+    }
 }
