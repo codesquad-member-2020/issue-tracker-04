@@ -55,7 +55,6 @@ jobs:
       - name: Grant execute permission for gradlew
         run: |
           echo $(pwd)
-          cd /BE
           chmod +x gradlew
         shell: bash
         # 아래처럼 해당 run이 동작하는 디렉토리를 지정할 수 있다.
@@ -63,7 +62,6 @@ jobs:
         # Gradle을 활용해 배포한다.
       - name: Build with Gradle
         run: |
-          cd /BE
           ./gradlew build -x test
         shell: bash
 
@@ -72,7 +70,6 @@ jobs:
       - name: Make zip file
         run: |
           echo $(pwd)
-          cd /BE
           zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
       
