@@ -10,9 +10,10 @@ class IssueDetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyView: UITextView!
     @IBOutlet weak var ownerLabel: UILabel!
+    @IBOutlet weak var issueInfoView: UIView!
+    
     
     var issue: Issue
-    var issueInfoViewController: IssueInfoViewController!
     var handleAreaHeight:CGFloat {self.view.frame.height * 0.2}
     var issueInfoVisible = false
     var visualEffectView: UIVisualEffectView!
@@ -39,27 +40,14 @@ class IssueDetailViewController: UIViewController {
         titleLabel.text = issue.title
         bodyView.text = issue.body
         ownerLabel.text = String(describing: issue.owner)
-        setupButtomIssueInfoView()
-        
-    }
-    
-    func setupButtomIssueInfoView() {
         setupVisualEffectView()
-        setupIssueInfoView()
-        
     }
+
     private func setupVisualEffectView() {
         visualEffectView = UIVisualEffectView(frame: self.view.bounds) // 블러 화면
         self.view.addSubview(visualEffectView)
         
         visualEffectView.isHidden = true
-    }
-    
-    private func setupIssueInfoView() {
-        issueInfoViewController = IssueInfoViewController(nibName:"IssueInfoViewController",bundle:nil)
-        self.addChild(issueInfoViewController)
-        self.view.addSubview(issueInfoViewController.view)
-        issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
     }
     
     // MARK: - Selector
@@ -78,6 +66,7 @@ class IssueDetailViewController: UIViewController {
     
     @objc func gestureStarted(_ recognizer:UIPanGestureRecognizer) {
         self.visualEffectView.isHidden = false
+        self.view.bringSubviewToFront(issueInfoView)
         createAnimation(state: nextState, duration: 0.5)
     }
     
@@ -88,9 +77,11 @@ class IssueDetailViewController: UIViewController {
             guard let `self` = self else  { return }
             switch state {
             case .collpased:
-                self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.handleAreaHeight
+                self.issueInfoView.frame.origin.y = self.view.frame.height - self.handleAreaHeight
+
             case .expanded:
-                self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
+                self.issueInfoView.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
+
             }
         }
         cardMoveUpAnimation.addCompletion { [weak self] _ in

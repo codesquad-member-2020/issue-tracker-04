@@ -46,13 +46,26 @@
                                     <segue destination="QLA-dI-SMY" kind="show" destinationCreationSelector="showEditIssueWithCoder:" id="Joi-vM-t2l"/>
                                 </connections>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TcH-QW-AO8">
+                                <rect key="frame" x="0.0" y="657" width="375" height="650"/>
+                                <connections>
+                                    <segue destination="vvx-fP-IoB" kind="embed" id="Xpi-Ze-MCe"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="TcH-QW-AO8" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="QQn-DO-P9y"/>
+                            <constraint firstItem="TcH-QW-AO8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" multiplier="0.9" constant="1" id="Y7z-l2-qLN"/>
+                            <constraint firstItem="TcH-QW-AO8" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.8" id="oAj-Tl-e6Z"/>
+                            <constraint firstItem="TcH-QW-AO8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uIS-1l-SGC"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="NkC-mg-wyw"/>
                     <connections>
                         <outlet property="bodyView" destination="RPr-rF-okU" id="PQc-AS-UqR"/>
+                        <outlet property="issueInfoView" destination="TcH-QW-AO8" id="YXW-hJ-pHu"/>
                         <outlet property="ownerLabel" destination="3nw-Xg-hLa" id="ccR-9k-e0d"/>
                         <outlet property="titleLabel" destination="DEq-uW-hxQ" id="HnJ-r9-vJG"/>
                     </connections>
@@ -66,7 +79,7 @@
             <objects>
                 <viewController id="QLA-dI-SMY" customClass="IssueFormViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1Hx-Aw-G4K">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Issue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gob-Jf-JzZ">
@@ -260,11 +273,87 @@
             </objects>
             <point key="canvasLocation" x="677.60000000000002" y="-1163.0541871921182"/>
         </scene>
+        <!--Issue Info View Controller-->
+        <scene sceneID="1oK-FO-DyI">
+            <objects>
+                <viewController modalPresentationStyle="formSheet" id="vvx-fP-IoB" customClass="IssueInfoViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OAU-8R-k10">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="650"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ynm-km-CfB">
+                                <rect key="frame" x="41.333333333333343" y="56" width="105" height="18"/>
+                                <inset key="contentEdgeInsets" minX="3" minY="0.0" maxX="3" maxY="0.0"/>
+                                <state key="normal" title="Add Comment"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ec4-pA-6Nn">
+                                <rect key="frame" x="0.0" y="18.666666666666671" width="375" height="28"/>
+                                <state key="normal" image="minus" catalog="system">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="50"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WEn-Up-ONx" userLabel="Up Button">
+                                <rect key="frame" x="286" y="49" width="28.333333333333314" height="32"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="chevron.up" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ww8-ma-UW4" userLabel="Down Button">
+                                <rect key="frame" x="323" y="49" width="29" height="32"/>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal" image="chevron.down" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHS-0W-SMH">
+                                <rect key="frame" x="0.0" y="586.33333333333337" width="375" height="30"/>
+                                <state key="normal" title="Close Issue">
+                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="ww8-ma-UW4" firstAttribute="centerX" secondItem="OAU-8R-k10" secondAttribute="centerX" multiplier="1.8" id="11e-ma-45s"/>
+                            <constraint firstItem="ww8-ma-UW4" firstAttribute="centerY" secondItem="OAU-8R-k10" secondAttribute="centerY" multiplier="0.2" id="5kx-x5-nOb"/>
+                            <constraint firstItem="MHS-0W-SMH" firstAttribute="centerY" secondItem="OAU-8R-k10" secondAttribute="centerY" multiplier="1.85" id="Bxt-ff-BvI"/>
+                            <constraint firstItem="WEn-Up-ONx" firstAttribute="centerX" secondItem="OAU-8R-k10" secondAttribute="centerX" multiplier="1.6" id="CgD-ze-SA7"/>
+                            <constraint firstItem="MHS-0W-SMH" firstAttribute="width" secondItem="OAU-8R-k10" secondAttribute="width" id="G7N-Hc-9vm"/>
+                            <constraint firstItem="MHS-0W-SMH" firstAttribute="centerX" secondItem="OAU-8R-k10" secondAttribute="centerX" id="HL4-X6-mL1"/>
+                            <constraint firstItem="Ec4-pA-6Nn" firstAttribute="centerX" secondItem="OAU-8R-k10" secondAttribute="centerX" id="arc-xQ-O0Y"/>
+                            <constraint firstItem="Ynm-km-CfB" firstAttribute="centerX" secondItem="OAU-8R-k10" secondAttribute="centerX" multiplier="0.5" id="bpi-kT-y8r"/>
+                            <constraint firstItem="Ec4-pA-6Nn" firstAttribute="centerY" secondItem="OAU-8R-k10" secondAttribute="centerY" multiplier="0.1" id="juf-Dn-Las"/>
+                            <constraint firstItem="Ynm-km-CfB" firstAttribute="centerY" secondItem="OAU-8R-k10" secondAttribute="centerY" multiplier="0.2" id="rwf-gg-NXw"/>
+                            <constraint firstItem="WEn-Up-ONx" firstAttribute="centerY" secondItem="OAU-8R-k10" secondAttribute="centerY" multiplier="0.2" id="umi-5W-pOv"/>
+                            <constraint firstItem="Ec4-pA-6Nn" firstAttribute="width" secondItem="OAU-8R-k10" secondAttribute="width" id="z5V-Tc-z7r"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="15"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <connections>
+                        <outlet property="addComment" destination="Ynm-km-CfB" id="FER-Dy-cmW"/>
+                        <outlet property="handlerArea" destination="Ec4-pA-6Nn" id="Tqn-ST-1I4"/>
+                        <outlet property="moveNextCommentButton" destination="ww8-ma-UW4" id="Uev-PR-xMG"/>
+                        <outlet property="movePreviousCommentButton" destination="WEn-Up-ONx" id="2EL-C2-JoG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u3Y-H2-pfb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1897" y="-129"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uCt-3O-ftf"/>
+        <segue reference="Joi-vM-t2l"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="chevron.down" catalog="system" width="128" height="72"/>
+        <image name="chevron.up" catalog="system" width="128" height="72"/>
+        <image name="minus" catalog="system" width="128" height="24"/>
         <image name="plus" catalog="system" width="128" height="113"/>
     </resources>
 </document>
