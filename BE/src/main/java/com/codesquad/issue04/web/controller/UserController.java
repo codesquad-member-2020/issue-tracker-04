@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.service.UserService;
+import com.codesquad.issue04.web.dto.response.user.AllAssigneeResponseDto;
 import com.codesquad.issue04.web.dto.response.user.AllAuthorsResponseDto;
 import lombok.RequiredArgsConstructor;
 
@@ -16,5 +17,10 @@ public class UserController {
     @GetMapping("api/v1/allAuthors")
     public AllAuthorsResponseDto getAllAuthors() {
         return userService.getAllAuthors();
+    }
+
+    @GetMapping("api/v1/allAssignees")
+    public AllAssigneeResponseDto getAllAssignee() {
+        return userService.getAllAssignee();
     }
 }
