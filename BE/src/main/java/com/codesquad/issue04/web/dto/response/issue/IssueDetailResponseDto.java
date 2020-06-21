@@ -33,7 +33,7 @@ public class IssueDetailResponseDto implements ResponseDto {
 
 		this.id = issue.getId();
 		this.title = issue.getTitle();
-		this.comments = issue.getComments();
+		this.comments = issue.getComments().returnCommentsCreatingNewList();
 		this.labels = issue.getLabels();
 		this.milestone = issue.getMilestone();
 		this.realUser = issue.getUser();

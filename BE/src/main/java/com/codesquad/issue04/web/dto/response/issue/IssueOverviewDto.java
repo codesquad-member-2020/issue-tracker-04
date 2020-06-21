@@ -1,12 +1,10 @@
 package com.codesquad.issue04.web.dto.response.issue;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.codesquad.issue04.domain.issue.Comment;
+import com.codesquad.issue04.domain.issue.Comments;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.Status;
 import com.codesquad.issue04.domain.label.Label;
@@ -34,15 +32,15 @@ public class IssueOverviewDto {
 	@Builder
 	public IssueOverviewDto(Issue issue) {
 
-		List<Comment> comments = Optional.ofNullable(issue.getComments()).orElse(new ArrayList<>());
+		Comments comments = Optional.ofNullable(issue.getComments()).orElse(Comments.of());
 		Milestone milestone = issue.getMilestone();
 		Set<Label> labels = issue.getLabels();
 		RealUser realUser = issue.getUser();
 
 		this.id = issue.getId();
 		this.title = issue.getTitle();
-		this.overview = comments.get(0).getContent();
-		this.commentCounts = comments.size();
+		this.overview = comments.getOverview().getContent();
+		this.commentCounts = comments.getCommentsSize();
 		this.mileStonesTitle = milestone.getTitle();
 		this.labelTitles = labels.stream()
 			.map(Label::getTitle)
