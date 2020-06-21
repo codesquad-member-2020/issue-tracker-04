@@ -20,13 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			//TODO: 스프링 시큐리티 테스트를 적용한다.
 			.antMatchers("/", "/api/**", "/css/**", "/images/**", "/js/**").permitAll()
-			// .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+			// .antMatchers("/api/v1/**").hasRole(RO)
 			.anyRequest().authenticated()
 			.and()
 				.logout()
 					.logoutSuccessUrl("/")
 			.and()
 				.oauth2Login()
+            		.defaultSuccessUrl("/api/authorization")
+					.failureUrl("/")
 					.userInfoEndpoint()
 						.userService(customOAuth2UserService);
 	}
