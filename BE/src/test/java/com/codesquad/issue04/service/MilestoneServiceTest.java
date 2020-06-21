@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.web.dto.response.label.MilestoneResponseDtos;
-import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDto;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 
 @SpringBootTest
 public class MilestoneServiceTest {
@@ -36,7 +36,7 @@ public class MilestoneServiceTest {
 	@Test
 	void 마일스톤_전체가_DTO로_리스트에_반환된다() {
 		assertThat(milestoneService.getAllMilestones()).isInstanceOf(List.class);
-		assertThat(milestoneService.getAllMilestones().get(0)).isInstanceOf(MilestoneResponseDto.class);
+		assertThat(milestoneService.getAllMilestones().get(0)).isInstanceOf(MilestoneDto.class);
 	}
 
 	@DisplayName("마일스톤 DTO 전체가 일급 콜렉션 형태로 변환된다.")

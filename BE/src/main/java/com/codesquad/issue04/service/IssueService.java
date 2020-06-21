@@ -84,6 +84,20 @@ public class IssueService {
 			.build();
 	}
 
+    public IssueOverviewResponseDtos getIssueOverviews() {
+        return IssueOverviewResponseDtos.builder()
+            .allData(findAllIssuesOverview())
+            .build();
+    }
+
+    public List<Issue> getAllAssignedIssues() {
+        List<Issue> issues = issueRepository.findAll();
+
+        return issues.stream()
+            .filter(Issue::hasAssignees)
+            .collect(Collectors.toList());
+    }
+
 	@Transactional
 	public IssueDetailResponseDto createNewIssue(IssueCreateRequestDto dto) {
 		Issue newIssue = Issue.builder()

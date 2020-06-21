@@ -1,9 +1,8 @@
-package com.codesquad.issue04.web.dto.response.label;
+package com.codesquad.issue04.web.dto.response.milestone;
 
 import java.util.List;
 
 import com.codesquad.issue04.web.dto.response.ResponseDto;
-import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +16,5 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public class MilestoneResponseDtos implements ResponseDto {
-	private List<MilestoneResponseDto> allData;
-
+	private List<MilestoneDto> allData;
 }

@@ -75,4 +75,8 @@ public class RealUser implements Serializable, AbstractUser {
     public boolean hasOwnedIssues() {
         return this.getOwnedIssues().size() > 0;
     }
+
+    public boolean hasAssignedIssues() {
+        return this.getAssignedIssues().size() > 0;
+    }
 }
