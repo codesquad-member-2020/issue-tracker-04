@@ -11,50 +11,52 @@ DROP TABLE IF EXISTS role;
 
 CREATE TABLE IF NOT EXISTS user
 (
-    id        INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name      VARCHAR(45)                    NULL,
-    github_id VARCHAR(45)                    NULL,
-    image     VARCHAR(500)                   NULL,
-    role_key  VARCHAR(500)                   NULL
+    id        INT PRIMARY KEY AUTO_INCREMENT,
+    name      VARCHAR(45)  NULL,
+    github_id VARCHAR(45)  NULL,
+    image     VARCHAR(500) NULL,
+    role_key  VARCHAR(500) NULL
 );
 
 CREATE TABLE IF NOT EXISTS milestone
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title       VARCHAR(45)                    NULL,
-    due_date    DATETIME                       NULL,
-    description VARCHAR(45)                    NULL
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    title       VARCHAR(45) NULL,
+    due_date    DATETIME    NULL,
+    description VARCHAR(45) NULL
 );
 
 CREATE TABLE IF NOT EXISTS issue
 (
-    id           INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title        VARCHAR(45)                    NOT NULL,
-    status       VARCHAR(45)                    NOT NULL DEFAULT 'OPEN',
-    user_id      INT                            NOT NULL,
-    milestone_id INT                            NOT NULL,
+    id            INT PRIMARY KEY AUTO_INCREMENT,
+    title         VARCHAR(45) NOT NULL,
+    status        VARCHAR(45) DEFAULT 'OPEN',
+    created_date  DATETIME    NULL,
+    modified_date DATETIME    NULL,
+    user_id       INT         NULL,
+    milestone_id  INT         NULL,
     CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_issue_milestone1 FOREIGN KEY (milestone_id) REFERENCES milestone (id)
 );
 
 CREATE TABLE IF NOT EXISTS comment
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    content    TEXT                           NULL,
-    created_at DATETIME                       NULL,
-    updated_at DATETIME                       NULL,
-    user_id    INT                            NOT NULL,
-    issue_id   INT                            NOT NULL,
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    content    TEXT     NULL,
+    created_at DATETIME NULL,
+    updated_at DATETIME NULL,
+    user_id    INT      NOT NULL,
+    issue_id   INT      NOT NULL,
     CONSTRAINT fk_comment_user1 FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_comment_issue1 FOREIGN KEY (issue_id) REFERENCES issue (id)
 );
 
 CREATE TABLE IF NOT EXISTS label
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    title       VARCHAR(45)                    NULL,
-    color       VARCHAR(45)                    NULL,
-    description VARCHAR(100)                   NULL
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    title       VARCHAR(45)  NULL,
+    color       VARCHAR(45)  NULL,
+    description VARCHAR(100) NULL
 );
 
 CREATE TABLE IF NOT EXISTS photo
