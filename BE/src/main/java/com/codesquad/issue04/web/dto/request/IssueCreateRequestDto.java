@@ -6,27 +6,27 @@ import java.util.List;
 import lombok.Getter;
 
 @Getter
-public class IssueCreateUpdateRequestDto {
+public class IssueCreateRequestDto {
 
 	private String title;
 	private String commentContent;
 	private String writerGitHubId;
 	private List<String> photoUrl;
 
-	public IssueCreateUpdateRequestDto(String title, String writerGitHubId) {
+	public IssueCreateRequestDto(String title, String writerGitHubId) {
 		this.title = title;
 		this.writerGitHubId = writerGitHubId;
 		this.photoUrl = Collections.emptyList();
 	}
 
-	public IssueCreateUpdateRequestDto(String title, String commentContent, String writerGitHubId) {
+	public IssueCreateRequestDto(String title, String commentContent, String writerGitHubId) {
 		this.title = title;
 		this.commentContent = commentContent;
 		this.writerGitHubId = writerGitHubId;
 		this.photoUrl = Collections.emptyList();
 	}
 
-	public IssueCreateUpdateRequestDto(String title, String commentContent, String writerGitHubId,
+	public IssueCreateRequestDto(String title, String commentContent, String writerGitHubId,
 		List<String> photoUrl) {
 		this.title = title;
 		this.commentContent = commentContent;
