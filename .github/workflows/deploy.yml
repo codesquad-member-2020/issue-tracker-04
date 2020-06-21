@@ -74,6 +74,7 @@ jobs:
           echo $(pwd)
           zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
+        working-directory: ./BE
       
         # AWS 서비스를 사용하기 위한 인증 과정이다.
       - name: Configure AWS credentials
