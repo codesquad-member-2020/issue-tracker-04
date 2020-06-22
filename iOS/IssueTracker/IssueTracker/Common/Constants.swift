@@ -16,6 +16,7 @@ enum Identifier {
 
     enum ViewController {
         static let list = String(describing: ListViewController.self)
+        static let issueFilter = String(describing: IssueFilterViewController.self)
     }
 }
 
