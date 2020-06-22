@@ -1,16 +1,20 @@
 import UIKit
 
 protocol IssueFormViewControllerDelegate: class {
-    func issueFormViewControllerDidEdit(issue: Issue)
+    func issueFormViewControllerDidCreate(_ partial: PartialIssue)
+    func issueFormViewControllerDidEdit(_ issue: Issue)
+}
+
+extension IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidCreate(_ partial: PartialIssue) { }
+    func issueFormViewControllerDidEdit(_ issue: Issue) { }
 }
 
 class IssueFormViewController: UIViewController {
     enum State {
-        case create
+        case new
         case edit(issue: Issue)
     }
-
-    typealias Texts = (title: String, body: String?)
 
     @IBOutlet weak var formView: IssueFormView!
 
@@ -25,7 +29,7 @@ class IssueFormViewController: UIViewController {
     }
 
     required init?(coder: NSCoder) {
-        self.state = .create
+        self.state = .new
         super.init(coder: coder)
     }
 
@@ -47,7 +51,7 @@ class IssueFormViewController: UIViewController {
     // MARK: - IBAction
 
     @IBAction func didTouchSave(_ sender: UIButton) {
-        if formView.userInput.title.isEmpty {
+        guard !formView.userInput.title.isEmpty else {
             showMessage(for: .invalidNewIssueTitle)
             return
         }
@@ -62,9 +66,15 @@ class IssueFormViewController: UIViewController {
 
     // MARK: - Business Logic?
 
-    private func save(texts: Texts) {
-        let issue = Issue(id: 1, title: texts.title, body: texts.body, owner: user)
-        delegate?.issueFormViewControllerDidEdit(issue: issue)
+    private func save(texts: PartialIssue) {
+        switch state {
+        case .new:
+            delegate?.issueFormViewControllerDidCreate(texts)
+        case .edit(let oldIssue):
+            var issue = oldIssue
+            (issue.title, issue.body) = (texts.title, texts.body)
+            delegate?.issueFormViewControllerDidEdit(issue)
+        }
     }
 
 }

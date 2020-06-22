@@ -1,47 +1,32 @@
 import Foundation
 
-protocol IssueModelControllerObserver: class {
-    func issueModelControllerDidUpdate(_ controller: IssueModelController)
-}
+class IssueModelController: Observable {
+    // MARK: - Observable
 
-class IssueModelController {
     private(set) var issue: Issue {
         didSet { notifyObservers() }
     }
 
-    private var observations = [ObjectIdentifier: Observation]()
+    var observations = [ObjectIdentifier: Observation]()
+
+    // MARK: - Init
 
     init(_ issue: Issue) {
         self.issue = issue
     }
 
     func update(issue: Issue) {
-        self.issue = issue
-    }
-
-    func notifyObservers() {
-        for (id, observation) in observations {
-            guard let observer = observation.observer else {
-                observations.removeValue(forKey: id)
-                continue
-            }
-            observer.issueModelControllerDidUpdate(self)
+        if self.issue != issue {
+            self.issue = issue
         }
     }
 }
 
 extension IssueModelController {
-    private struct Observation {
-        weak var observer: IssueModelControllerObserver?
-    }
+    static func makeWithFakeIssue() -> IssueModelController {
+        let user = User(id: FakeID.userId, name: "Foo")
+        let issue = Issue(id: FakeID.make(), title: "Fake Title", owner: user)
 
-    func add(observer: IssueModelControllerObserver) {
-        let id = ObjectIdentifier(observer)
-        observations[id] = Observation(observer: observer)
-    }
-
-    func remove(observer: IssueModelControllerObserver) {
-        let id = ObjectIdentifier(observer)
-        observations.removeValue(forKey: id)
+        return .init(issue)
     }
 }

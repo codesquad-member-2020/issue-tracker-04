@@ -4,8 +4,8 @@ class IssueFormView: UIView {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
 
-    var userInput: (title: String, body: String) {
-        (title: titleTextField.text ?? "", body: bodyTextView.text)
+    var userInput: PartialIssue {
+        .init(title: titleTextField.text ?? "", body: bodyTextView.text)
     }
 
     override func awakeFromNib() {
@@ -17,9 +17,7 @@ class IssueFormView: UIView {
 
 extension IssueFormView: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        debugPrint(textField)
         if textField == titleTextField {
-            debugPrint("titleTextField")
             bodyTextView.becomeFirstResponder()
         }
 

@@ -13,3 +13,5 @@ struct User: CustomStringConvertible {
 extension User: Equatable { }
 
 typealias UserCollection = [User]
+
+extension User: Hashable { }

@@ -3,14 +3,22 @@ import Foundation
 struct CommentCollection {
     typealias CommentType = [Comment]
 
-    var comments: CommentType = .init()
+    private var elements: CommentType = .init()
+
+    // MARK: - Mutating
+
+    mutating func add(_ element: Element) {
+        elements.append(element)
+    }
+
+    // MARK: - Filter
 
     func contains(author: User) -> Bool {
         self.contains { $0.author == author }
     }
 
     func filter(_ isIncluded: (CommentType.Element) throws -> Bool) rethrows -> Self {
-        return Self(comments: try comments.filter(isIncluded))
+        return Self(elements: try elements.filter(isIncluded))
     }
 
 }
@@ -20,13 +28,13 @@ extension CommentCollection: Collection {
     typealias Index = CommentType.Index
     typealias Element = CommentType.Element
 
-    var startIndex: Index { comments.startIndex }
-    var endIndex: Index { comments.endIndex}
+    var startIndex: Index { elements.startIndex }
+    var endIndex: Index { elements.endIndex}
 
-    subscript(position: Index) -> Element { comments[position] }
+    subscript(position: Index) -> Element { elements[position] }
 
     func index(after i: Index) -> Index {
-        comments.index(after: i)
+        elements.index(after: i)
     }
 }
 
@@ -34,7 +42,18 @@ extension CommentCollection: ExpressibleByArrayLiteral {
     typealias ArrayLiteralElement = Element
 
     init(arrayLiteral elements: Element...) {
-        comments = elements
+        self.elements = elements
     }
 
+}
+
+extension CommentCollection: Hashable { }
+
+extension CommentCollection {
+    static func makeFake() -> CommentCollection {
+        let user = User(id: FakeID.userId, name: "ffff")
+        let comments: CommentCollection = [Comment(id: FakeID.make(), body: "eee", author: user)]
+
+        return comments
+    }
 }

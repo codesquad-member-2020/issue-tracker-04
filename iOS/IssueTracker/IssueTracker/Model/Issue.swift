@@ -2,14 +2,15 @@ import Foundation
 
 struct Issue {
     let id: ID
-    let title: String
-    let body: String?
+    var title: String
+    var body: String?
     var comments: CommentCollection = .init()
     let owner: User
     var assignees: UserCollection = .init()
     var status: Status = .open
 
-    func addComment(_ comment: Comment) {
+    mutating func addComment(_ comment: Comment) {
+        comments.add(comment)
     }
 }
 
@@ -19,8 +20,16 @@ extension Issue {
     }
 }
 
-extension Issue: Equatable {
-    static func == (lhs: Issue, rhs: Issue) -> Bool {
-        return lhs.id == rhs.id
-    }
+extension Issue: Hashable { }
+
+struct PartialIssue {
+    let title: String
+    let body: String
+}
+
+struct BriefIssue {
+    let id: ID
+    let title: String
+    let body: String?
+    var status: Issue.Status = .open
 }
