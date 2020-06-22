@@ -10,6 +10,8 @@ class IssueDetailViewController: UIViewController {
 
     @IBOutlet weak var issueDetailView: IssueDetailView!
     @IBOutlet weak var commentTableView: UITableView!
+    @IBOutlet weak var issueInfoView: UIView!
+
 
     var commentDataSource: TableViewDataSource<CommentCollection>! = nil
 
@@ -61,6 +63,7 @@ class IssueDetailViewController: UIViewController {
         setupIssueInfoView()
 
     }
+    
     private func setupVisualEffectView() {
         visualEffectView = UIVisualEffectView(frame: self.view.bounds) // 블러 화면
         self.view.addSubview(visualEffectView)
@@ -74,45 +77,42 @@ class IssueDetailViewController: UIViewController {
 
         // Configure ChildView
         issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
-        issueInfoViewController.view.clipsToBounds = true
 
-        issueInfoViewController.view.layer.cornerRadius = 15
-
-        // Add Gesture
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(gestureStarted))
-        issueInfoViewController.handlerArea.addGestureRecognizer(panGestureRecognizer)
-
-        issueInfoViewController.moveBeforeCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
+        issueInfoViewController.movePreviousCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
         issueInfoViewController.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
     }
 
     // MARK: - Selector
 
     @objc func moveToPreviousComment() {
-        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        print(#function)
+        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 1, section: 0)
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
 
     @objc func moveToNextComment() {
-        //        guard let currentIndexPath = tableView.indexPathsForVisibleRows?.first else {return}
+        print(#function)
+        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
         //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
 
     @objc func gestureStarted(_ recognizer:UIPanGestureRecognizer) {
         self.visualEffectView.isHidden = false
+        self.view.bringSubviewToFront(issueInfoView)
         createAnimation(state: nextState, duration: 0.5)
     }
 
     // MARK: - Animation
-
     private func createAnimation(state:IssueInfoState, duration:TimeInterval) {
         let cardMoveUpAnimation = UIViewPropertyAnimator(duration: duration, curve: .linear) { [weak self] in
             guard let `self` = self else  { return }
             switch state {
             case .collapsed:
-                self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.handleAreaHeight
+                self.issueInfoView.frame.origin.y = self.view.frame.height - self.handleAreaHeight
+                
             case .expanded:
-                self.issueInfoViewController.view.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
+                self.issueInfoView.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
+                
             }
         }
         cardMoveUpAnimation.addCompletion { [weak self] _ in
