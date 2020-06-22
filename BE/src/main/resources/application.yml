@@ -15,7 +15,7 @@ logging:
     name: logs/dev_log.log
 ---
 spring:
-  profiles: dev
+  profiles: local
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
@@ -33,6 +33,31 @@ spring:
   flyway:
     clean-on-validation-error: true
     url: jdbc:mysql://localhost:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
+    user: issue04
+    password: issue04
+    locations: classpath:/db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+---
+spring:
+  profiles: dev
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://issuetracker04.ctlkoadko0c5.ap-northeast-2.rds.amazonaws.com:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
+    username: issue04
+    password: issue04
+    initialization-mode: always
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      use-new-id-generator-mappings: false
+  flyway:
+    clean-on-validation-error: true
+    url: jdbc:mysql://issuetracker04.ctlkoadko0c5.ap-northeast-2.rds.amazonaws.com:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
     user: issue04
     password: issue04
     locations: classpath:/db/migration
