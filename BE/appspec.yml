@@ -4,9 +4,9 @@ os: linux
 
 files:
   - source: /
-    destination: /deploy
+    destination: /opt/issueTracker-codedeploy
 permissions:
-  - object: /deploy
+  - object: /opt/issueTracker-codedeploy
     owner: ubuntu
     group: ubuntu
     mode: 755

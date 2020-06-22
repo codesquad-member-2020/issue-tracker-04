@@ -1,7 +1,7 @@
 # deploy.sh
 #!/usr/bin/env bash
 
-REPOSITORY=/deploy
+REPOSITORY=/opt/issueTracker-codedeploy
 cd $REPOSITORY
 
 APP_NAME=action_codedeploy
