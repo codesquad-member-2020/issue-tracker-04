@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codesquad.issue04.domain.issue.Status;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;

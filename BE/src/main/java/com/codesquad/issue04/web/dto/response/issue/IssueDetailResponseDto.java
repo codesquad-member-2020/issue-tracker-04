@@ -3,9 +3,9 @@ package com.codesquad.issue04.web.dto.response.issue;
 import java.util.List;
 import java.util.Set;
 
-import com.codesquad.issue04.domain.issue.Comment;
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.domain.issue.Status;
+import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
@@ -33,8 +33,8 @@ public class IssueDetailResponseDto implements ResponseDto {
 
 		this.id = issue.getId();
 		this.title = issue.getTitle();
-		this.comments = issue.getComments();
-		this.labels = issue.getLabels();
+		this.comments = issue.getComments().returnCommentsCreatingNewList();
+		this.labels = issue.getLabels().getLabelsAfterCreatingNewSet();
 		this.milestone = issue.getMilestone();
 		this.realUser = issue.getUser();
 		this.status = issue.getStatus();

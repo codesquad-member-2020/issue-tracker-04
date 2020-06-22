@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
-import com.codesquad.issue04.web.dto.response.label.MilestoneResponseDtos;
-import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDto;
+import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -17,25 +19,41 @@ public class MilestoneService {
 
 	private final MilestoneRepository milestoneRepository;
 
-	protected Milestone findMilestoneById(Long labelId) {
-		return milestoneRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
+	public MilestoneResponseDtos getMilestoneOverviews() {
+		return MilestoneResponseDtos.builder()
+			.allData(getAllMilestones())
+			.build();
+	}
+
+	protected List<MilestoneDto> getAllMilestones() {
+		List<Milestone> milestones = findAllMilestones();
+		return milestones.stream()
+			.map(MilestoneDto::of)
+			.collect(Collectors.toList());
 	}
 
 	protected List<Milestone> findAllMilestones() {
 		return milestoneRepository.findAll();
 	}
 
-	protected List<MilestoneResponseDto> getAllMilestones() {
-		List<Milestone> milestones = findAllMilestones();
-		return milestones.stream()
-			.map(MilestoneResponseDto::of)
-			.collect(Collectors.toList());
+	protected Milestone findMilestoneById(Long labelId) {
+		return milestoneRepository.findById(labelId)
+			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
 	}
 
-	public MilestoneResponseDtos getMilestoneOverviews() {
-		return MilestoneResponseDtos.builder()
-			.allData(getAllMilestones())
-			.build();
+	public Milestone createMilestone(Milestone milestone) {
+		return milestoneRepository.save(milestone);
+	}
+
+	public MilestoneDto updateMilestone(MilestoneUpdateRequestDto dto) {
+		Milestone beforeMilestone = findMilestoneById(dto.getId());
+		Milestone afterMilestone = beforeMilestone.updateMilestone(dto);
+		return MilestoneDto.of(afterMilestone);
+	}
+
+	public Milestone deleteMilestone(MilestoneDeleteRequestDto dto) {
+		Milestone deleteMilestone = findMilestoneById(dto.getId());
+		milestoneRepository.delete(deleteMilestone);
+		return deleteMilestone;
 	}
 }
