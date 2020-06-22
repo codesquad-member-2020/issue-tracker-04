@@ -1,6 +1,6 @@
 package com.codesquad.issue04.web.dto.response.milestone;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
@@ -14,7 +14,7 @@ import lombok.ToString;
 public class MilestoneDto implements ResponseDto {
 	private Long id;
 	private String title;
-	private LocalDateTime dueDate;
+	private LocalDate dueDate;
 	private String description;
 
 	public MilestoneDto(Milestone milestone) {
