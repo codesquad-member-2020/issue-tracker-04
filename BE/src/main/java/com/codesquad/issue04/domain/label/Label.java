@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,4 +44,11 @@ public class Label {
 		inverseJoinColumns = @JoinColumn(name = "issue_id")
 	)
 	private Set<Issue> issues;
+
+	public Label updateLabel(LabelUpdateRequestDto dto) {
+		this.title = dto.getTitle();
+		this.color = dto.getColor();
+		this.description = dto.getDescription();
+		return this;
+	}
 }

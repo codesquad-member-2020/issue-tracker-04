@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.label.LabelRepository;
 import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewResponseDtos;
@@ -54,12 +55,17 @@ public class LabelService {
 
 	@Transactional
 	public Label createNewLabel(LabelCreateRequestDto dto) {
-		Label beforeSavedLabel = Label.builder()
+		Label savedLabel = Label.builder()
 			.title(dto.getTitle())
 			.color(dto.getColor())
 			.description(dto.getDescription())
 			.build();
-		Label afterSavedLabel = labelRepository.save(beforeSavedLabel);
-		return afterSavedLabel;
+		return savedLabel;
+	}
+
+	public Label updateExistingLabel(LabelUpdateRequestDto dto) {
+		Label updatedLabel = findLabelById(dto.getId());
+		updatedLabel.updateLabel(dto);
+		return updatedLabel;
 	}
 }
