@@ -1,6 +1,5 @@
 package com.codesquad.issue04.domain.issue;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -20,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
@@ -46,8 +45,8 @@ public class Issue extends BaseTimeEntity {
 	private Long id;
 	private String title;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.ALL)
-	private List<Comment> comments;
+	@Embedded
+	private Comments comments;
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
@@ -77,12 +76,12 @@ public class Issue extends BaseTimeEntity {
 	private Status status;
 
 	@Builder
-	public Issue(Long id, String title, List<Comment> comments,
+	public Issue(Long id, String title, Comments comments,
 		Set<Label> labels, Milestone milestone, RealUser user) {
 
 		this.id = id;
 		this.title = Optional.ofNullable(title).orElse("직박구리");
-		this.comments = Optional.ofNullable(comments).orElse(Collections.emptyList());
+		this.comments = Optional.ofNullable(comments).orElse(Comments.of());
 		this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
 		this.milestone = Optional.ofNullable(milestone).orElse(NullMilestone.of());
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
@@ -119,9 +118,9 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public Comment addComment(Comment comment) {
-		List<Comment> newCommentList = new ArrayList<>(this.comments);
+		List<Comment> newCommentList = this.comments.returnCommentsCreatingNewList();
 		newCommentList.add(comment);
-		this.comments = newCommentList;
+		this.comments = Comments.ofComments(newCommentList);
 		return comment;
 	}
 
@@ -130,5 +129,13 @@ public class Issue extends BaseTimeEntity {
 			this.title = dto.getTitle();
 		}
 		return this;
+	}
+
+	public Comment getIssueOverview() {
+		return this.comments.getOverview();
+	}
+
+	public Comment getCommentByIndex(int commentIndex) {
+		return this.comments.getCommentByIndex(commentIndex);
 	}
 }
