@@ -3,10 +3,10 @@ package com.codesquad.issue04.web.dto.response.issue;
 import java.util.Optional;
 import java.util.Set;
 
-import com.codesquad.issue04.domain.issue.Comments;
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.domain.issue.Labels;
-import com.codesquad.issue04.domain.issue.Status;
+import com.codesquad.issue04.domain.issue.vo.Comments;
+import com.codesquad.issue04.domain.issue.vo.Labels;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.issue;
+package com.codesquad.issue04.domain.issue.vo;
 
 import java.util.ArrayList;
 import java.util.List;

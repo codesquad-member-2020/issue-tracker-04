@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.codesquad.issue04.domain.issue.vo.Labels;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 

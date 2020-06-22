@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.issue;
+package com.codesquad.issue04.domain.issue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
