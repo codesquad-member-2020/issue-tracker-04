@@ -52,7 +52,7 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Labels labels;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(
 		name = "assignee",
 		joinColumns = @JoinColumn(name = "issue_id"),
@@ -60,11 +60,11 @@ public class Issue extends BaseTimeEntity {
 	)
 	private List<RealUser> assignees;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
 	private Milestone milestone;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
 
