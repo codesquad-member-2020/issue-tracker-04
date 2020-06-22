@@ -45,7 +45,7 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://issuetracker04.ctlkoadko0c5.ap-northeast-2.rds.amazonaws.com:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
     username: issue04
-    password: issue04
+    password: issue040404
     initialization-mode: always
     hikari:
       maximum-pool-size: 10
@@ -59,7 +59,7 @@ spring:
     clean-on-validation-error: true
     url: jdbc:mysql://issuetracker04.ctlkoadko0c5.ap-northeast-2.rds.amazonaws.com:3306/issue04?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useLegacyDatetimeCode=false
     user: issue04
-    password: issue04
+    password: issue040404
     locations: classpath:/db/migration
     baseline-on-migrate: true
     baseline-version: 0
