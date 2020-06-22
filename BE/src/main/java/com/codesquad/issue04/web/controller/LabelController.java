@@ -1,7 +1,6 @@
 package com.codesquad.issue04.web.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.service.LabelService;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api")
 public class LabelController {
 
     private final LabelService labelService;

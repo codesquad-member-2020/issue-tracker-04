@@ -14,7 +14,7 @@ import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/v1/issues")
+@RequestMapping("/v1/issues")
 @AllArgsConstructor
 public class IssueController {
 
