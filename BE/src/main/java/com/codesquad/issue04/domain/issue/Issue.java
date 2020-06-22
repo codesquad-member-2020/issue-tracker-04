@@ -163,4 +163,11 @@ public class Issue extends BaseTimeEntity {
 		this.milestone = milestone;
 		return milestone;
 	}
+
+	public Milestone deleteMilestone(Long milestoneId) {
+		if (milestone.getId().equals(milestoneId)) {
+			this.milestone = NullMilestone.of();
+		}
+		return this.milestone;
+	}
 }

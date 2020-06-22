@@ -208,10 +208,15 @@ public class IssueService {
 		return milestoneRepository.findById(milestoneId).orElseGet(NullMilestone::of);
 	}
 
-	public Milestone changeMilestone(Long issueId, Long milestoneId) {
+	public Milestone updateMilestone(Long issueId, Long milestoneId) {
 		Issue issue = findIssueById(issueId);
 		Milestone milestone = getMilestoneById(milestoneId);
 		issue.updateMilestone(milestone);
 		return milestone;
+	}
+
+	public Milestone deleteMilestone(Long issueId, Long milestoneId) {
+		Issue issue = findIssueById(issueId);
+		return issue.deleteMilestone(milestoneId);
 	}
 }

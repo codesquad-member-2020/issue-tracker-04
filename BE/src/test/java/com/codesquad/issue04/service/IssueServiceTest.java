@@ -21,6 +21,7 @@ import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
 import com.codesquad.issue04.domain.milestone.Milestone;
+import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
@@ -243,23 +244,28 @@ public class IssueServiceTest {
 	@CsvSource({"1, 2"})
 	@ParameterizedTest
 	void 이슈에_새로운_마일스톤을_추가한다(Long issueId, Long milestoneId) {
-		Milestone milestone = issueService.changeMilestone(issueId, milestoneId);
+		Milestone milestone = issueService.updateMilestone(issueId, milestoneId);
 		assertThat(issueService.findIssueById(issueId).getMilestone()).isEqualTo(milestone);
 	}
 
 	@Transactional
 	@DisplayName("마일스톤을 삭제한다.")
-	@CsvSource({"1"})
+	@CsvSource({"1, 2"})
 	@ParameterizedTest
-	void 이슈의_마일스톤을_삭제한다(Long milestoneId) {
-		//
+	void 이슈의_마일스톤을_삭제한다(Long issueId, Long milestoneId) {
+		Milestone milestone = issueService.updateMilestone(issueId, milestoneId);
+		assertThat(issueService.findIssueById(issueId).getMilestone()).isEqualTo(milestone);
+		issueService.deleteMilestone(issueId, milestoneId);
+		assertThat(issueService.findIssueById(issueId).getMilestone()).isInstanceOf(NullMilestone.class);
 	}
 
 	@Transactional
 	@DisplayName("이미 마일스톤이 부여된 이슈에 다른 마일스톤으로 변경한다.")
-	@CsvSource({"1, 3"})
+	@CsvSource({"1, 2, 3"})
 	@ParameterizedTest
-	void 이슈의_마일스톤을_변경한다(Long milestoneId) {
-		//
+	void 이슈의_마일스톤을_변경한다(Long issueId, Long beforeMilestoneId, Long afterMilestoneId) {
+		issueService.updateMilestone(issueId, beforeMilestoneId);
+		Milestone modifiedMilestone = issueService.updateMilestone(issueId, afterMilestoneId);
+		assertThat(issueService.findIssueById(issueId).getMilestone()).isEqualTo(modifiedMilestone);
 	}
 }
