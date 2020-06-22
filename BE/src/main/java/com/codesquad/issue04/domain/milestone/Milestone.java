@@ -42,7 +42,6 @@ public class Milestone implements AbstractMilestone {
 		return false;
 	}
 
-	//TODO: 마일스톤을 업데이트할 때 JPA가 수정을 감지하지 못한다. 즉, Dirty checking을 정상적으로 진행하지 못하는데 왜인지 궁금하다.
 	public Milestone updateMilestone(MilestoneUpdateRequestDto dto) {
 		this.title = dto.getTitle();
 		this.dueDate = dto.getDueDate();
