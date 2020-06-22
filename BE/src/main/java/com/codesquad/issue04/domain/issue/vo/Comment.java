@@ -14,7 +14,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
@@ -23,6 +22,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -37,9 +38,10 @@ import lombok.ToString;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
+// @Embeddable
 public class Comment implements Serializable {
 
-	@Id
+	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String content;
@@ -70,6 +72,18 @@ public class Comment implements Serializable {
 	@JoinColumn(foreignKey = @ForeignKey(name = "issue_id"))
 	private Issue issue;
 
+	private Comment(String content, List<Emoji> emojis, List<Photo> photos, RealUser user, Issue issue) {
+		this.content = content;
+		this.emojis = emojis;
+		this.photos = photos;
+		this.user = user;
+		this.issue = issue;
+	}
+
+	public static Comment ofDto(CommentCreateRequestDto dto, RealUser user, Issue issue) {
+		return new Comment(dto.getContent(), dto.getEmojis(), dto.getPhotos(), user, issue);
+	}
+
 	public String getFormattedCreatedDate() {
 		return formattedDate(createdAt, "YYYY-MM-SS HH:mm:ss");
 	}
@@ -83,6 +97,21 @@ public class Comment implements Serializable {
 			return "";
 		}
 		return localDateTime.format(DateTimeFormatter.ofPattern(format));
+	}
+
+	public Long getUserId() {
+		return this.user.getId();
+	}
+
+	public Comment updateComment(CommentUpdateRequestDto dto) {
+		this.content = dto.getContent();
+		this.photos = dto.getMockPhotos();
+		this.emojis = dto.getMockEmojis();
+		return this;
+	}
+
+	public boolean doesMatchId(Long commentId) {
+		return this.id.equals(commentId);
 	}
 
 }

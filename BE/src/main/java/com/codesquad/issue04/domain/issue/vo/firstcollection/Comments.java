@@ -9,12 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import lombok.Getter;
 
 @Getter
 @Embeddable
 public class Comments {
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
 	protected Comments() {
@@ -46,5 +47,31 @@ public class Comments {
 
 	public Comment getCommentByIndex(int commentIndex) {
 		return this.comments.get(commentIndex);
+	}
+
+	public Comment getLatestComment() {
+		int latestIndex = this.comments.size() - 1;
+		return this.comments.get(latestIndex);
+	}
+
+	public Comment findCommentById(Long commentId) {
+		return comments.stream()
+			.filter(comment -> comment.doesMatchId(commentId))
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("not found"));
+	}
+
+	public Comment deleteCommentById(Long commentId) {
+		Comment deletedComment = findCommentById(commentId);
+		this.comments.remove(deletedComment);
+		return deletedComment;
+	}
+
+	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
+		return comments.stream()
+			.filter(comment -> comment.doesMatchId(dto.getCommentId()))
+			.findFirst()
+			.map(comment -> comment.updateComment(dto))
+			.get();
 	}
 }

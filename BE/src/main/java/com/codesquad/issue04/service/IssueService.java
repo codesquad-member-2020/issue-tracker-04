@@ -13,6 +13,7 @@ import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
+import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -149,5 +150,19 @@ public class IssueService {
 
 	private ErrorResponseDto createErrorResponseDto() {
 		return new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), new IllegalArgumentException("not allowed."));
+	}
+
+	public Comment addNewComment(Comment comment) {
+		Issue issue = findIssueById(comment.getUserId());
+		Comment addedComment = issue.addComment(comment);
+		return addedComment;
+	}
+
+	public Comment addNewComment(CommentCreateRequestDto dto) {
+		RealUser user = userRepository.findById(dto.getUserId()).orElseGet(NullUser::of);
+		Issue issue = findIssueById(dto.getIssueId());
+		Comment addedComment = Comment.ofDto(dto, user, issue);
+		issue.addComment(addedComment);
+		return addedComment;
 	}
 }
