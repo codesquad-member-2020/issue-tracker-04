@@ -23,7 +23,7 @@ public class Comments {
 		this.comments = comments;
 	}
 
-	public static Comments of() {
+	public static Comments ofNullComments() {
 		return new Comments();
 	}
 

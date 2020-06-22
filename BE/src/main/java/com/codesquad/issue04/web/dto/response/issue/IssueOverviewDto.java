@@ -31,7 +31,7 @@ public class IssueOverviewDto {
 	@Builder
 	public IssueOverviewDto(Issue issue) {
 
-		Comments comments = Optional.ofNullable(issue.getComments()).orElse(Comments.of());
+		Comments comments = Optional.ofNullable(issue.getComments()).orElse(Comments.ofNullComments());
 		Milestone milestone = issue.getMilestone();
 		Labels labels = Optional.ofNullable(issue.getLabels()).orElse(Labels.ofNullLabels());
 		RealUser realUser = issue.getUser();
