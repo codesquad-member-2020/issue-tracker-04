@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.label.LabelRepository;
 import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.LabelDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewDto;
@@ -67,5 +68,11 @@ public class LabelService {
 		Label updatedLabel = findLabelById(dto.getId());
 		updatedLabel.updateLabel(dto);
 		return updatedLabel;
+	}
+
+	public Label deleteExistingLabel(LabelDeleteRequestDto dto) {
+		Label deletedLabel = findLabelById(dto.getId());
+		labelRepository.delete(deletedLabel);
+		return deletedLabel;
 	}
 }
