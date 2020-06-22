@@ -20,9 +20,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
-import com.codesquad.issue04.domain.issue.vo.Comments;
-import com.codesquad.issue04.domain.issue.vo.Labels;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
