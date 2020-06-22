@@ -10,10 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.domain.label.Label;
+import com.codesquad.issue04.domain.milestone.Milestone;
+import com.codesquad.issue04.domain.milestone.MilestoneRepository;
+import com.codesquad.issue04.domain.milestone.NullMilestone;
+import com.codesquad.issue04.domain.user.AbstractUser;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -30,8 +38,10 @@ public class IssueService {
 
 	private final IssueRepository issueRepository;
 	private final UserRepository userRepository;
+	private final MilestoneRepository milestoneRepository;
+	private final LabelService labelService;
 
-	protected Issue findIssueById(Long issueId) {
+	protected Issue findIssueById(final Long issueId) {
 		return issueRepository.findById(issueId)
 			.orElseThrow(() -> new IllegalArgumentException("issue not found id: " + issueId));
 	}
@@ -63,7 +73,7 @@ public class IssueService {
 			.collect(Collectors.toList());
 	}
 
-	public IssueDetailResponseDto findIssueDetailById(Long issueId) {
+	public IssueDetailResponseDto findIssueDetailById(final Long issueId) {
 		return IssueDetailResponseDto.of(findIssueById(issueId));
 	}
 
@@ -100,7 +110,7 @@ public class IssueService {
     }
 
 	@Transactional
-	public IssueDetailResponseDto createNewIssue(IssueCreateRequestDto dto) {
+	public IssueDetailResponseDto createNewIssue(final IssueCreateRequestDto dto) {
 		Issue newIssue = Issue.builder()
 			.title(dto.getTitle())
 			.build();
@@ -125,9 +135,9 @@ public class IssueService {
 	}
 
 	@Transactional
-	public ResponseDto updateExistingIssue(IssueUpdateRequestDto dto, RealUser user) {
+	public ResponseDto updateExistingIssue(final IssueUpdateRequestDto dto, final RealUser user) {
 		Issue issue = findIssueById(dto.getId());
-		if (! validateUserPermission(issue, user)) {
+		if (! validateUserIssuePermission(issue, user)) {
 			return createErrorResponseDto();
 		}
 		issue.updateIssue(dto);
@@ -135,16 +145,16 @@ public class IssueService {
 	}
 
 	@Transactional
-	public ResponseDto deleteExistingIssue(IssueDeleteRequestDto dto, RealUser user) {
+	public ResponseDto deleteExistingIssue(final IssueDeleteRequestDto dto, final RealUser user) {
 		Issue issue = findIssueById(dto.getId());
-		if (! validateUserPermission(issue, user)) {
+		if (! validateUserIssuePermission(issue, user)) {
 			return createErrorResponseDto();
 		}
 		issueRepository.delete(issue);
 		return IssueDetailResponseDto.of(issue);
 	}
 
-	private boolean validateUserPermission(Issue issue, RealUser user) {
+	private boolean validateUserIssuePermission(final Issue issue, final RealUser user) {
 		return issue.getUser().equals(user);
 	}
 
@@ -152,17 +162,81 @@ public class IssueService {
 		return new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), new IllegalArgumentException("not allowed."));
 	}
 
-	public Comment addNewComment(Comment comment) {
+	public Comment addNewComment(final Comment comment) {
 		Issue issue = findIssueById(comment.getUserId());
 		Comment addedComment = issue.addComment(comment);
 		return addedComment;
 	}
 
-	public Comment addNewComment(CommentCreateRequestDto dto) {
+	public Comment addNewComment(final CommentCreateRequestDto dto) {
 		RealUser user = userRepository.findById(dto.getUserId()).orElseGet(NullUser::of);
 		Issue issue = findIssueById(dto.getIssueId());
 		Comment addedComment = Comment.ofDto(dto, user, issue);
 		issue.addComment(addedComment);
 		return addedComment;
+	}
+
+	public Comment modifyComment(final CommentUpdateRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		if (! findUserByGithubId(dto).isNil()) {
+			return issue.modifyCommentByDto(dto);
+		}
+		throw new IllegalArgumentException("not allowed to modify.");
+	}
+
+	public Comment deleteComment(final CommentDeleteRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		Comment comment = findCommentById(issue, dto);
+		AbstractUser user = findUserByGithubId(dto);
+		if (validateUserCommentPermission(comment, user)) {
+			return issue.deleteCommentById(dto.getCommentId());
+		}
+		throw new IllegalArgumentException("not allowed to delete.");
+	}
+
+	private Comment findCommentById(final Issue issue, final CommentRequestDto dto) {
+		return issue.findCommentById(dto.getCommentId());
+	}
+
+	private AbstractUser findUserByGithubId(final CommentRequestDto dto) {
+		return userRepository.findByGithubId(dto.getUserGithubId()).orElseGet(NullUser::of);
+	}
+
+	private boolean validateUserCommentPermission(final Comment comment, final AbstractUser user) {
+		return comment.getUser().equals(user);
+	}
+
+	private Milestone getMilestoneById(final Long milestoneId) {
+		return milestoneRepository.findById(milestoneId).orElseGet(NullMilestone::of);
+	}
+
+	public Milestone updateMilestone(final Long issueId, final Long milestoneId) {
+		Issue issue = findIssueById(issueId);
+		Milestone milestone = getMilestoneById(milestoneId);
+		issue.updateMilestone(milestone);
+		return milestone;
+	}
+
+	public Milestone deleteMilestone(final Long issueId, final Long milestoneId) {
+		Issue issue = findIssueById(issueId);
+		return issue.deleteMilestone(milestoneId);
+	}
+
+	private Label getLabelById(final Long labelId) {
+		return labelService.findLabelById(labelId);
+	}
+
+	public Label addNewLabel(final Long issueId, final Long labelId) {
+		Issue issue = findIssueById(issueId);
+		Label label = getLabelById(labelId);
+		issue.addNewLabel(label);
+		return label;
+	}
+
+	public Label deleteLabel(final Long issueId, final Long labelId) {
+		Issue issue = findIssueById(issueId);
+		Label label = getLabelById(labelId);
+		issue.deleteExistingLabel(label);
+		return label;
 	}
 }

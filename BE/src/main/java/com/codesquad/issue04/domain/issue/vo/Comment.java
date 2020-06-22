@@ -80,7 +80,7 @@ public class Comment implements Serializable {
 		this.issue = issue;
 	}
 
-	public static Comment ofDto(CommentCreateRequestDto dto, RealUser user, Issue issue) {
+	public static Comment ofDto(final CommentCreateRequestDto dto, final RealUser user, final Issue issue) {
 		return new Comment(dto.getContent(), dto.getEmojis(), dto.getPhotos(), user, issue);
 	}
 
@@ -103,14 +103,14 @@ public class Comment implements Serializable {
 		return this.user.getId();
 	}
 
-	public Comment updateComment(CommentUpdateRequestDto dto) {
+	public Comment updateComment(final CommentUpdateRequestDto dto) {
 		this.content = dto.getContent();
 		this.photos = dto.getMockPhotos();
 		this.emojis = dto.getMockEmojis();
 		return this;
 	}
 
-	public boolean doesMatchId(Long commentId) {
+	public boolean doesMatchId(final Long commentId) {
 		return this.id.equals(commentId);
 	}
 

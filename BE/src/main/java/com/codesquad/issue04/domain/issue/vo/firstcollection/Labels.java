@@ -43,4 +43,23 @@ public class Labels {
 			.map(Label::getTitle)
 			.collect(Collectors.toSet());
 	}
+
+	public boolean checkLabelsContainsByLabelId(final Long labelId) {
+		return labels.stream()
+			.anyMatch(label -> label.getId().equals(labelId));
+	}
+
+	public Label addNewLabel(final Label label) {
+		Set<Label> labelSet = new HashSet<>(this.labels);
+		labelSet.add(label);
+		this.labels = labelSet;
+		return label;
+	}
+
+	public Label deleteExistingLabel(final Label label) {
+		Set<Label> labelSet = new HashSet<>(this.labels);
+		labelSet.remove(label);
+		this.labels = labelSet;
+		return label;
+	}
 }

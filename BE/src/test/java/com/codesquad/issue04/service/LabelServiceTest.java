@@ -59,7 +59,7 @@ public class LabelServiceTest {
 	void 라벨_하나가_추가된다(String title, String color, String description) {
 		LabelCreateRequestDto dto = new LabelCreateRequestDto(title, color, description);
 		labelService.createNewLabel(dto);
-		LabelDetailResponseDto savedLabelDto = labelService.findLatestIssue();
+		LabelDetailResponseDto savedLabelDto = labelService.findLatestLabel();
 		assertAll(
 			() -> assertThat(savedLabelDto.getTitle()).isEqualTo(title),
 			() -> assertThat(savedLabelDto.getColor()).isEqualTo(color),

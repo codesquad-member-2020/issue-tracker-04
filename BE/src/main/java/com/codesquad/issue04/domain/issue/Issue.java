@@ -23,6 +23,7 @@ import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
+import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
@@ -114,14 +115,14 @@ public class Issue extends BaseTimeEntity {
 		return this.getAssignees().size() > 0;
 	}
 
-	public Comment addComment(Comment comment) {
+	public Comment addComment(final Comment comment) {
 		List<Comment> newCommentList = this.comments.returnCommentsCreatingNewList();
 		newCommentList.add(comment);
 		this.comments = Comments.ofComments(newCommentList);
 		return comment;
 	}
 
-	public Issue updateIssue(IssueUpdateRequestDto dto) {
+	public Issue updateIssue(final IssueUpdateRequestDto dto) {
 		if (! dto.getTitle().equals(this.title)) {
 			this.title = dto.getTitle();
 		}
@@ -132,7 +133,7 @@ public class Issue extends BaseTimeEntity {
 		return this.comments.getOverview();
 	}
 
-	public Comment getCommentByIndex(int commentIndex) {
+	public Comment getCommentByIndex(final int commentIndex) {
 		return this.comments.getCommentByIndex(commentIndex);
 	}
 
@@ -140,22 +141,46 @@ public class Issue extends BaseTimeEntity {
 		return this.comments.getLatestComment();
 	}
 
-	public Comment findCommentById(Long commentId) {
+	public Comment findCommentById(final Long commentId) {
 		return this.comments.findCommentById(commentId);
 	}
 
-	public Comment deleteCommentById(Long commentId) {
+	public Comment deleteCommentById(final Long commentId) {
 		return this.comments.deleteCommentById(commentId);
 	}
 
-	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
+	public Comment modifyCommentByDto(final CommentUpdateRequestDto dto) {
 		doesMatchId(dto);
 		return this.comments.modifyCommentByDto(dto);
 	}
 
-	private void doesMatchId(CommentUpdateRequestDto dto) {
+	private void doesMatchId(final CommentUpdateRequestDto dto) {
 		if (! this.id.equals(dto.getIssueId())) {
 			throw new IllegalArgumentException("not matched issue");
 		}
+	}
+
+	public Milestone updateMilestone(final Milestone milestone) {
+		this.milestone = milestone;
+		return milestone;
+	}
+
+	public Milestone deleteMilestone(final Long milestoneId) {
+		if (milestone.getId().equals(milestoneId)) {
+			this.milestone = NullMilestone.of();
+		}
+		return this.milestone;
+	}
+
+	public boolean checkLabelsContainsByLabelId(final Long labelId) {
+		return labels.checkLabelsContainsByLabelId(labelId);
+	}
+
+	public Label addNewLabel(final Label label) {
+		return labels.addNewLabel(label);
+	}
+
+	public Label deleteExistingLabel(final Label label) {
+		return labels.deleteExistingLabel(label);
 	}
 }
