@@ -10,11 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
@@ -51,6 +54,7 @@ public class MilestoneServiceTest {
 		assertThat(milestoneService.getMilestoneOverviews()).isInstanceOf(MilestoneResponseDtos.class);
 	}
 
+	@Transactional
 	@DisplayName("마일스톤 하나를 추가한다.")
 	@CsvSource({"testTitle, 2020-06-30, testContent"})
 	@ParameterizedTest
@@ -65,6 +69,7 @@ public class MilestoneServiceTest {
 		assertThat(savedItem.getTitle()).isEqualTo(milestone.getTitle());
 	}
 
+	@Transactional
 	@DisplayName("마일스톤 하나를 수정한다.")
 	@CsvSource({"1, newTitle, 2020-07-01, newContent"})
 	@ParameterizedTest
@@ -77,5 +82,17 @@ public class MilestoneServiceTest {
 			() -> assertThat(updatedMilestone.getDueDate()).isEqualTo(dueDate),
 			() -> assertThat(updatedMilestone.getDescription()).isEqualTo(content)
 		);
+	}
+
+	@Transactional
+	@DisplayName("마일스톤 하나를 삭제한다.")
+	@ValueSource(longs = 1)
+	@ParameterizedTest
+	void 마일스톤_하나를_삭제한다(Long id) {
+		MilestoneDeleteRequestDto dto = new MilestoneDeleteRequestDto(id);
+		milestoneService.deleteMilestone(dto);
+		assertThatThrownBy(
+			() -> milestoneService.findMilestoneById(dto.getId())
+		).isInstanceOf(IllegalArgumentException.class);
 	}
 }
