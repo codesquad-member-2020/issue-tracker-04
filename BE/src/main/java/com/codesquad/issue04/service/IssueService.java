@@ -10,10 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.domain.milestone.Milestone;
+import com.codesquad.issue04.domain.milestone.MilestoneRepository;
+import com.codesquad.issue04.domain.milestone.NullMilestone;
+import com.codesquad.issue04.domain.user.AbstractUser;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -30,6 +37,7 @@ public class IssueService {
 
 	private final IssueRepository issueRepository;
 	private final UserRepository userRepository;
+	private final MilestoneRepository milestoneRepository;
 
 	protected Issue findIssueById(Long issueId) {
 		return issueRepository.findById(issueId)
@@ -127,7 +135,7 @@ public class IssueService {
 	@Transactional
 	public ResponseDto updateExistingIssue(IssueUpdateRequestDto dto, RealUser user) {
 		Issue issue = findIssueById(dto.getId());
-		if (! validateUserPermission(issue, user)) {
+		if (! validateUserIssuePermission(issue, user)) {
 			return createErrorResponseDto();
 		}
 		issue.updateIssue(dto);
@@ -137,14 +145,14 @@ public class IssueService {
 	@Transactional
 	public ResponseDto deleteExistingIssue(IssueDeleteRequestDto dto, RealUser user) {
 		Issue issue = findIssueById(dto.getId());
-		if (! validateUserPermission(issue, user)) {
+		if (! validateUserIssuePermission(issue, user)) {
 			return createErrorResponseDto();
 		}
 		issueRepository.delete(issue);
 		return IssueDetailResponseDto.of(issue);
 	}
 
-	private boolean validateUserPermission(Issue issue, RealUser user) {
+	private boolean validateUserIssuePermission(Issue issue, RealUser user) {
 		return issue.getUser().equals(user);
 	}
 
@@ -164,5 +172,46 @@ public class IssueService {
 		Comment addedComment = Comment.ofDto(dto, user, issue);
 		issue.addComment(addedComment);
 		return addedComment;
+	}
+
+	public Comment modifyComment(CommentUpdateRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		if (!findUserByGithubId(dto).isNil()) {
+			return issue.modifyCommentByDto(dto);
+		}
+		throw new IllegalArgumentException("not allowed to modify.");
+	}
+
+	public Comment deleteComment(CommentDeleteRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		Comment comment = findCommentById(issue, dto);
+		AbstractUser user = findUserByGithubId(dto);
+		if (validateUserCommentPermission(comment, user)) {
+			return issue.deleteCommentById(dto.getCommentId());
+		}
+		throw new IllegalArgumentException("not allowed to delete.");
+	}
+
+	private Comment findCommentById(Issue issue, CommentRequestDto dto) {
+		return issue.findCommentById(dto.getCommentId());
+	}
+
+	private AbstractUser findUserByGithubId(CommentRequestDto dto) {
+		return userRepository.findByGithubId(dto.getUserGithubId()).orElseGet(NullUser::of);
+	}
+
+	private boolean validateUserCommentPermission(Comment comment, AbstractUser user) {
+		return comment.getUser().equals(user);
+	}
+
+	private Milestone getMilestoneById(Long milestoneId) {
+		return milestoneRepository.findById(milestoneId).orElseGet(NullMilestone::of);
+	}
+
+	public Milestone changeMilestone(Long issueId, Long milestoneId) {
+		Issue issue = findIssueById(issueId);
+		Milestone milestone = getMilestoneById(milestoneId);
+		issue.updateMilestone(milestone);
+		return milestone;
 	}
 }

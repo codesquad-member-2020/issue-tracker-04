@@ -158,4 +158,9 @@ public class Issue extends BaseTimeEntity {
 			throw new IllegalArgumentException("not matched issue");
 		}
 	}
+
+	public Milestone updateMilestone(Milestone milestone) {
+		this.milestone = milestone;
+		return milestone;
+	}
 }

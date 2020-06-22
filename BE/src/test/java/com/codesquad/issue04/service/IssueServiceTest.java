@@ -18,11 +18,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
+import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
@@ -57,6 +58,7 @@ public class IssueServiceTest {
 	private static Stream<Arguments> 댓글수정_예시모음() { // argument source method
 		Long issueId = 1L;
 		Long commentId = 1L;
+		String userGithubId = "guswns1659";
 		String content = "comment";
 		List<Photo> mockPhotos = Arrays.asList(
 			Photo.ofUrl("naver.com"), Photo.ofUrl("sigrid.com"), Photo.ofUrl("lena.com")
@@ -64,7 +66,7 @@ public class IssueServiceTest {
 		List<Emoji> mockEmojis = Arrays.asList(Emoji.CONFUSED, Emoji.EYES, Emoji.HEART);
 
 		return Stream.of(
-			Arguments.of(issueId, commentId, content, mockPhotos, mockEmojis)
+			Arguments.of(issueId, commentId, userGithubId, content, mockPhotos, mockEmojis)
 		);
 	}
 
@@ -199,14 +201,25 @@ public class IssueServiceTest {
 
 	@Transactional
 	@DisplayName("이슈에서 댓글이 삭제된다.")
-	@CsvSource({"1, 1"})
+	@CsvSource({"1, 1, guswns1659"})
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_삭제한다(Long issueId, Long commentId) {
+	void 이슈에_댓글_하나를_삭제한다(Long issueId, Long commentId, String userGithubId) {
 		Issue issue = issueService.findIssueById(issueId);
-		assertThat(issue.findCommentById(commentId)).isInstanceOf(Comment.class);
-		issue.deleteCommentById(commentId);
+		CommentDeleteRequestDto dto = new CommentDeleteRequestDto(issueId, commentId, userGithubId);
+		issueService.deleteComment(dto);
 		assertThatThrownBy(
 			() -> issue.findCommentById(commentId)
+		).isInstanceOf(IllegalArgumentException.class);
+	}
+
+	@Transactional
+	@DisplayName("이슈에서 댓글이 삭제될 때 작성자를 확인한다.")
+	@CsvSource({"1, 1, jypthemiracle"})
+	@ParameterizedTest
+	void 이슈에_댓글_하나를_삭제할때_작성자를_확인한다(Long issueId, Long commentId, String userGithubId) {
+		CommentDeleteRequestDto dto = new CommentDeleteRequestDto(issueId, commentId, userGithubId);
+		assertThatThrownBy(
+			() -> issueService.deleteComment(dto)
 		).isInstanceOf(IllegalArgumentException.class);
 	}
 
@@ -214,14 +227,39 @@ public class IssueServiceTest {
 	@DisplayName("이슈에서 댓글이 수정된다.")
 	@MethodSource("댓글수정_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String userGithubId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
 		Issue issue = issueService.findIssueById(issueId);
-		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, content, mockPhotos, mockEmojis);
-		issue.modifyCommentByDto(dto);
+		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, userGithubId, content, mockPhotos, mockEmojis);
+		issueService.modifyComment(dto);
 		assertAll(
 			() -> assertThat(issue.findCommentById(commentId).getContent()).isEqualTo(content),
 			() -> assertThat(issue.findCommentById(commentId).getPhotos()).isEqualTo(mockPhotos),
 			() -> assertThat(issue.findCommentById(commentId).getEmojis()).isEqualTo(mockEmojis)
 		);
+	}
+
+	@Transactional
+	@DisplayName("이슈에 마일스톤을 새로 추가할 수 있다.")
+	@CsvSource({"1, 2"})
+	@ParameterizedTest
+	void 이슈에_새로운_마일스톤을_추가한다(Long issueId, Long milestoneId) {
+		Milestone milestone = issueService.changeMilestone(issueId, milestoneId);
+		assertThat(issueService.findIssueById(issueId).getMilestone()).isEqualTo(milestone);
+	}
+
+	@Transactional
+	@DisplayName("마일스톤을 삭제한다.")
+	@CsvSource({"1"})
+	@ParameterizedTest
+	void 이슈의_마일스톤을_삭제한다(Long milestoneId) {
+		//
+	}
+
+	@Transactional
+	@DisplayName("이미 마일스톤이 부여된 이슈에 다른 마일스톤으로 변경한다.")
+	@CsvSource({"1, 3"})
+	@ParameterizedTest
+	void 이슈의_마일스톤을_변경한다(Long milestoneId) {
+		//
 	}
 }
