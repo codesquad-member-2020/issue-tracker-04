@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -69,7 +67,7 @@ public class RealUser implements Serializable, AbstractUser {
             .build();
     }
 
-    public RealUser update(String name, String picture) {
+    public RealUser update(final String name, final String picture) {
         this.name = name;
         this.image = picture;
         return this;

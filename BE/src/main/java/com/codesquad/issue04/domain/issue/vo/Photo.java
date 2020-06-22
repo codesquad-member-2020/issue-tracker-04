@@ -17,7 +17,7 @@ public class Photo {
 		this.url = url;
 	}
 
-	public static Photo ofUrl(String url) {
+	public static Photo ofUrl(final String url) {
 		return new Photo(url);
 	}
 }

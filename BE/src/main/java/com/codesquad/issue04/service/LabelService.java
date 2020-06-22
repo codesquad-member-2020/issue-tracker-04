@@ -22,7 +22,7 @@ public class LabelService {
 
 	private final LabelRepository labelRepository;
 
-	protected Label findLabelById(Long labelId) {
+	protected Label findLabelById(final Long labelId) {
 		return labelRepository.findById(labelId)
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
 	}
@@ -49,28 +49,29 @@ public class LabelService {
 	}
 
 	@Transactional
-	public LabelDetailResponseDto findLatestIssue() {
+	public LabelDetailResponseDto findLatestLabel() {
 		Label latestLabel = labelRepository.findTopByOrderByIdDesc();
 		return LabelDetailResponseDto.of(latestLabel);
 	}
 
 	@Transactional
-	public Label createNewLabel(LabelCreateRequestDto dto) {
+	public Label createNewLabel(final LabelCreateRequestDto dto) {
 		Label savedLabel = Label.builder()
 			.title(dto.getTitle())
 			.color(dto.getColor())
 			.description(dto.getDescription())
 			.build();
+		labelRepository.save(savedLabel);
 		return savedLabel;
 	}
 
-	public Label updateExistingLabel(LabelUpdateRequestDto dto) {
+	public Label updateExistingLabel(final LabelUpdateRequestDto dto) {
 		Label updatedLabel = findLabelById(dto.getId());
 		updatedLabel.updateLabel(dto);
 		return updatedLabel;
 	}
 
-	public Label deleteExistingLabel(LabelDeleteRequestDto dto) {
+	public Label deleteExistingLabel(final LabelDeleteRequestDto dto) {
 		Label deletedLabel = findLabelById(dto.getId());
 		labelRepository.delete(deletedLabel);
 		return deletedLabel;

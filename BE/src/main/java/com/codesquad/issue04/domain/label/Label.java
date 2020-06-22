@@ -45,7 +45,7 @@ public class Label {
 	)
 	private Set<Issue> issues;
 
-	public Label updateLabel(LabelUpdateRequestDto dto) {
+	public Label updateLabel(final LabelUpdateRequestDto dto) {
 		this.title = dto.getTitle();
 		this.color = dto.getColor();
 		this.description = dto.getDescription();
