@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
 import com.codesquad.issue04.domain.user.RealUser;
@@ -179,5 +180,18 @@ public class IssueServiceTest {
             () -> assertThat(issue.getLatestComment().getPhotos()).isEqualTo(dto.getPhotos()),
             () -> assertThat(issue.getLatestComment().getEmojis()).isEqualTo(dto.getEmojis())
         );
+    }
+
+    @Transactional
+    @DisplayName("이슈에서 댓글이 삭제된다.")
+    @CsvSource({"1, 1"})
+    @ParameterizedTest
+    void 이슈에_댓글_하나를_삭제한다(Long issueId, Long commentId) {
+        Issue issue = issueService.findIssueById(issueId);
+        assertThat(issue.findCommentById(commentId)).isInstanceOf(Comment.class);
+        issue.deleteCommentById(commentId);
+        assertThatThrownBy(
+            () -> issue.findCommentById(commentId)
+        ).isInstanceOf(IllegalArgumentException.class);
     }
 }

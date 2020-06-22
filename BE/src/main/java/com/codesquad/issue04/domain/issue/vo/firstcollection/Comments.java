@@ -52,4 +52,17 @@ public class Comments {
 		int latestIndex = this.comments.size() - 1;
 		return this.comments.get(latestIndex);
 	}
+
+	public Comment findCommentById(Long commentId) {
+		return comments.stream()
+			.filter(comment -> comment.getId().equals(commentId))
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException("not found"));
+	}
+
+	public Comment deleteCommentById(Long commentId) {
+		Comment deletedComment = findCommentById(commentId);
+		this.comments.remove(deletedComment);
+		return deletedComment;
+	}
 }

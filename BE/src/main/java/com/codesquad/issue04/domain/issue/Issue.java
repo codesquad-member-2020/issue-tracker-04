@@ -138,4 +138,12 @@ public class Issue extends BaseTimeEntity {
 	public Comment getLatestComment() {
 		return this.comments.getLatestComment();
 	}
+
+	public Comment findCommentById(Long commentId) {
+		return this.comments.findCommentById(commentId);
+	}
+
+	public Comment deleteCommentById(Long commentId) {
+		return this.comments.deleteCommentById(commentId);
+	}
 }
