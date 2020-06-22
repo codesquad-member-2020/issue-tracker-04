@@ -4,6 +4,7 @@ plugins {
     id 'java'
 }
 
+archivesBaseName = 'action_codedeploy'
 group = 'com.codesquad'
 version = '0.0.1-SNAPSHOT'; sourceCompatibility = '1.8'
 configurations {
