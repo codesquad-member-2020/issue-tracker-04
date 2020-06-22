@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.issue;
+package com.codesquad.issue04.domain.issue.vo;
 
 import lombok.Getter;
 
