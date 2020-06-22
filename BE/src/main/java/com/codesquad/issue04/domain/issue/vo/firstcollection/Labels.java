@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.issue.vo;
+package com.codesquad.issue04.domain.issue.vo.firstcollection;
 
 import java.util.Collections;
 import java.util.HashSet;
