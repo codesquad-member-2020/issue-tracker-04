@@ -73,7 +73,7 @@ public class Issue extends BaseTimeEntity {
 
 		this.id = id;
 		this.title = Optional.ofNullable(title).orElse("직박구리");
-		this.comments = Optional.ofNullable(comments).orElse(Comments.of());
+		this.comments = Optional.ofNullable(comments).orElse(Comments.ofNullComments());
 		this.labels = Optional.ofNullable(labels).orElse(new Labels());
 		this.milestone = Optional.ofNullable(milestone).orElse(NullMilestone.of());
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
