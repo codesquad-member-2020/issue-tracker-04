@@ -4,10 +4,10 @@ os: linux
 
 files:
   - source: /
-    destination: /opt/issueTracker-codedeploy
+    destination: /deploy
     overwrite: yes
 permissions:
-  - object: /opt/issueTracker-codedeploy
+  - object: /deploy
     owner: ubuntu
     group: ubuntu
     mode: 755
