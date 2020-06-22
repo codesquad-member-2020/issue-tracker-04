@@ -42,7 +42,7 @@ public class LoginController {
         Cookie cookie = new Cookie(String.valueOf(Oauth.USER_ID), githubUser.getUserId());
         cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
-        response.setHeader(String.valueOf(Oauth.HEADER_LOCATION), String.valueOf(Oauth.MOBILE_REDIRECT_URL) + jwt);
+        response.setHeader(String.valueOf(Oauth.HEADER_LOCATION), Oauth.MOBILE_REDIRECT_URL + jwt);
         return new ResponseEntity(HttpStatus.FOUND);
     }
 }
