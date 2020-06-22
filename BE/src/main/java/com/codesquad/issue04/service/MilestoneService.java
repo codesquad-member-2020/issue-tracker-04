@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
-import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
+import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -37,5 +39,21 @@ public class MilestoneService {
 	protected Milestone findMilestoneById(Long labelId) {
 		return milestoneRepository.findById(labelId)
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
+	}
+
+	public Milestone createMilestone(Milestone milestone) {
+		return milestoneRepository.save(milestone);
+	}
+
+	public MilestoneDto updateMilestone(MilestoneUpdateRequestDto dto) {
+		Milestone beforeMilestone = findMilestoneById(dto.getId());
+		Milestone afterMilestone = beforeMilestone.updateMilestone(dto);
+		return MilestoneDto.of(afterMilestone);
+	}
+
+	public Milestone deleteMilestone(MilestoneDeleteRequestDto dto) {
+		Milestone deleteMilestone = findMilestoneById(dto.getId());
+		milestoneRepository.delete(deleteMilestone);
+		return deleteMilestone;
 	}
 }
