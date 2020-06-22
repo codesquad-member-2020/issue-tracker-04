@@ -41,8 +41,11 @@ class IssueDetailViewController: UIViewController {
         bodyView.text = issue.body
         ownerLabel.text = String(describing: issue.owner)
         setupVisualEffectView()
+        
+//        self.issueInfoView.movePreviousCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
+//        issueInfoView.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
     }
-
+    
     private func setupVisualEffectView() {
         visualEffectView = UIVisualEffectView(frame: self.view.bounds) // 블러 화면
         self.view.addSubview(visualEffectView)
@@ -71,17 +74,17 @@ class IssueDetailViewController: UIViewController {
     }
     
     // MARK: - Animation
-    
+    // 옮겨보기
     private func createAnimation(state:IssueInfoState, duration:TimeInterval) {
         let cardMoveUpAnimation = UIViewPropertyAnimator(duration: duration, curve: .linear) { [weak self] in
             guard let `self` = self else  { return }
             switch state {
             case .collpased:
                 self.issueInfoView.frame.origin.y = self.view.frame.height - self.handleAreaHeight
-
+                
             case .expanded:
                 self.issueInfoView.frame.origin.y = self.view.frame.height - self.issueInfoViewHeight
-
+                
             }
         }
         cardMoveUpAnimation.addCompletion { [weak self] _ in

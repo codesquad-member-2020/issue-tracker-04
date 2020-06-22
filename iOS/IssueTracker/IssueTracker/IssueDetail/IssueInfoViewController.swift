@@ -17,6 +17,8 @@ class IssueInfoViewController: UIViewController {
         
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(IssueDetailViewController.gestureStarted))
         self.handlerArea.addGestureRecognizer(panGestureRecognizer)
+        
+
     }
 
 }
