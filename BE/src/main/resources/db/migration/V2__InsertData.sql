@@ -8,6 +8,12 @@ VALUES ('Sigrid Jin', 'jypthemiracle',
 INSERT INTO milestone (title, due_date, description)
 VALUES ('1차 배포', '2020-06-28', '1차 배포');
 
+INSERT INTO milestone (title, due_date, description)
+VALUES ('2차 배포', '2020-07-01', '2차 배포');
+
+INSERT INTO milestone (title, due_date, description)
+VALUES ('3차 배포', '2020-07-02', '3차 배포');
+
 INSERT INTO issue (title, user_id, milestone_id)
 VALUES ('SQL 작성', 1, 1);
 
