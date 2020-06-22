@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import lombok.Getter;
 
 @Getter
@@ -55,7 +56,7 @@ public class Comments {
 
 	public Comment findCommentById(Long commentId) {
 		return comments.stream()
-			.filter(comment -> comment.getId().equals(commentId))
+			.filter(comment -> comment.doesMatchId(commentId))
 			.findFirst()
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
 	}
@@ -64,5 +65,13 @@ public class Comments {
 		Comment deletedComment = findCommentById(commentId);
 		this.comments.remove(deletedComment);
 		return deletedComment;
+	}
+
+	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
+		return comments.stream()
+			.filter(comment -> comment.doesMatchId(dto.getCommentId()))
+			.findFirst()
+			.map(comment -> comment.updateComment(dto))
+			.get();
 	}
 }

@@ -23,6 +23,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -100,6 +101,17 @@ public class Comment implements Serializable {
 
 	public Long getUserId() {
 		return this.user.getId();
+	}
+
+	public Comment updateComment(CommentUpdateRequestDto dto) {
+		this.content = dto.getContent();
+		this.photos = dto.getMockPhotos();
+		this.emojis = dto.getMockEmojis();
+		return this;
+	}
+
+	public boolean doesMatchId(Long commentId) {
+		return this.id.equals(commentId);
 	}
 
 }

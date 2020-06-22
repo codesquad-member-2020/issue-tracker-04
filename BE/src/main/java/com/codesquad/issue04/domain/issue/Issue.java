@@ -28,6 +28,7 @@ import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.utils.BaseTimeEntity;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -145,5 +146,16 @@ public class Issue extends BaseTimeEntity {
 
 	public Comment deleteCommentById(Long commentId) {
 		return this.comments.deleteCommentById(commentId);
+	}
+
+	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
+		doesMatchId(dto);
+		return this.comments.modifyCommentByDto(dto);
+	}
+
+	private void doesMatchId(CommentUpdateRequestDto dto) {
+		if (! this.id.equals(dto.getIssueId())) {
+			throw new IllegalArgumentException("not matched issue");
+		}
 	}
 }
