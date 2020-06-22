@@ -13,7 +13,11 @@ import lombok.ToString;
 public class Photo {
 	private String url;
 
-	public Photo(String url) {
+	private Photo(String url) {
 		this.url = url;
+	}
+
+	public static Photo ofUrl(String url) {
+		return new Photo(url);
 	}
 }

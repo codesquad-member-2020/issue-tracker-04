@@ -134,4 +134,8 @@ public class Issue extends BaseTimeEntity {
 	public Comment getCommentByIndex(int commentIndex) {
 		return this.comments.getCommentByIndex(commentIndex);
 	}
+
+	public Comment getLatestComment() {
+		return this.comments.getLatestComment();
+	}
 }

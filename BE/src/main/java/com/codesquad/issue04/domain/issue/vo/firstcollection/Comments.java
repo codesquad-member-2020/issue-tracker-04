@@ -14,7 +14,7 @@ import lombok.Getter;
 @Getter
 @Embeddable
 public class Comments {
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issue", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
 	protected Comments() {
@@ -46,5 +46,10 @@ public class Comments {
 
 	public Comment getCommentByIndex(int commentIndex) {
 		return this.comments.get(commentIndex);
+	}
+
+	public Comment getLatestComment() {
+		int latestIndex = this.comments.size() - 1;
+		return this.comments.get(latestIndex);
 	}
 }

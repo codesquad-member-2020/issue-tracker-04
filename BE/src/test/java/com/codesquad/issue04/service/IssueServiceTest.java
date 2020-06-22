@@ -5,17 +5,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.vo.Emoji;
+import com.codesquad.issue04.domain.issue.vo.Photo;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -133,10 +139,45 @@ public class IssueServiceTest {
     void 기존의_이슈를_삭제한다(Long id, String githubId) {
         IssueDeleteRequestDto dto = new IssueDeleteRequestDto(id);
         RealUser user = userService.getUserByGitHubId(githubId);
-        IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto)issueService.deleteExistingIssue(dto, user);
+        IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.deleteExistingIssue(dto, user);
         assertThat(detailResponseDto.getId()).isEqualTo(id);
         assertThatThrownBy(
             () -> issueService.findIssueById(id)
+        );
+    }
+
+    private static Stream<Arguments> 댓글추가_예시모음() { // argument source method
+        Long issueId = 1L;
+        Long userId = 2L;
+        String content = "comment";
+        List<Photo> mockPhotos = Arrays.asList(
+            Photo.ofUrl("naver.com"), Photo.ofUrl("sigrid.com"), Photo.ofUrl("lena.com")
+        );
+        List<Emoji> mockEmojis = Arrays.asList(Emoji.CONFUSED, Emoji.EYES, Emoji.HEART);
+
+        return Stream.of(
+            Arguments.of(issueId, userId, content, mockPhotos, mockEmojis)
+        );
+    }
+
+    @Transactional
+    @DisplayName("이슈에 댓글을 추가한다.")
+    @MethodSource("댓글추가_예시모음")
+    @ParameterizedTest
+    void 이슈에_댓글_하나를_추가한다(Long issueId, Long userId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+        CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
+            .issueId(issueId)
+            .userId(userId)
+            .content(content)
+            .photos(mockPhotos)
+            .emojis(mockEmojis)
+            .build();
+        issueService.addNewComment(dto);
+        Issue issue = issueService.findIssueById(issueId);
+        assertAll(
+            () -> assertThat(issue.getLatestComment().getContent()).isEqualTo(dto.getContent()),
+            () -> assertThat(issue.getLatestComment().getPhotos()).isEqualTo(dto.getPhotos()),
+            () -> assertThat(issue.getLatestComment().getEmojis()).isEqualTo(dto.getEmojis())
         );
     }
 }
