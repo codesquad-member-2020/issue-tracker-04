@@ -268,4 +268,22 @@ public class IssueServiceTest {
 		Milestone modifiedMilestone = issueService.updateMilestone(issueId, afterMilestoneId);
 		assertThat(issueService.findIssueById(issueId).getMilestone()).isEqualTo(modifiedMilestone);
 	}
+
+	@Transactional
+	@DisplayName("새로운 라벨을 추가한다.")
+	@CsvSource({"1, 1"})
+	@ParameterizedTest
+	void 이슈의_라벨에_하나_추가한다(Long issueId, Long labelId) {
+		issueService.addNewLabel(issueId, labelId);
+		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(true);
+	}
+
+	@Transactional
+	@DisplayName("라벨을 삭제한다.")
+	@CsvSource({"1, 1"})
+	@ParameterizedTest
+	void 이슈의_라벨에_하나_삭제한다(Long issueId, Long labelId) {
+		issueService.deleteLabel(issueId, labelId);
+		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(false);
+	}
 }
