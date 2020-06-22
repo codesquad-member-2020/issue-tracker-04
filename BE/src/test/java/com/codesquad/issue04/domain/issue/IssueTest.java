@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 
@@ -35,7 +36,7 @@ public class IssueTest {
 		Issue issue = Issue.builder()
 			.id(1L)
 			.comments(null)
-			.labels(Collections.emptySet())
+			.labels(Labels.ofNullLabels())
 			.milestone(new Milestone())
 			.title("title")
 			.user(this.user)

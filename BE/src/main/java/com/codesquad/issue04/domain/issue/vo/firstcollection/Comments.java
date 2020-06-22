@@ -1,4 +1,4 @@
-package com.codesquad.issue04.domain.issue;
+package com.codesquad.issue04.domain.issue.vo.firstcollection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+import com.codesquad.issue04.domain.issue.vo.Comment;
 import lombok.Getter;
 
 @Getter
@@ -23,7 +24,7 @@ public class Comments {
 		this.comments = comments;
 	}
 
-	public static Comments of() {
+	public static Comments ofNullComments() {
 		return new Comments();
 	}
 
