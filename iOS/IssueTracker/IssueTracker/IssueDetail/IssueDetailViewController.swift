@@ -18,7 +18,6 @@ class IssueDetailViewController: UIViewController {
     private let issueModelController: IssueModelController
     var issue: Issue { issueModelController.issue }
 
-    var issueInfoViewController: IssueInfoViewController!
 
     var nextState: IssueInfoState {
         issueInfoVisible ? .collapsed : .expanded
@@ -60,7 +59,7 @@ class IssueDetailViewController: UIViewController {
 
     func setupButtonIssueInfoView() {
         setupVisualEffectView()
-        setupIssueInfoView()
+//        setupIssueInfoView()
 
     }
     
@@ -71,16 +70,11 @@ class IssueDetailViewController: UIViewController {
         visualEffectView.isHidden = true
     }
 
-    private func setupIssueInfoView() {
-        issueInfoViewController = IssueInfoViewController(nibName:"IssueInfoViewController",bundle:nil)
-        self.add(issueInfoViewController)
-
-        // Configure ChildView
-        issueInfoViewController.view.frame = CGRect(x:0,y:self.view.frame.height - handleAreaHeight, width:self.view.frame.width, height:issueInfoViewHeight)
-
-        issueInfoViewController.movePreviousCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
-        issueInfoViewController.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
-    }
+//    private func setupIssueInfoView() {
+//
+//        issueInfoView.movePreviousCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
+//        issueInfoView.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
+//    }
 
     // MARK: - Selector
 

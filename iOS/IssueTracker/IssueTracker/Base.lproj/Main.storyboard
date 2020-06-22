@@ -78,7 +78,7 @@
                                 </prototypes>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSU-6T-JTf">
-                                <rect key="frame" x="0.0" y="659" width="375" height="650"/>
+                                <rect key="frame" x="0.0" y="659" width="375" height="649.66666666666652"/>
                                 <connections>
                                     <segue destination="vvx-fP-IoB" kind="embed" id="vFM-xR-xt3"/>
                                 </connections>
@@ -106,11 +106,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bodyView" destination="RPr-rF-okU" id="PQc-AS-UqR"/>
                         <outlet property="commentTableView" destination="CaD-t0-evg" id="8uO-1T-nIf"/>
                         <outlet property="issueDetailView" destination="tya-f0-XsJ" id="yl9-lj-1t3"/>
-                        <outlet property="ownerLabel" destination="3nw-Xg-hLa" id="ccR-9k-e0d"/>
-                        <outlet property="titleLabel" destination="DEq-uW-hxQ" id="HnJ-r9-vJG"/>
+                        <outlet property="issueInfoView" destination="nSU-6T-JTf" id="XXz-sY-nqu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -331,7 +329,7 @@
             <objects>
                 <viewController modalPresentationStyle="formSheet" id="vvx-fP-IoB" customClass="IssueInfoViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OAU-8R-k10">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="650"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="649.66666666666663"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ynm-km-CfB">
@@ -367,7 +365,7 @@
                                 <state key="normal" image="chevron.down" catalog="system"/>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q8O-d0-rWf">
-                                <rect key="frame" x="10" y="99.333333333333343" width="355" height="477.33333333333326"/>
+                                <rect key="frame" x="10" y="99.333333333333314" width="355" height="476.99999999999994"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="Mta-Rp-ciA" rowHeight="128" style="IBUITableViewCellStyleDefault" id="6do-aO-C0n">
@@ -423,7 +421,7 @@
                                 <sections/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHS-0W-SMH">
-                                <rect key="frame" x="0.0" y="586.66666666666663" width="375" height="29.333333333333371"/>
+                                <rect key="frame" x="0.0" y="586.33333333333337" width="375" height="29.333333333333371"/>
                                 <state key="normal" title="Close Issue">
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>

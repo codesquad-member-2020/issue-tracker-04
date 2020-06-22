@@ -184,7 +184,6 @@
 			children = (
 				8D1E587F248E2FC7002C2F3D /* IssueDetailViewController.swift */,
 				6ACEBE9E249C5F200055DCB8 /* IssueInfoViewController.swift */,
-				6ACEBE9F249C5F200055DCB8 /* IssueInfoViewController.xib */,
 				8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */,
 				6A25E751249F71F00056C4FB /* Assignees */,
 				6A25E752249F72090056C4FB /* Labels */,
