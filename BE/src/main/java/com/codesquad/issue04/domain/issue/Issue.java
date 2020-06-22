@@ -1,9 +1,7 @@
 package com.codesquad.issue04.domain.issue;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +19,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
-import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
@@ -48,13 +45,8 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Comments comments;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-		name = "label_has_issue",
-		joinColumns = @JoinColumn(name = "issue_id"),
-		inverseJoinColumns = @JoinColumn(name = "label_id")
-	)
-	private Set<Label> labels;
+	@Embedded
+	private Labels labels;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(
@@ -77,12 +69,12 @@ public class Issue extends BaseTimeEntity {
 
 	@Builder
 	public Issue(Long id, String title, Comments comments,
-		Set<Label> labels, Milestone milestone, RealUser user) {
+		Labels labels, Milestone milestone, RealUser user) {
 
 		this.id = id;
 		this.title = Optional.ofNullable(title).orElse("직박구리");
 		this.comments = Optional.ofNullable(comments).orElse(Comments.of());
-		this.labels = Optional.ofNullable(labels).orElse(Collections.emptySet());
+		this.labels = Optional.ofNullable(labels).orElse(new Labels());
 		this.milestone = Optional.ofNullable(milestone).orElse(NullMilestone.of());
 		this.user = Optional.ofNullable(user).orElse(NullUser.of());
 	}
