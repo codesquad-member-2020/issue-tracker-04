@@ -5,6 +5,7 @@ os: linux
 files:
   - source: /
     destination: /opt/issueTracker-codedeploy
+    overwrite: yes
 permissions:
   - object: /opt/issueTracker-codedeploy
     owner: ubuntu
