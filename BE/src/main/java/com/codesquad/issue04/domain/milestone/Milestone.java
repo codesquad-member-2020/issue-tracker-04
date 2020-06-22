@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,5 +40,13 @@ public class Milestone implements AbstractMilestone {
 	@Override
 	public boolean isNil() {
 		return false;
+	}
+
+	//TODO: 마일스톤을 업데이트할 때 JPA가 수정을 감지하지 못한다. 즉, Dirty checking을 정상적으로 진행하지 못하는데 왜인지 궁금하다.
+	public Milestone updateMilestone(MilestoneUpdateRequestDto dto) {
+		this.title = dto.getTitle();
+		this.dueDate = dto.getDueDate();
+		this.description = dto.getDescription();
+		return this;
 	}
 }

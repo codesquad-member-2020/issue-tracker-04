@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
+import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +42,12 @@ public class MilestoneService {
 
 	public Milestone createMilestone(Milestone milestone) {
 		return milestoneRepository.save(milestone);
+	}
+
+	public MilestoneDto updateMilestone(MilestoneUpdateRequestDto dto) {
+		Milestone beforeMilestone = findMilestoneById(dto.getId());
+		Milestone afterMilestone = beforeMilestone.updateMilestone(dto);
+		milestoneRepository.save(afterMilestone);
+		return MilestoneDto.of(afterMilestone);
 	}
 }

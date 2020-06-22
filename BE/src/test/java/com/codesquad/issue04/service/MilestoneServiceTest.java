@@ -1,6 +1,7 @@
 package com.codesquad.issue04.service;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 
@@ -61,5 +63,19 @@ public class MilestoneServiceTest {
 			.build();
 		Milestone savedItem = milestoneService.createMilestone(milestone);
 		assertThat(savedItem.getTitle()).isEqualTo(milestone.getTitle());
+	}
+
+	@DisplayName("마일스톤 하나를 수정한다.")
+	@CsvSource({"1, newTitle, 2020-07-01, newContent"})
+	@ParameterizedTest
+	void 마일스톤_하나를_수정한다(Long id, String title, LocalDate dueDate, String content) {
+		MilestoneUpdateRequestDto dto = new MilestoneUpdateRequestDto(id, title, dueDate, content);
+		milestoneService.updateMilestone(dto);
+		Milestone updatedMilestone = milestoneService.findMilestoneById(id);
+		assertAll(
+			() -> assertThat(updatedMilestone.getTitle()).isEqualTo(title),
+			() -> assertThat(updatedMilestone.getDueDate()).isEqualTo(dueDate),
+			() -> assertThat(updatedMilestone.getDescription()).isEqualTo(content)
+		);
 	}
 }
