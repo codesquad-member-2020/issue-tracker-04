@@ -35,7 +35,7 @@ public class IssueTest {
 		Issue issue = Issue.builder()
 			.id(1L)
 			.comments(null)
-			.labels(Collections.emptySet())
+			.labels(Labels.ofNullLabels())
 			.milestone(new Milestone())
 			.title("title")
 			.user(this.user)

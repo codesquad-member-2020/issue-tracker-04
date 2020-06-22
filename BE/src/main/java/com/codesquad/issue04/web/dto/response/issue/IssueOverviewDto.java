@@ -2,12 +2,11 @@ package com.codesquad.issue04.web.dto.response.issue;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.codesquad.issue04.domain.issue.Comments;
 import com.codesquad.issue04.domain.issue.Issue;
+import com.codesquad.issue04.domain.issue.Labels;
 import com.codesquad.issue04.domain.issue.Status;
-import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import lombok.Builder;
@@ -34,7 +33,7 @@ public class IssueOverviewDto {
 
 		Comments comments = Optional.ofNullable(issue.getComments()).orElse(Comments.of());
 		Milestone milestone = issue.getMilestone();
-		Set<Label> labels = issue.getLabels();
+		Labels labels = Optional.ofNullable(issue.getLabels()).orElse(Labels.ofNullLabels());
 		RealUser realUser = issue.getUser();
 
 		this.id = issue.getId();
@@ -42,9 +41,7 @@ public class IssueOverviewDto {
 		this.overview = comments.getOverview().getContent();
 		this.commentCounts = comments.getCommentsSize();
 		this.mileStonesTitle = milestone.getTitle();
-		this.labelTitles = labels.stream()
-			.map(Label::getTitle)
-			.collect(Collectors.toSet());
+		this.labelTitles = labels.getLabelStringSet();
 		this.githubId = realUser.getGithubId();
 		this.status = issue.getStatus();
 	}
