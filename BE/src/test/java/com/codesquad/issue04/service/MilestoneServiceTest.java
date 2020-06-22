@@ -2,16 +2,20 @@ package com.codesquad.issue04.service;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
+import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
+import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 
 @SpringBootTest
 public class MilestoneServiceTest {
@@ -43,5 +47,19 @@ public class MilestoneServiceTest {
 	@Test
 	void 마일스톤_전체가_일급콜렉션으로_DTO에_리턴된다() {
 		assertThat(milestoneService.getMilestoneOverviews()).isInstanceOf(MilestoneResponseDtos.class);
+	}
+
+	@DisplayName("마일스톤 하나를 추가한다.")
+	@CsvSource({"testTitle, 2020-06-30, testContent"})
+	@ParameterizedTest
+	void 마일스톤_하나를_추가한다(String title, LocalDate dueDate, String content) {
+		MilestoneCreateRequestDto dto = new MilestoneCreateRequestDto(title, dueDate, content);
+		Milestone milestone = Milestone.builder()
+			.title(dto.getTitle())
+			.description(dto.getDescription())
+			.dueDate(dto.getDueDate())
+			.build();
+		Milestone savedItem = milestoneService.createMilestone(milestone);
+		assertThat(savedItem.getTitle()).isEqualTo(milestone.getTitle());
 	}
 }
