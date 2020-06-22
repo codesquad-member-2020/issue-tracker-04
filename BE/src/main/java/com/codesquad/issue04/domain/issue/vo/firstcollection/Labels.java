@@ -19,7 +19,7 @@ import lombok.Getter;
 @Embeddable
 public class Labels {
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinTable(
 		name = "label_has_issue",
 		joinColumns = @JoinColumn(name = "issue_id"),
