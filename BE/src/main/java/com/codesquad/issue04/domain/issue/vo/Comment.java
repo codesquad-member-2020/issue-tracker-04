@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -53,12 +55,14 @@ public class Comment implements Serializable {
 	private LocalDateTime updatedAt;
 
 	@ElementCollection(targetClass = Emoji.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@Enumerated(EnumType.STRING)
 	@CollectionTable(name = "emoji")
 	@Column(name = "name")
 	private List<Emoji> emojis;
 
-	@ElementCollection
+	@ElementCollection(targetClass = Photo.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
 	@Column(name = "url")
 	private List<Photo> photos;
