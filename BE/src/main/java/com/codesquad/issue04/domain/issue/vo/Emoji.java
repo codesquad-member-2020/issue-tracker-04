@@ -2,6 +2,9 @@ package com.codesquad.issue04.domain.issue.vo;
 
 import java.io.Serializable;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public enum Emoji implements Serializable {
 
     THUMBS_UP("U+1F44D", "thumbsup"),
