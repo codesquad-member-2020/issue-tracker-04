@@ -34,14 +34,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@ToString(exclude = "issue")
+@ToString(exclude = {"issue", "user"})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
 // @Embeddable
-public class Comment implements Serializable {
+public class Comment implements Serializable, Comparable<Comment> {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,6 +67,7 @@ public class Comment implements Serializable {
 	@Column(name = "url")
 	private List<Photo> photos;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
@@ -88,6 +89,10 @@ public class Comment implements Serializable {
 		return new Comment(dto.getContent(), dto.getEmojis(), dto.getPhotos(), user, issue);
 	}
 
+	public static Comment ofNullComment() {
+		return new Comment();
+	}
+
 	public String getFormattedCreatedDate() {
 		return formattedDate(createdAt, "YYYY-MM-SS HH:mm:ss");
 	}
@@ -103,8 +108,13 @@ public class Comment implements Serializable {
 		return localDateTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
+	@JsonIgnore
 	public Long getUserId() {
 		return this.user.getId();
+	}
+
+	public String getUserGithubId() {
+		return this.user.getGithubId();
 	}
 
 	public Comment updateComment(final CommentUpdateRequestDto dto) {
@@ -118,4 +128,8 @@ public class Comment implements Serializable {
 		return this.id.equals(commentId);
 	}
 
+	@Override
+	public int compareTo(Comment o) {
+		return (int) (this.id - o.id);
+	}
 }

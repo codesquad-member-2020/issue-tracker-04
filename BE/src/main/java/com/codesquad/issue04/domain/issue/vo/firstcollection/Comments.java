@@ -10,6 +10,7 @@ import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 
 @Getter
@@ -37,6 +38,7 @@ public class Comments {
 		return new ArrayList<>(this.comments);
 	}
 
+	@JsonIgnore
 	public Comment getOverview() {
 		return this.comments.get(0);
 	}
@@ -49,6 +51,7 @@ public class Comments {
 		return this.comments.get(commentIndex);
 	}
 
+	@JsonIgnore
 	public Comment getLatestComment() {
 		int latestIndex = this.comments.size() - 1;
 		return this.comments.get(latestIndex);
