@@ -3,35 +3,39 @@ import UIKit
 class BasicFormViewController: UIViewController {
     @IBOutlet weak var contentView: UIView!
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     @IBAction func closeButtonTouched(_ sender: UIButton) {
         self.remove()
     }
 
-    @IBAction func saveButtonTouched(_ sender: UIButton) {
-        debugPrint(#function)
-    }
+    @IBAction func saveButtonTouched(_ sender: UIButton) { }
 
-    @IBAction func clearButtonTouched(_ sender: UIButton) {
-        debugPrint(#function)
-    }
+    @IBAction func clearButtonTouched(_ sender: UIButton) { }
 }
 
 class LabelFormViewController: BasicFormViewController {
+    var formView: LabelFormView = .loadFromNib()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        contentView.addSubviewAsSameSize(LabelFormView.loadFromNib())
+        contentView.addSubviewAsSameSize(formView)
+    }
+
+    override func clearButtonTouched(_ sender: UIButton) {
+        formView.clearAllFields()
     }
 }
 
 class MilestoneFormViewController: BasicFormViewController {
+    var formView: MilestoneFormView = .loadFromNib()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        contentView.addSubviewAsSameSize(MilestoneFormView.loadFromNib())
+        contentView.addSubviewAsSameSize(formView)
+    }
+
+    override func clearButtonTouched(_ sender: UIButton) {
+        formView.clearAllFields()
     }
 }

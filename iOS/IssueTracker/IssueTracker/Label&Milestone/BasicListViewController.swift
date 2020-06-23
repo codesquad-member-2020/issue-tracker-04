@@ -26,10 +26,6 @@ class BasicListViewController: UIViewController {
 class LabelListViewController: BasicListViewController {
     override var titleLabelText: String { Name.Title.labelList }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
     override func addButtonTouched(_ sender: UIButton) {
         addFormViewController(LabelFormViewController.self)
     }
@@ -37,10 +33,6 @@ class LabelListViewController: BasicListViewController {
 
 class MilestoneListViewController: BasicListViewController {
     override var titleLabelText: String { Name.Title.milestoneList }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
     override func addButtonTouched(_ sender: UIButton) {
         addFormViewController(MilestoneFormViewController.self)

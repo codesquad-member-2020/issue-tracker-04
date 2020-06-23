@@ -10,4 +10,9 @@ class LabelFormView: UIView {
 
         titleTextField.placeholder = "Title"
     }
+
+    func clearAllFields() {
+        let textFields: [UITextField?] = [titleTextField, descriptionTextField, colorTextField]
+        textFields.forEach { $0?.text = "" }
+    }
 }
