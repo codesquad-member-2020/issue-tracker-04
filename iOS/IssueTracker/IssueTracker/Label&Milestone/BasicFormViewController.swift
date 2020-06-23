@@ -20,5 +20,23 @@ class BasicFormViewController: UIViewController {
     }
 }
 
-class LabelFormViewController: BasicFormViewController { }
-class MilestoneFormViewController: BasicFormViewController { }
+class LabelFormViewController: BasicFormViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let nib = UINib(nibName: "LabelFormView", bundle: .main)
+        let view = nib.instantiate(withOwner: self, options: .none).first as! LabelFormView
+        view.frame = contentView.bounds
+        contentView.addSubview(view)
+    }
+}
+class MilestoneFormViewController: BasicFormViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let nib = UINib(nibName: "MilestoneFormView", bundle: .main)
+        let view = nib.instantiate(withOwner: self, options: .none).first as! MilestoneFormView
+        view.frame = contentView.bounds
+        contentView.addSubview(view)
+    }
+}

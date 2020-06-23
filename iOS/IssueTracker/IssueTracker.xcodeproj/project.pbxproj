@@ -42,12 +42,12 @@
 		8D37CB1A24A0C30A00DB0788 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1924A0C30A00DB0788 /* ListViewController.swift */; };
 		8D37CB1E24A0DCC700DB0788 /* IssueFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */; };
 		8D37CB2724A11B1000DB0788 /* BasicFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */; };
-		8D37CB2B24A1C3E000DB0788 /* MilestoneForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D37CB2A24A1C3E000DB0788 /* MilestoneForm.xib */; };
+		8D37CB2B24A1C3E000DB0788 /* MilestoneFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D37CB2A24A1C3E000DB0788 /* MilestoneFormView.xib */; };
 		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
 		8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49D2490CDF800C0FFA3 /* FakeData.swift */; };
 		8D47AA7A2498DA73001A715C /* NavigationBarButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */; };
 		8D47AA7C2498EC5E001A715C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47AA7B2498EC5E001A715C /* NavigationController.swift */; };
-		8D56C55924A1D190005DDB00 /* LabelForm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D56C55824A1D190005DDB00 /* LabelForm.xib */; };
+		8D56C55924A1D190005DDB00 /* LabelFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D56C55824A1D190005DDB00 /* LabelFormView.xib */; };
 		8D56C55B24A1D1DD005DDB00 /* LabelFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D56C55A24A1D1DD005DDB00 /* LabelFormView.swift */; };
 		8D56C55D24A1D1FF005DDB00 /* MilestoneFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D56C55C24A1D1FF005DDB00 /* MilestoneFormView.swift */; };
 		8D784AAF24A025EE0059E98A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D784AAE24A025EE0059E98A /* MainTabBarController.swift */; };
@@ -110,12 +110,12 @@
 		8D37CB1924A0C30A00DB0788 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueFilterViewController.swift; sourceTree = "<group>"; };
 		8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFormViewController.swift; sourceTree = "<group>"; };
-		8D37CB2A24A1C3E000DB0788 /* MilestoneForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MilestoneForm.xib; sourceTree = "<group>"; };
+		8D37CB2A24A1C3E000DB0788 /* MilestoneFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MilestoneFormView.xib; sourceTree = "<group>"; };
 		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
 		8D46A49D2490CDF800C0FFA3 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarButtonFactory.swift; sourceTree = "<group>"; };
 		8D47AA7B2498EC5E001A715C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = IssueList/NavigationController.swift; sourceTree = "<group>"; };
-		8D56C55824A1D190005DDB00 /* LabelForm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelForm.xib; sourceTree = "<group>"; };
+		8D56C55824A1D190005DDB00 /* LabelFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelFormView.xib; sourceTree = "<group>"; };
 		8D56C55A24A1D1DD005DDB00 /* LabelFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelFormView.swift; sourceTree = "<group>"; };
 		8D56C55C24A1D1FF005DDB00 /* MilestoneFormView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MilestoneFormView.swift; sourceTree = "<group>"; };
 		8D784AAE24A025EE0059E98A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -300,9 +300,9 @@
 				8D37CB1924A0C30A00DB0788 /* ListViewController.swift */,
 				8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */,
 				8D56C55A24A1D1DD005DDB00 /* LabelFormView.swift */,
-				8D56C55824A1D190005DDB00 /* LabelForm.xib */,
+				8D56C55824A1D190005DDB00 /* LabelFormView.xib */,
 				8D56C55C24A1D1FF005DDB00 /* MilestoneFormView.swift */,
-				8D37CB2A24A1C3E000DB0788 /* MilestoneForm.xib */,
+				8D37CB2A24A1C3E000DB0788 /* MilestoneFormView.xib */,
 			);
 			path = "Label&Milestone";
 			sourceTree = "<group>";
@@ -408,11 +408,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D37CB2B24A1C3E000DB0788 /* MilestoneForm.xib in Resources */,
+				8D37CB2B24A1C3E000DB0788 /* MilestoneFormView.xib in Resources */,
 				8D1E588B248E2FCA002C2F3D /* LaunchScreen.storyboard in Resources */,
 				8D1E5888248E2FCA002C2F3D /* Assets.xcassets in Resources */,
 				8D1E5883248E2FC7002C2F3D /* Main.storyboard in Resources */,
-				8D56C55924A1D190005DDB00 /* LabelForm.xib in Resources */,
+				8D56C55924A1D190005DDB00 /* LabelFormView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

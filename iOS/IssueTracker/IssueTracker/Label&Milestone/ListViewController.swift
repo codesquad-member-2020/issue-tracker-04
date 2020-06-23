@@ -14,6 +14,12 @@ class LabelListViewController: ListViewController {
         super.viewDidLoad()
 
         titleLabel.text = "Label"
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "BasicFormViewController") { coder in
+            LabelFormViewController.init(coder: coder)
+        }
+        add(vc)
     }
 }
 
@@ -23,5 +29,11 @@ class MilestoneListViewController: ListViewController {
 
 
         titleLabel.text = "Milestone"
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "BasicFormViewController") { coder in
+            MilestoneFormViewController.init(coder: coder)
+        }
+        add(vc)
     }
 }
