@@ -53,6 +53,7 @@
 		8D9E97C72497E1AD0048F699 /* IssueListModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C62497E1AD0048F699 /* IssueListModelController.swift */; };
 		8D9E97C92497E21D0048F699 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C82497E21D0048F699 /* UserModelController.swift */; };
 		8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */; };
+		8DF4D05724A22EAA00DE2A3D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4D05624A22EAA00DE2A3D /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		8D9E97C62497E1AD0048F699 /* IssueListModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListModelController.swift; sourceTree = "<group>"; };
 		8D9E97C82497E21D0048F699 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
+		8DF4D05624A22EAA00DE2A3D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,6 +231,7 @@
 		8D1E587A248E2FC7002C2F3D /* IssueTracker */ = {
 			isa = PBXGroup;
 			children = (
+				8DF4D05624A22EAA00DE2A3D /* LoginViewController.swift */,
 				8D784AAE24A025EE0059E98A /* MainTabBarController.swift */,
 				8D47AA7B2498EC5E001A715C /* NavigationController.swift */,
 				8D37CB1924A0C30A00DB0788 /* ListViewController.swift */,
@@ -429,6 +432,7 @@
 				6A676FC4248F736F00FFA67E /* IssueListDataSource.swift in Sources */,
 				6ACEBEA0249C5F200055DCB8 /* IssueInfoViewController.swift in Sources */,
 				8D1E5886248E2FC7002C2F3D /* IssueTracker.xcdatamodeld in Sources */,
+				8DF4D05724A22EAA00DE2A3D /* LoginViewController.swift in Sources */,
 				8D202FDA249E85FE00A5F379 /* CommentCell.swift in Sources */,
 				8D202FC6249E21F700A5F379 /* Observer.swift in Sources */,
 				8D202FCF249E761000A5F379 /* UIViewController+ChildViewController.swift in Sources */,
