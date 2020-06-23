@@ -44,7 +44,7 @@ public class IssueServiceTest {
 
 	private static Stream<Arguments> 댓글추가_예시모음() { // argument source method
 		Long issueId = 1L;
-		Long userId = 2L;
+		String userGithubId = "jypthemiracle";
 		String content = "comment";
 		List<Photo> mockPhotos = Arrays.asList(
 			Photo.ofUrl("naver.com"), Photo.ofUrl("sigrid.com"), Photo.ofUrl("lena.com")
@@ -52,7 +52,7 @@ public class IssueServiceTest {
 		List<Emoji> mockEmojis = Arrays.asList(Emoji.CONFUSED, Emoji.EYES, Emoji.HEART);
 
 		return Stream.of(
-			Arguments.of(issueId, userId, content, mockPhotos, mockEmojis)
+			Arguments.of(issueId, userGithubId, content, mockPhotos, mockEmojis)
 		);
 	}
 
@@ -183,10 +183,10 @@ public class IssueServiceTest {
 	@DisplayName("이슈에 댓글을 추가한다.")
 	@MethodSource("댓글추가_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_추가한다(Long issueId, Long userId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_추가한다(Long issueId, String userGithubId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
 		CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
 			.issueId(issueId)
-			.userId(userId)
+			.userGitHubId(userGithubId)
 			.content(content)
 			.photos(mockPhotos)
 			.emojis(mockEmojis)
