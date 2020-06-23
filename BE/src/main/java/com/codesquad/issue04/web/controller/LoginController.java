@@ -1,5 +1,7 @@
 package com.codesquad.issue04.web.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,7 +32,8 @@ public class LoginController {
     private final Integer EXPIRE_TIME = 60*60*6;
 
     @GetMapping("/callback")
-    public ResponseEntity<HttpStatus> oauthCallback(@Param("code") String code, HttpServletResponse response) {
+    public ResponseEntity<HttpStatus> oauthCallback(@Param("code") String code, HttpServletResponse response) throws
+        IOException {
         Github github = loginService.requestAccessToken(code);
         log.info("Github AccessToken, TokenType, Scope Data : {}", github);
         GithubUser githubUser = loginService.requestUserInfo(github.getAccessToken());
@@ -42,7 +45,7 @@ public class LoginController {
         Cookie cookie = new Cookie(String.valueOf(Oauth.USER_ID), githubUser.getUserId());
         cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
-        response.setHeader(String.valueOf(Oauth.HEADER_LOCATION), Oauth.MOBILE_REDIRECT_URL + jwt);
+        response.sendRedirect(Oauth.MOBILE_REDIRECT_URL + jwt);
         return new ResponseEntity(HttpStatus.FOUND);
     }
 }
