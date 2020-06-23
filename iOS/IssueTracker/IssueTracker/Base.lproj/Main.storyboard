@@ -364,10 +364,10 @@
             </objects>
             <point key="canvasLocation" x="2647.1999999999998" y="-1163.0541871921182"/>
         </scene>
-        <!--List View Controller-->
+        <!--Basic List View Controller-->
         <scene sceneID="Gt8-QS-70x">
             <objects>
-                <viewController storyboardIdentifier="ListViewController" id="KRN-Bw-VbI" customClass="ListViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BasicListViewController" id="KRN-Bw-VbI" customClass="BasicListViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZXE-eU-z4K">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -406,28 +406,27 @@
                                 <rect key="frame" x="343" y="48" width="29" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="plus" catalog="system"/>
+                                <connections>
+                                    <action selector="addButtonTouched:" destination="KRN-Bw-VbI" eventType="touchUpInside" id="IKJ-zp-Wxh"/>
+                                </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WPA-Wy-93X">
-                                <rect key="frame" x="16" y="243.66666666666663" width="343" height="325"/>
-                                <connections>
-                                    <segue destination="0yk-aM-1eM" kind="embed" id="IX1-Rd-nNA"/>
-                                </connections>
+                                <rect key="frame" x="16" y="243.66666666666666" width="343" height="324.66666666666674"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="OvI-C0-lKT" firstAttribute="bottom" secondItem="WPA-Wy-93X" secondAttribute="bottom" constant="209.66999999999999" id="17m-46-kgx"/>
                             <constraint firstItem="WPA-Wy-93X" firstAttribute="centerX" secondItem="ZXE-eU-z4K" secondAttribute="centerX" id="3b8-T4-5ot"/>
                             <constraint firstItem="WPA-Wy-93X" firstAttribute="height" secondItem="ZXE-eU-z4K" secondAttribute="height" multiplier="0.4" id="80A-LC-83M"/>
                             <constraint firstItem="OvI-C0-lKT" firstAttribute="trailing" secondItem="WPA-Wy-93X" secondAttribute="trailing" constant="16" id="Oly-Qg-UvJ"/>
                             <constraint firstItem="WPA-Wy-93X" firstAttribute="centerY" secondItem="ZXE-eU-z4K" secondAttribute="centerY" id="mIb-rV-jgQ"/>
                             <constraint firstItem="WPA-Wy-93X" firstAttribute="leading" secondItem="OvI-C0-lKT" secondAttribute="leading" constant="16" id="rFB-3G-lP4"/>
-                            <constraint firstItem="WPA-Wy-93X" firstAttribute="top" secondItem="OvI-C0-lKT" secondAttribute="top" constant="199.66999999999999" id="zVC-Bt-nPZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="OvI-C0-lKT"/>
                     </view>
                     <connections>
                         <outlet property="addButton" destination="XVg-r8-W03" id="UdN-xU-dTW"/>
+                        <outlet property="containerView" destination="WPA-Wy-93X" id="GWD-0q-XYa"/>
                         <outlet property="titleLabel" destination="7CN-F8-cSa" id="4Ja-VS-GDi"/>
                     </connections>
                 </viewController>
@@ -638,7 +637,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFz-3N-vYn">
-                                <rect key="frame" x="293" y="275" width="34" height="30"/>
+                                <rect key="frame" x="293" y="274" width="34" height="30"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
                                     <action selector="saveButtonTouched:" destination="0yk-aM-1eM" eventType="touchUpInside" id="qQ6-vb-jI3"/>
@@ -647,35 +646,44 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWR-C8-NFp">
                                 <rect key="frame" x="16" y="44" width="311" height="222"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="222" id="cs7-za-hfl"/>
-                                    <constraint firstAttribute="width" constant="311" id="mfW-XL-Xg8"/>
-                                </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="yFz-3N-vYn" firstAttribute="leading" secondItem="dMz-is-7u3" secondAttribute="trailing" constant="243" id="8C5-0a-taV"/>
+                            <constraint firstItem="yFz-3N-vYn" firstAttribute="top" secondItem="bWR-C8-NFp" secondAttribute="bottom" constant="8" id="031-OT-BPR"/>
+                            <constraint firstItem="yFz-3N-vYn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="dMz-is-7u3" secondAttribute="trailing" constant="8" symbolic="YES" id="8C5-0a-taV"/>
                             <constraint firstItem="4WJ-gu-KEK" firstAttribute="trailing" secondItem="bWR-C8-NFp" secondAttribute="trailing" constant="16" id="E0L-zJ-JnV"/>
                             <constraint firstItem="bWR-C8-NFp" firstAttribute="top" secondItem="haM-Sq-3Xn" secondAttribute="bottom" constant="8" id="EAE-Pb-dPi"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="bottom" secondItem="dMz-is-7u3" secondAttribute="bottom" constant="21" id="HoY-aQ-Nna"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="trailing" secondItem="yFz-3N-vYn" secondAttribute="trailing" constant="16" id="Lfj-et-Irg"/>
                             <constraint firstItem="dMz-is-7u3" firstAttribute="leading" secondItem="4WJ-gu-KEK" secondAttribute="leading" constant="16" id="NkD-Vr-dyd"/>
                             <constraint firstItem="haM-Sq-3Xn" firstAttribute="leading" secondItem="fQQ-jV-wEl" secondAttribute="leading" constant="16" id="RUX-Ug-jLO"/>
                             <constraint firstItem="dMz-is-7u3" firstAttribute="top" secondItem="bWR-C8-NFp" secondAttribute="bottom" constant="8" id="YHg-ek-RTK"/>
                             <constraint firstItem="bWR-C8-NFp" firstAttribute="leading" secondItem="4WJ-gu-KEK" secondAttribute="leading" constant="16" id="Yn5-oh-8Qs"/>
-                            <constraint firstItem="bWR-C8-NFp" firstAttribute="top" secondItem="4WJ-gu-KEK" secondAttribute="top" id="dJ3-Yi-Gd6"/>
-                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yFz-3N-vYn" secondAttribute="trailing" id="efO-65-jWf"/>
-                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="bottom" secondItem="yFz-3N-vYn" secondAttribute="bottom" constant="20" id="qXa-KQ-L2H"/>
+                            <constraint firstItem="haM-Sq-3Xn" firstAttribute="top" secondItem="fQQ-jV-wEl" secondAttribute="top" constant="14" id="gCV-bi-4H6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4WJ-gu-KEK"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" systemColor="separatorColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.28999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="343" height="325"/>
                     <connections>
                         <outlet property="contentView" destination="bWR-C8-NFp" id="m7I-xR-GWk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U7F-Vt-Yqu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1880.8" y="-560.09852216748766"/>
+            <point key="canvasLocation" x="1762" y="-444"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

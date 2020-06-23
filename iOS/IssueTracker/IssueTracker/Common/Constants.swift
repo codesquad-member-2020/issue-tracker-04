@@ -3,6 +3,11 @@ enum Name {
         static let cellClose = "checkmark.rectangle"
         static let cellDelete = "trash"
     }
+
+    enum Title {
+        static let labelList = "Label"
+        static let milestoneList = "Milestone"
+    }
 }
 
 enum Identifier {
@@ -17,8 +22,9 @@ enum Identifier {
     }
 
     enum ViewController {
-        static let list = String(describing: ListViewController.self)
+        static let list = String(describing: BasicListViewController.self)
         static let issueFilter = String(describing: IssueFilterViewController.self)
+        static let basicForm = String(describing: BasicFormViewController.self)
     }
 
     enum Storyboard {

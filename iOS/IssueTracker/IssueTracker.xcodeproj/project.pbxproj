@@ -39,7 +39,7 @@
 		8D202FDC249E901600A5F379 /* GenericTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDB249E901600A5F379 /* GenericTableViewDataSource.swift */; };
 		8D202FDE249E948600A5F379 /* CommentDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDD249E948600A5F379 /* CommentDataSource.swift */; };
 		8D202FE0249E9E6300A5F379 /* SectionTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDF249E9E6300A5F379 /* SectionTitleLabel.swift */; };
-		8D37CB1A24A0C30A00DB0788 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1924A0C30A00DB0788 /* ListViewController.swift */; };
+		8D37CB1A24A0C30A00DB0788 /* BasicListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1924A0C30A00DB0788 /* BasicListViewController.swift */; };
 		8D37CB1E24A0DCC700DB0788 /* IssueFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */; };
 		8D37CB2724A11B1000DB0788 /* BasicFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */; };
 		8D37CB2B24A1C3E000DB0788 /* MilestoneFormView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D37CB2A24A1C3E000DB0788 /* MilestoneFormView.xib */; };
@@ -107,7 +107,7 @@
 		8D202FDB249E901600A5F379 /* GenericTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D202FDD249E948600A5F379 /* CommentDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDataSource.swift; sourceTree = "<group>"; };
 		8D202FDF249E9E6300A5F379 /* SectionTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionTitleLabel.swift; sourceTree = "<group>"; };
-		8D37CB1924A0C30A00DB0788 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		8D37CB1924A0C30A00DB0788 /* BasicListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicListViewController.swift; sourceTree = "<group>"; };
 		8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueFilterViewController.swift; sourceTree = "<group>"; };
 		8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFormViewController.swift; sourceTree = "<group>"; };
 		8D37CB2A24A1C3E000DB0788 /* MilestoneFormView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MilestoneFormView.xib; sourceTree = "<group>"; };
@@ -297,7 +297,7 @@
 		8D37CB2524A11AAA00DB0788 /* Label&Milestone */ = {
 			isa = PBXGroup;
 			children = (
-				8D37CB1924A0C30A00DB0788 /* ListViewController.swift */,
+				8D37CB1924A0C30A00DB0788 /* BasicListViewController.swift */,
 				8D37CB2624A11B1000DB0788 /* BasicFormViewController.swift */,
 				8D56C55A24A1D1DD005DDB00 /* LabelFormView.swift */,
 				8D56C55824A1D190005DDB00 /* LabelFormView.xib */,
@@ -430,7 +430,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D37CB1A24A0C30A00DB0788 /* ListViewController.swift in Sources */,
+				8D37CB1A24A0C30A00DB0788 /* BasicListViewController.swift in Sources */,
 				8D9E97C72497E1AD0048F699 /* IssueListModelController.swift in Sources */,
 				8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */,
 				8D202FDC249E901600A5F379 /* GenericTableViewDataSource.swift in Sources */,

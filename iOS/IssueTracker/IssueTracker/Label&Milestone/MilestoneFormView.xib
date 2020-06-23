@@ -103,7 +103,7 @@
                 <outlet property="dueDateTextField" destination="OYO-iU-hxY" id="Pqb-L2-nk1"/>
                 <outlet property="titleTextField" destination="RJL-7a-Hqs" id="lTU-KF-AA2"/>
             </connections>
-            <point key="canvasLocation" x="37.681159420289859" y="189.50892857142856"/>
+            <point key="canvasLocation" x="-377" y="51"/>
         </view>
     </objects>
 </document>

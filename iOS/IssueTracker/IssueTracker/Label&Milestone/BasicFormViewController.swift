@@ -24,19 +24,14 @@ class LabelFormViewController: BasicFormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: "LabelFormView", bundle: .main)
-        let view = nib.instantiate(withOwner: self, options: .none).first as! LabelFormView
-        view.frame = contentView.bounds
-        contentView.addSubview(view)
+        contentView.addSubviewAsSameSize(LabelFormView.loadFromNib())
     }
 }
+
 class MilestoneFormViewController: BasicFormViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: "MilestoneFormView", bundle: .main)
-        let view = nib.instantiate(withOwner: self, options: .none).first as! MilestoneFormView
-        view.frame = contentView.bounds
-        contentView.addSubview(view)
+        contentView.addSubviewAsSameSize(MilestoneFormView.loadFromNib())
     }
 }
