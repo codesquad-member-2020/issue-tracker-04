@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codesquad.issue04.service.MilestoneService;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api")
 public class MilestoneController {
 
-    private final MilestoneService milestoneService;
+	private final MilestoneService milestoneService;
 
-    @GetMapping("v1/allMilestones")
-    public MilestoneResponseDtos getAllMilestones() {
-        return milestoneService.getMilestoneOverviews();
-    }
+	@GetMapping("v1/milestone/all")
+	public Mono<MilestoneResponseDtos> getAllMilestones() {
+		return Mono.just(milestoneService.getMilestoneOverviews());
+	}
 }
