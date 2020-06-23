@@ -1,25 +1,43 @@
 import Foundation
 
+enum APIError: Error {
+    case invalidData
+    case networkFailure(Error)
+
+}
+
 class NetworkManager {
     func loadTwitter(using session: URLSession = .shared) {
         let endpoint = Endpoint.oembed()
-        let task = session.request(endpoint) { data, response, error in
-            if let data = data {
+        let task = session.request(endpoint) { result in
+            switch result {
+            case .success(let data):
                 let json = try? JSONDecoder().decode(Twitter.self, from: data)
                 print(endpoint.url)
                 print(json)
+            case .failure(.invalidData):
+                debugPrint("Invalid Data")
+            case .failure(.networkFailure(let error)):
+                debugPrint(error)
             }
         }
-        task.resume()
     }
 }
 
 extension URLSession {
-    typealias Handler = (Data?, URLResponse?, Error?) -> Void
-
     @discardableResult
-    func request(_ endpoint: Endpoint, then handler: @escaping Handler) -> URLSessionTask {
-        let task = dataTask(with: endpoint.url, completionHandler: handler)
+    func request(_ endpoint: Endpoint, then handler: @escaping (Result<Data, APIError>) -> Void) -> URLSessionTask {
+        let task = dataTask(with: endpoint.url) { (data, response, error) in
+            guard let data = data else {
+                return handler(.failure(.invalidData))
+            }
+
+            if let error = error {
+                handler(.failure(.networkFailure(error)))
+            }
+
+            handler(.success(data))
+        }
         task.resume()
 
         return task
