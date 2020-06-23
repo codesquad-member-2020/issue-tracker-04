@@ -13,7 +13,7 @@ import com.codesquad.issue04.web.oauth.LoginInterceptor;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private static final String[] EXCLUDE_PATHS = {"/**"};
+    private static final String[] EXCLUDE_PATHS = {"/callback"};
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -26,15 +26,15 @@ public class WebConfig implements WebMvcConfigurer {
             .maxAge(MAX_AGE_SECS);
     }
 
-    // @Bean
-    // public LoginInterceptor loginInterceptor() {
-    //     return new LoginInterceptor();
-    // }
-    //
-    // @Override
-    // public void addInterceptors(InterceptorRegistry registry) {
-    //     registry.addInterceptor(loginInterceptor())
-    //         // .addPathPatterns("/**")
-    //         .excludePathPatterns(EXCLUDE_PATHS);
-    // }
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginInterceptor())
+            .addPathPatterns("/**")
+            .excludePathPatterns(EXCLUDE_PATHS);
+    }
 }
