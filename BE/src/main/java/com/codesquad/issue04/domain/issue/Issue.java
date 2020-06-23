@@ -183,4 +183,17 @@ public class Issue extends BaseTimeEntity {
 	public Label deleteExistingLabel(final Label label) {
 		return labels.deleteExistingLabel(label);
 	}
+
+	public boolean isUserIdContainInAssignees(String userId) {
+		return this.assignees.stream()
+			.anyMatch(assignee -> assignee.getGithubId().equals(userId));
+	}
+
+	public boolean isUserIdHasComment(String userId) {
+		return this.comments.hasUserId(userId);
+	}
+
+	public boolean isSameLabelExists(String labelName) {
+		return this.labels.isSameLabelExists(labelName);
+	}
 }

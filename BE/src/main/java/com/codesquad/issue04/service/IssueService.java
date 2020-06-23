@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
@@ -22,6 +23,7 @@ import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.FilterParamRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -238,5 +240,62 @@ public class IssueService {
 		Label label = getLabelById(labelId);
 		issue.deleteExistingLabel(label);
 		return label;
+	}
+
+	public IssueOverviewResponseDtos filtering(FilterParamRequestDto filterParamRequestDto) {
+
+		Status status = filterParamRequestDto.getStatus();
+
+		List<Issue> issuesByFiltering = issueRepository.findIssuesByStatus(status);
+		// 로그인한 사용자의 정보를 가져오는 코드. 아직 인터셉터 적용 안해서 주석처리.
+		// String userId = (String)request.getAttribute("userId");
+		String role = filterParamRequestDto.getRole();
+		String option = filterParamRequestDto.getOption();
+		String value = filterParamRequestDto.getValue();
+		String userId = "guswns1659";
+		RealUser user = userRepository.findByGithubId(userId).orElseGet(NullUser::of);
+
+		if (!role.equals("null")) {
+			if (role.equals("authored")) {
+				issuesByFiltering = issueRepository.findIssuesByStatusAndUserGithubId(status, userId);
+			} else if (role.equals("assigned")) {
+				// 이슈가 open이고 담당자가 현재 사용자인 이슈를 찾는 메서드
+				issuesByFiltering = issueRepository.findIssuesByStatusAndAssignees(status, user);
+			} else {
+				issuesByFiltering = findIssuesByStatusAndCommentsByUser(issuesByFiltering, userId);
+			}
+		}
+
+		if (!option.equals("null")) {
+			if (option.equals("author")) {
+				issuesByFiltering = issuesByFiltering.stream()
+					.filter(issue -> issue.getUser().getGithubId().equals(value))
+					.collect(Collectors.toList());
+			} else if (option.equals("milestone")) {
+				issuesByFiltering = issuesByFiltering.stream()
+					.filter(issue -> issue.getMilestone().getTitle().equals(value))
+					.collect(Collectors.toList());
+			} else if (option.equals("label")) {
+				issuesByFiltering = issuesByFiltering.stream()
+					.filter(issue -> issue.isSameLabelExists(value))
+					.collect(Collectors.toList());
+			} else {
+				issuesByFiltering = issuesByFiltering.stream()
+					.filter(issue -> issue.isUserIdContainInAssignees(value))
+					.collect(Collectors.toList());
+			}
+		}
+
+		return IssueOverviewResponseDtos.builder()
+			.allData(issuesByFiltering.stream()
+			.map(IssueOverviewDto::of)
+			.collect(Collectors.toList()))
+			.build();
+	}
+
+	private List<Issue> findIssuesByStatusAndCommentsByUser(List<Issue> issuesByFiltering, String userId) {
+		return issuesByFiltering.stream()
+			.filter(issue -> issue.isUserIdHasComment(userId))
+			.collect(Collectors.toList());
 	}
 }

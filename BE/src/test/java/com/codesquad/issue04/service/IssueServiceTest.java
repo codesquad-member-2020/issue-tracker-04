@@ -20,18 +20,21 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.FilterParamRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
+import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 
 @SpringBootTest
 public class IssueServiceTest {
@@ -285,5 +288,22 @@ public class IssueServiceTest {
 	void 이슈의_라벨에_하나_삭제한다(Long issueId, Long labelId) {
 		issueService.deleteLabel(issueId, labelId);
 		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(false);
+	}
+
+	@Transactional
+	@DisplayName("필터된 이슈를 가져온다.")
+	@CsvSource({"open, assigned, label, BE-배포, 스키마 작성"})
+	@ParameterizedTest
+	void 필터된_이슈를_가져온다(String status, String role, String option, String value, String expected) {
+
+		FilterParamRequestDto filterParamRequestDto = FilterParamRequestDto.builder()
+			.status(Status.valueOf(status.toUpperCase()))
+			.role(role)
+			.option(option)
+			.value(value)
+			.build();
+
+		IssueOverviewResponseDtos issueOverviewResponseDtos = issueService.filtering(filterParamRequestDto);
+		assertThat(issueOverviewResponseDtos.getAllData().get(0).getTitle()).isEqualTo(expected);
 	}
 }
