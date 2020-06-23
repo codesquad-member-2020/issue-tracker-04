@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
@@ -101,6 +102,7 @@ public class IssueControllerTest {
 		assertThat(responseBody.getMessage()).isEqualTo("wrong input but check");
 	}
 
+	@Transactional
 	@Test
 	void 이슈_하나가_새로_생성된다() {
 		String url = "http://localhost:" + port + "/api/issue/add";
@@ -117,6 +119,7 @@ public class IssueControllerTest {
 			.isOk();
 	}
 
+	@Transactional
 	@Test
 	void 이슈_하나가_수정된다() {
 		String url = "http://localhost:" + port + "/api/issue/update";
@@ -132,11 +135,12 @@ public class IssueControllerTest {
 			.isOk();
 	}
 
+	@Transactional
 	@Test
 	void 이슈_하나가_삭제된다() {
 		String url = "http://localhost:" + port + "/api/issue/delete";
 		IssueDeleteRequestDtoTemp request = new IssueDeleteRequestDtoTemp(
-			1L, "guswns1659");
+			2L, "guswns1659");
 
 		//then
 		webTestClient
@@ -145,6 +149,20 @@ public class IssueControllerTest {
 			.header("Cookie", cookie)
 			.contentType(MediaType.APPLICATION_JSON_UTF8)
 			.body(Mono.just(request), IssueDeleteRequestDtoTemp.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+	}
+
+	@Test
+	void 이슈_전체_댓글을_가져온다() {
+		Long issueId = 1L;
+		String url = "http://localhost:" + port + "/api/issue/" + issueId + "/comment";
+
+		//then
+		webTestClient.get()
+			.uri(url)
+			.header("Cookie", cookie)
 			.exchange()
 			.expectStatus()
 			.isOk();
