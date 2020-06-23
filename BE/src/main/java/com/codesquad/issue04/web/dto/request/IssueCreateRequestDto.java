@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class IssueCreateRequestDto {
 
 	private String title;
