@@ -6,6 +6,7 @@ class IssueInfoViewController: UIViewController {
     @IBOutlet weak var addComment: UIButton!
     @IBOutlet weak var movePreviousCommentButton: UIButton!
     @IBOutlet weak var moveNextCommentButton: UIButton!
+    
     var didMovePreviousHandler: (() -> Void)?
     var didMoveNextHandler: (() -> Void)?
 

@@ -1,6 +1,7 @@
 import UIKit
 
 class IssueDetailViewController: UIViewController {
+    
     enum IssueInfoState {
         case expanded
         case collapsed

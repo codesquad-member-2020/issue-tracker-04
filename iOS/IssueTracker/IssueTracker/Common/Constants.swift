@@ -12,6 +12,7 @@ enum Identifier {
     enum Cell {
         static let issue = String(describing: IssueCell.self)
         static let comment = String(describing: CommentCell.self)
+        static let assignee = String(describing: AssigneeCell.self)
     }
 
     enum ViewController {

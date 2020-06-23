@@ -15,5 +15,13 @@ extension UIView {
         get { layer.cornerRadius }
         set { layer.cornerRadius = newValue }
     }
+    
+    func setupNib(nibName: String) {
+        let bundle = Bundle(for: type(of: self))
+        let nib = UINib(nibName: nibName, bundle: bundle)
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        addSubview(view)
+        view.frame = self.bounds
+    }
 
 }
