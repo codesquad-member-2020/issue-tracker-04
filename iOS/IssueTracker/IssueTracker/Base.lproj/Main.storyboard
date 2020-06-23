@@ -78,7 +78,12 @@
                                 </prototypes>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSU-6T-JTf">
-                                <rect key="frame" x="0.0" y="610" width="375" height="649.66666666666652"/>
+                                <rect key="frame" x="0.0" y="659" width="375" height="649.66666666666652"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <segue destination="vvx-fP-IoB" kind="embed" id="vFM-xR-xt3"/>
                                 </connections>
@@ -470,6 +475,10 @@
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" image="chevron.up" catalog="system"/>
+                                <connections>
+                                    <action selector="moveToPreviousComment" destination="vvx-fP-IoB" eventType="touchUpInside" id="MPH-n0-ND8"/>
+                                    <action selector="moveToPreviousComment:" destination="vbG-V8-cr6" eventType="touchUpInside" id="OOw-Od-doH"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ww8-ma-UW4" userLabel="Down Button">
                                 <rect key="frame" x="323.33333333333331" y="50.666666666666664" width="28.666666666666686" height="28.666666666666664"/>
@@ -478,6 +487,9 @@
                                 </constraints>
                                 <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
                                 <state key="normal" image="chevron.down" catalog="system"/>
+                                <connections>
+                                    <action selector="moveToNextComment" destination="vvx-fP-IoB" eventType="touchUpInside" id="Jz4-VQ-12y"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q8O-d0-rWf">
                                 <rect key="frame" x="10" y="99.333333333333314" width="355" height="476.99999999999994"/>
@@ -579,6 +591,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u3Y-H2-pfb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="vbG-V8-cr6" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4231.1999999999998" y="-1102.4630541871923"/>
         </scene>
@@ -602,7 +615,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uqC-4B-hLk"/>
+        <segue reference="urR-VM-l5m"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
