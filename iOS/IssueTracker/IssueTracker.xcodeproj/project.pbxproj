@@ -39,10 +39,13 @@
 		8D202FDC249E901600A5F379 /* GenericTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDB249E901600A5F379 /* GenericTableViewDataSource.swift */; };
 		8D202FDE249E948600A5F379 /* CommentDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDD249E948600A5F379 /* CommentDataSource.swift */; };
 		8D202FE0249E9E6300A5F379 /* PageTitleLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D202FDF249E9E6300A5F379 /* PageTitleLabel.swift */; };
+		8D37CB1A24A0C30A00DB0788 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1924A0C30A00DB0788 /* ListViewController.swift */; };
+		8D37CB1E24A0DCC700DB0788 /* IssueFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */; };
 		8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */; };
 		8D46A49E2490CDF800C0FFA3 /* FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D46A49D2490CDF800C0FFA3 /* FakeData.swift */; };
 		8D47AA7A2498DA73001A715C /* NavigationBarButtonFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */; };
 		8D47AA7C2498EC5E001A715C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D47AA7B2498EC5E001A715C /* NavigationController.swift */; };
+		8D784AAF24A025EE0059E98A /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D784AAE24A025EE0059E98A /* MainTabBarController.swift */; };
 		8D93E2A124927D2600A6BAE2 /* UIView+RoundedBorders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D93E2A024927D2600A6BAE2 /* UIView+RoundedBorders.swift */; };
 		8D9E97C02497DFD40048F699 /* IssueCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97BF2497DFD40048F699 /* IssueCollection.swift */; };
 		8D9E97C22497E0330048F699 /* CommentCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C12497E0330048F699 /* CommentCollection.swift */; };
@@ -99,10 +102,13 @@
 		8D202FDB249E901600A5F379 /* GenericTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTableViewDataSource.swift; sourceTree = "<group>"; };
 		8D202FDD249E948600A5F379 /* CommentDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDataSource.swift; sourceTree = "<group>"; };
 		8D202FDF249E9E6300A5F379 /* PageTitleLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageTitleLabel.swift; sourceTree = "<group>"; };
+		8D37CB1924A0C30A00DB0788 /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueFilterViewController.swift; sourceTree = "<group>"; };
 		8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueListViewController.swift; sourceTree = "<group>"; };
 		8D46A49D2490CDF800C0FFA3 /* FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeData.swift; sourceTree = "<group>"; };
 		8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarButtonFactory.swift; sourceTree = "<group>"; };
 		8D47AA7B2498EC5E001A715C /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NavigationController.swift; path = IssueList/NavigationController.swift; sourceTree = "<group>"; };
+		8D784AAE24A025EE0059E98A /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		8D93E2A024927D2600A6BAE2 /* UIView+RoundedBorders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+RoundedBorders.swift"; sourceTree = "<group>"; };
 		8D9E97BF2497DFD40048F699 /* IssueCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueCollection.swift; sourceTree = "<group>"; };
 		8D9E97C12497E0330048F699 /* CommentCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCollection.swift; sourceTree = "<group>"; };
@@ -170,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				8D46A49B248F695500C0FFA3 /* IssueListViewController.swift */,
+				8D37CB1D24A0DCC600DB0788 /* IssueFilterViewController.swift */,
 				8D47AA792498DA73001A715C /* NavigationBarButtonFactory.swift */,
 				6A676FC3248F736F00FFA67E /* IssueListDataSource.swift */,
 				6AA7CC8C249A38CE00251991 /* IssueListTableViewDelegate.swift */,
@@ -222,7 +229,9 @@
 		8D1E587A248E2FC7002C2F3D /* IssueTracker */ = {
 			isa = PBXGroup;
 			children = (
+				8D784AAE24A025EE0059E98A /* MainTabBarController.swift */,
 				8D47AA7B2498EC5E001A715C /* NavigationController.swift */,
+				8D37CB1924A0C30A00DB0788 /* ListViewController.swift */,
 				8D202FC7249E221800A5F379 /* Common */,
 				6A676FBA248F713F00FFA67E /* Model */,
 				8D9E97C32497E1720048F699 /* ModelController */,
@@ -396,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D37CB1A24A0C30A00DB0788 /* ListViewController.swift in Sources */,
 				8D9E97C72497E1AD0048F699 /* IssueListModelController.swift in Sources */,
 				8D46A49C248F695500C0FFA3 /* IssueListViewController.swift in Sources */,
 				8D202FDC249E901600A5F379 /* GenericTableViewDataSource.swift in Sources */,
@@ -403,6 +413,7 @@
 				8D1E5880248E2FC7002C2F3D /* IssueDetailViewController.swift in Sources */,
 				8D9E97C92497E21D0048F699 /* UserModelController.swift in Sources */,
 				6A676FC72490BC4100FFA67E /* IssueStateController.swift in Sources */,
+				8D37CB1E24A0DCC700DB0788 /* IssueFilterViewController.swift in Sources */,
 				6A676FBF248F71B200FFA67E /* Comment.swift in Sources */,
 				8D47AA7C2498EC5E001A715C /* NavigationController.swift in Sources */,
 				8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */,
@@ -424,6 +435,7 @@
 				6A25E759249F725B0056C4FB /* MileStoneViewController.swift in Sources */,
 				6A25E757249F72520056C4FB /* LablesViewController.swift in Sources */,
 				8D1E587E248E2FC7002C2F3D /* SceneDelegate.swift in Sources */,
+				8D784AAF24A025EE0059E98A /* MainTabBarController.swift in Sources */,
 				6A676FBD248F71AC00FFA67E /* User.swift in Sources */,
 				8D9E97C22497E0330048F699 /* CommentCollection.swift in Sources */,
 				8D17E58B24912EC500F78815 /* Constants.swift in Sources */,

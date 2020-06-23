@@ -13,6 +13,11 @@ enum Identifier {
         static let issue = String(describing: IssueCell.self)
         static let comment = String(describing: CommentCell.self)
     }
+
+    enum ViewController {
+        static let list = String(describing: ListViewController.self)
+        static let issueFilter = String(describing: IssueFilterViewController.self)
+    }
 }
 
 struct FakeID {

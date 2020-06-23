@@ -108,7 +108,11 @@ class IssueListViewController: UIViewController {
 
     // TODO: present view to select filtering options.
     @objc private func didFilterButtonPressed() {
-
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(identifier: Identifier.ViewController.issueFilter) {
+            IssueFilterViewController(coder: $0)
+        }
+        present(viewController, animated: true, completion: nil)
     }
 
     @objc private func didSelectAllButtonPressed() {
