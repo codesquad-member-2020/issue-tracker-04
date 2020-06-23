@@ -18,6 +18,10 @@ enum Identifier {
         static let list = String(describing: ListViewController.self)
         static let issueFilter = String(describing: IssueFilterViewController.self)
     }
+
+    enum Storyboard {
+        static let main = "Main"
+    }
 }
 
 struct FakeID {

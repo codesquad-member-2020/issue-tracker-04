@@ -139,7 +139,7 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ea-WR-jo2" customClass="PageTitleLabel" customModule="IssueTracker" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Select Filter" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ea-WR-jo2" customClass="SectionTitleLabel" customModule="IssueTracker" customModuleProvider="target">
                                 <rect key="frame" x="16" y="93" width="166" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -182,7 +182,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Issue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gob-Jf-JzZ" customClass="PageTitleLabel" customModule="IssueTracker" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New Issue" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gob-Jf-JzZ" customClass="SectionTitleLabel" customModule="IssueTracker" customModuleProvider="target">
                                 <rect key="frame" x="21" y="58" width="166" height="41"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
@@ -315,7 +315,7 @@
                                     <outlet property="titleLabel" destination="Z2N-RK-sSu" id="54g-S5-j4Q"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="이슈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2N-RK-sSu" customClass="PageTitleLabel" customModule="IssueTracker" customModuleProvider="target">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="이슈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2N-RK-sSu" customClass="SectionTitleLabel" customModule="IssueTracker" customModuleProvider="target">
                                 <rect key="frame" x="20" y="100" width="222" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -407,6 +407,13 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="plus" catalog="system"/>
                             </button>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WPA-Wy-93X">
+                                <rect key="frame" x="16" y="298" width="343" height="304"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="0yk-aM-1eM" kind="embed" id="IX1-Rd-nNA"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="OvI-C0-lKT"/>
@@ -418,7 +425,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCb-8x-YNS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1086" y="-472"/>
+            <point key="canvasLocation" x="1085.5999999999999" y="-444.08866995073896"/>
         </scene>
         <!--Item-->
         <scene sceneID="BIX-0t-0Wf">
@@ -453,7 +460,7 @@
                                 <state key="normal" title="Add Comment"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ec4-pA-6Nn">
-                                <rect key="frame" x="0.0" y="18.333333333333336" width="375" height="28.333333333333336"/>
+                                <rect key="frame" x="0.0" y="18.333333333333329" width="375" height="28"/>
                                 <state key="normal" image="minus" catalog="system">
                                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="50"/>
                                 </state>
@@ -600,9 +607,67 @@
             </objects>
             <point key="canvasLocation" x="1086" y="-1164"/>
         </scene>
+        <!--Basic Form View Controller-->
+        <scene sceneID="Lab-Nn-xX2">
+            <objects>
+                <viewController id="0yk-aM-1eM" customClass="BasicFormViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fQQ-jV-wEl">
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="304"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="haM-Sq-3Xn">
+                                <rect key="frame" x="16" y="14" width="18" height="22"/>
+                                <state key="normal" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="closeButtonTouched:" destination="0yk-aM-1eM" eventType="touchUpInside" id="VeU-sS-fWP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMz-is-7u3">
+                                <rect key="frame" x="16" y="254" width="34" height="30"/>
+                                <state key="normal" title="clear"/>
+                                <connections>
+                                    <action selector="clearButtonTouched:" destination="0yk-aM-1eM" eventType="touchUpInside" id="8TU-Nu-cv0"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFz-3N-vYn">
+                                <rect key="frame" x="293" y="254" width="34" height="30"/>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonTouched:" destination="0yk-aM-1eM" eventType="touchUpInside" id="qQ6-vb-jI3"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bWR-C8-NFp">
+                                <rect key="frame" x="16" y="44" width="311" height="202"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="yFz-3N-vYn" firstAttribute="leading" secondItem="dMz-is-7u3" secondAttribute="trailing" constant="243" id="8C5-0a-taV"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="trailing" secondItem="bWR-C8-NFp" secondAttribute="trailing" constant="16" id="E0L-zJ-JnV"/>
+                            <constraint firstItem="bWR-C8-NFp" firstAttribute="top" secondItem="haM-Sq-3Xn" secondAttribute="bottom" constant="8" id="EAE-Pb-dPi"/>
+                            <constraint firstItem="haM-Sq-3Xn" firstAttribute="top" secondItem="fQQ-jV-wEl" secondAttribute="top" constant="14" id="Ir7-Bj-jE1"/>
+                            <constraint firstItem="dMz-is-7u3" firstAttribute="leading" secondItem="4WJ-gu-KEK" secondAttribute="leading" constant="16" id="NkD-Vr-dyd"/>
+                            <constraint firstItem="haM-Sq-3Xn" firstAttribute="leading" secondItem="fQQ-jV-wEl" secondAttribute="leading" constant="16" id="RUX-Ug-jLO"/>
+                            <constraint firstItem="dMz-is-7u3" firstAttribute="top" secondItem="bWR-C8-NFp" secondAttribute="bottom" constant="8" id="YHg-ek-RTK"/>
+                            <constraint firstItem="bWR-C8-NFp" firstAttribute="leading" secondItem="4WJ-gu-KEK" secondAttribute="leading" constant="16" id="Yn5-oh-8Qs"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yFz-3N-vYn" secondAttribute="trailing" id="efO-65-jWf"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="bottom" secondItem="yFz-3N-vYn" secondAttribute="bottom" constant="20" id="qXa-KQ-L2H"/>
+                            <constraint firstItem="4WJ-gu-KEK" firstAttribute="bottom" secondItem="dMz-is-7u3" secondAttribute="bottom" constant="20" id="wvM-vP-FA7"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4WJ-gu-KEK"/>
+                    </view>
+                    <connections>
+                        <outlet property="contentView" destination="bWR-C8-NFp" id="m7I-xR-GWk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U7F-Vt-Yqu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1880.8" y="-560.09852216748766"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="uqC-4B-hLk"/>
+        <segue reference="urR-VM-l5m"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
@@ -610,5 +675,6 @@
         <image name="chevron.up" catalog="system" width="128" height="72"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
     </resources>
 </document>

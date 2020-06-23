@@ -1,6 +1,6 @@
 import UIKit
 
-class PageTitleLabel: UILabel {
+class SectionTitleLabel: UILabel {
     static let fontSize: CGFloat = 30
 
     override func awakeFromNib() {
