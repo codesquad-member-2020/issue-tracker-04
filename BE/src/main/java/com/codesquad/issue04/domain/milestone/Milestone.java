@@ -42,7 +42,7 @@ public class Milestone implements AbstractMilestone {
 		return false;
 	}
 
-	public Milestone updateMilestone(MilestoneUpdateRequestDto dto) {
+	public Milestone updateMilestone(final MilestoneUpdateRequestDto dto) {
 		this.title = dto.getTitle();
 		this.dueDate = dto.getDueDate();
 		this.description = dto.getDescription();
