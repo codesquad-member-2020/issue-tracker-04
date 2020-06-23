@@ -228,9 +228,11 @@ public class IssueServiceTest {
 	@DisplayName("이슈에서 댓글이 수정된다.")
 	@MethodSource("댓글수정_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String userGithubId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String userGithubId, String content, List<Photo> mockPhotos,
+		List<Emoji> mockEmojis) {
 		Issue issue = issueService.findIssueById(issueId);
-		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, userGithubId, content, mockPhotos, mockEmojis);
+		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, userGithubId, content, mockPhotos,
+			mockEmojis);
 		issueService.modifyComment(dto);
 		assertAll(
 			() -> assertThat(issue.findCommentById(commentId).getContent()).isEqualTo(content),

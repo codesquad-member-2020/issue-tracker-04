@@ -7,14 +7,19 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.service.IssueService;
 
 @SpringBootTest
 public class IssueTest {
+
+	@Autowired
+	private IssueService issueService;
 
 	private RealUser user;
 
