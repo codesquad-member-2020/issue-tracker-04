@@ -41,6 +41,9 @@ class IssueListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let networkManager = NetworkManager()
+        networkManager.loadTwitter()
+
         issueListModelController.addObserver(self)
         updateIssueListState()
         setupTableView()

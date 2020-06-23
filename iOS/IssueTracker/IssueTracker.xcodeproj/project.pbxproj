@@ -54,6 +54,8 @@
 		8D9E97C92497E21D0048F699 /* UserModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97C82497E21D0048F699 /* UserModelController.swift */; };
 		8D9E97CB2497E4F40048F699 /* IssueDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */; };
 		8DF4D05724A22EAA00DE2A3D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4D05624A22EAA00DE2A3D /* LoginViewController.swift */; };
+		8DF4D05B24A2608A00DE2A3D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4D05A24A2608A00DE2A3D /* Endpoint.swift */; };
+		8DF4D05E24A26BEE00DE2A3D /* NetworkManage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF4D05D24A26BEE00DE2A3D /* NetworkManage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +120,8 @@
 		8D9E97C82497E21D0048F699 /* UserModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelController.swift; sourceTree = "<group>"; };
 		8D9E97CA2497E4F40048F699 /* IssueDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueDetailView.swift; sourceTree = "<group>"; };
 		8DF4D05624A22EAA00DE2A3D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		8DF4D05A24A2608A00DE2A3D /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		8DF4D05D24A26BEE00DE2A3D /* NetworkManage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkManage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +240,7 @@
 				8D47AA7B2498EC5E001A715C /* NavigationController.swift */,
 				8D37CB1924A0C30A00DB0788 /* ListViewController.swift */,
 				8D202FC7249E221800A5F379 /* Common */,
+				8DF4D05C24A2609100DE2A3D /* Network */,
 				6A676FBA248F713F00FFA67E /* Model */,
 				8D9E97C32497E1720048F699 /* ModelController */,
 				6A676FBB248F715400FFA67E /* IssueList */,
@@ -305,6 +310,15 @@
 				8D9E97C82497E21D0048F699 /* UserModelController.swift */,
 			);
 			path = ModelController;
+			sourceTree = "<group>";
+		};
+		8DF4D05C24A2609100DE2A3D /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				8DF4D05A24A2608A00DE2A3D /* Endpoint.swift */,
+				8DF4D05D24A26BEE00DE2A3D /* NetworkManage.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -442,6 +456,8 @@
 				8D784AAF24A025EE0059E98A /* MainTabBarController.swift in Sources */,
 				6A676FBD248F71AC00FFA67E /* User.swift in Sources */,
 				8D9E97C22497E0330048F699 /* CommentCollection.swift in Sources */,
+				8DF4D05E24A26BEE00DE2A3D /* NetworkManage.swift in Sources */,
+				8DF4D05B24A2608A00DE2A3D /* Endpoint.swift in Sources */,
 				8D17E58B24912EC500F78815 /* Constants.swift in Sources */,
 				8D202FDE249E948600A5F379 /* CommentDataSource.swift in Sources */,
 				8D93E2A124927D2600A6BAE2 /* UIView+RoundedBorders.swift in Sources */,
