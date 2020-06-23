@@ -1,6 +1,8 @@
-enum SystemImageName {
-    static let cellClose = "checkmark.rectangle"
-    static let cellDelete = "trash"
+enum Name {
+    enum SystemImage {
+        static let cellClose = "checkmark.rectangle"
+        static let cellDelete = "trash"
+    }
 }
 
 enum Identifier {
