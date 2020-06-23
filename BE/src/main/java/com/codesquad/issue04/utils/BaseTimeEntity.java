@@ -1,12 +1,8 @@
 package com.codesquad.issue04.utils;
 
-import java.time.LocalDateTime;
-
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
@@ -16,10 +12,20 @@ import lombok.Getter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
 
-	@CreatedDate
-	private LocalDateTime createdDate;
-
-	@LastModifiedDate
-	private LocalDateTime modifiedDate;
+	// @Column(name = "created_by")
+	// @CreatedBy
+	// private String createdBy;
+	//
+	// @Column(name = "updated_by")
+	// @LastModifiedBy
+	// private String updatedBy;
+	//
+	// @Column(name = "created_on")
+	// @CreatedDate
+	// private LocalDateTime createdDate;
+	//
+	// @Column(name = "updated_on")
+	// @LastModifiedDate
+	// private LocalDateTime modifiedDate;
 
 }

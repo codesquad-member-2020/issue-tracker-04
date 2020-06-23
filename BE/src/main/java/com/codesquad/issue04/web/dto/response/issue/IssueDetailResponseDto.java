@@ -1,5 +1,6 @@
 package com.codesquad.issue04.web.dto.response.issue;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -27,6 +28,8 @@ public class IssueDetailResponseDto implements ResponseDto {
 	private Milestone milestone;
 	private RealUser realUser;
 	private Status status;
+	private LocalDateTime createdDate;
+	private LocalDateTime modifiedDate;
 
 	@Builder
 	public IssueDetailResponseDto(Issue issue) {
