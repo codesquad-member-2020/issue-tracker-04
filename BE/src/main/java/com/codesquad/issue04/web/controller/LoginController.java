@@ -45,7 +45,7 @@ public class LoginController {
         Cookie cookie = new Cookie(String.valueOf(Oauth.USER_ID), githubUser.getUserId());
         cookie.setMaxAge(EXPIRE_TIME);
         response.addCookie(cookie);
-        response.sendRedirect(Oauth.MOBILE_REDIRECT_URL + jwt);
+        response.sendRedirect("issue04://oauth?token=" + jwt);
         return new ResponseEntity(HttpStatus.FOUND);
     }
 }
