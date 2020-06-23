@@ -19,6 +19,7 @@ import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.service.UserService;
+import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
@@ -80,5 +81,10 @@ public class IssueController {
 		List<Comment> comments = issueService.findCommentsByIssueId(issueId).collectSortedList().block();
 		Comments converted = Comments.ofComments(comments);
 		return Mono.just(new ResponseEntity<>(converted, HttpStatus.OK));
+	}
+
+	@PutMapping("/comment/add")
+	public Mono<ResponseEntity<Comment>> addNewComment(@RequestBody CommentCreateRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.addNewComment(dto), HttpStatus.OK));
 	}
 }

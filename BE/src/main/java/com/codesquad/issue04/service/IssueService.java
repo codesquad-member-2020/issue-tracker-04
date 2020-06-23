@@ -170,7 +170,7 @@ public class IssueService {
 	}
 
 	public Comment addNewComment(final CommentCreateRequestDto dto) {
-		RealUser user = userRepository.findById(dto.getUserId()).orElseGet(NullUser::of);
+		RealUser user = userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
 		Issue issue = findIssueById(dto.getIssueId());
 		Comment addedComment = Comment.ofDto(dto, user, issue);
 		issue.addComment(addedComment);

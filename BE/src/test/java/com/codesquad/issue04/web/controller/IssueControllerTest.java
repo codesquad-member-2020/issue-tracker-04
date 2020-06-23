@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
@@ -163,6 +164,25 @@ public class IssueControllerTest {
 		webTestClient.get()
 			.uri(url)
 			.header("Cookie", cookie)
+			.exchange()
+			.expectStatus()
+			.isOk();
+	}
+
+	@Test
+	void 이슈에_댓글을_추가한다() {
+		String url = "http://localhost:" + port + "/api/issue/comment/add";
+		CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
+			.issueId(1L)
+			.userGitHubId("jypthemiracle")
+			.content("hello world")
+			.build();
+		//then
+		webTestClient.put()
+			.uri(url)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(dto), IssueDeleteRequestDtoTemp.class)
 			.exchange()
 			.expectStatus()
 			.isOk();
