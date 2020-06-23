@@ -1,5 +1,7 @@
 package com.codesquad.issue04.web.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.service.UserService;
@@ -69,5 +73,12 @@ public class IssueController {
 	public Mono<ResponseEntity<ResponseDto>> deleteExistingIssue(@RequestBody IssueDeleteRequestDtoTemp dto) {
 		RealUser user = userService.getUserByGitHubId(dto.getUserGitHubId());
 		return Mono.just(new ResponseEntity<>(issueService.deleteExistingIssue(dto, user), HttpStatus.OK));
+	}
+
+	@GetMapping("/{id}/comment")
+	public Mono<ResponseEntity<Comments>> findCommentsByIssueId(@PathVariable("id") Long issueId) {
+		List<Comment> comments = issueService.findCommentsByIssueId(issueId).collectSortedList().block();
+		Comments converted = Comments.ofComments(comments);
+		return Mono.just(new ResponseEntity<>(converted, HttpStatus.OK));
 	}
 }

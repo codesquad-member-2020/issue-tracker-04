@@ -31,6 +31,7 @@ import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
@@ -192,6 +193,11 @@ public class IssueService {
 			return issue.deleteCommentById(dto.getCommentId());
 		}
 		throw new IllegalArgumentException("not allowed to delete.");
+	}
+
+	public Flux<Comment> findCommentsByIssueId(final Long issueId) {
+		Issue issue = findIssueById(issueId);
+		return Flux.fromStream(issue.getComments().getComments().stream());
 	}
 
 	private Comment findCommentById(final Issue issue, final CommentRequestDto dto) {
