@@ -1,6 +1,13 @@
-enum SystemImageName {
-    static let cellClose = "checkmark.rectangle"
-    static let cellDelete = "trash"
+enum Name {
+    enum SystemImage {
+        static let cellClose = "checkmark.rectangle"
+        static let cellDelete = "trash"
+    }
+
+    enum Title {
+        static let labelList = "Label"
+        static let milestoneList = "Milestone"
+    }
 }
 
 enum Identifier {
@@ -16,11 +23,16 @@ enum Identifier {
     }
 
     enum ViewController {
-        static let list = String(describing: ListViewController.self)
+        static let list = String(describing: BasicListViewController.self)
         static let issueFilter = String(describing: IssueFilterViewController.self)
         static let assigneeCellVC = String(describing: AssigneeCellViewController.self)
         static let labelCellVC = String(describing: LabelCellViewController.self)
         static let milestoneCellVC = String(describing: MilestoneCellViewController.self)
+        static let basicForm = String(describing: BasicFormViewController.self)
+    }
+
+    enum Storyboard {
+        static let main = "Main"
     }
 }
 

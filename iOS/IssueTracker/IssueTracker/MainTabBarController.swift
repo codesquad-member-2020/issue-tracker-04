@@ -19,15 +19,15 @@ class MainTabBarController: UITabBarController {
 }
 
 struct TabBarControllerAdder<ViewController> where ViewController: UIViewController {
-    var storyboard = UIStoryboard(name: "Main", bundle: nil)
+    var storyboard = UIStoryboard(name: Identifier.Storyboard.main, bundle: nil)
     let title: String
     let tabBarItem: UITabBarItem
 
-    func add(in viewController: UITabBarController) {
+    func add(in tabBarController: UITabBarController) {
         let tableViewController = storyboard.instantiateViewController(identifier: Identifier.ViewController.list) { coder in
             ViewController(coder: coder)
         }
         tableViewController.tabBarItem = tabBarItem
-        viewController.viewControllers?.append(tableViewController)
+        tabBarController.viewControllers?.append(tableViewController)
     }
 }

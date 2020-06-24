@@ -1,5 +1,6 @@
 import UIKit
 
+/// IB에서 외곽선 처리
 extension UIView {
     @IBInspectable var borderWidth: CGFloat {
         get { layer.borderWidth }
@@ -15,7 +16,24 @@ extension UIView {
         get { layer.cornerRadius }
         set { layer.cornerRadius = newValue }
     }
-    
+
+}
+
+extension UIView {
+    /// xib로 UIView 생성
+    /// - parameter nibName: `nil`일 경우 뷰와 같은 이름으로 생성
+    static func loadFromNib(_ nibName: String? = nil) -> Self {
+        let nibName = nibName ?? String(describing: self)
+        let nib = UINib(nibName: nibName, bundle: .main)
+
+        return nib.instantiate(withOwner: self, options: .none).first as! Self
+    }
+
+    func addSubviewAsSameSize(_ view: UIView) {
+        view.frame = self.bounds
+        self.addSubview(view)
+    }
+
     func setupNib(nibName: String) {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: nibName, bundle: bundle)
@@ -23,5 +41,4 @@ extension UIView {
         addSubview(view)
         view.frame = self.bounds
     }
-
 }

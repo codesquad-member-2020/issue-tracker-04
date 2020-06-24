@@ -72,10 +72,10 @@ extension IssueListTableViewDelegate {
         var attribute: Attribute {
             switch self {
             case .share:
-                let image = UIImage(systemName: SystemImageName.cellClose)
+                let image = UIImage(systemName: Name.SystemImage.cellClose)
                 return Attribute(style: .normal, title: "Share", image: image, backgroundColor: .systemGreen)
             case .delete:
-                let image = UIImage(systemName: SystemImageName.cellDelete)
+                let image = UIImage(systemName: Name.SystemImage.cellDelete)
                 return Attribute(style: .destructive, title: "Delete", image: image, backgroundColor: nil)
             }
         }
