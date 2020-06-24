@@ -5,8 +5,10 @@ import java.util.List;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class IssueCreateRequestDto {
 
@@ -15,24 +17,21 @@ public class IssueCreateRequestDto {
 	private String writerGitHubId;
 	private List<String> photoUrl;
 
-	public IssueCreateRequestDto(String title, String writerGitHubId) {
+	public IssueCreateRequestDto(String title) {
 		this.title = title;
-		this.writerGitHubId = writerGitHubId;
 		this.photoUrl = Collections.emptyList();
 	}
 
-	public IssueCreateRequestDto(String title, String commentContent, String writerGitHubId) {
+	public IssueCreateRequestDto(String title, String commentContent) {
 		this.title = title;
 		this.commentContent = commentContent;
-		this.writerGitHubId = writerGitHubId;
 		this.photoUrl = Collections.emptyList();
 	}
 
-	public IssueCreateRequestDto(String title, String commentContent, String writerGitHubId,
+	public IssueCreateRequestDto(String title, String commentContent,
 		List<String> photoUrl) {
 		this.title = title;
 		this.commentContent = commentContent;
-		this.writerGitHubId = writerGitHubId;
 		this.photoUrl = photoUrl;
 	}
 }

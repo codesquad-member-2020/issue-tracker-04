@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
 public class MilestoneController {
 
 	private final MilestoneService milestoneService;

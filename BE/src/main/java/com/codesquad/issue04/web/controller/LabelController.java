@@ -21,22 +21,22 @@ public class LabelController {
 
     private final LabelService labelService;
 
-    @GetMapping("v1/allLabels")
+    @GetMapping("allLabels")
     public LabelOverviewResponseDtos getAllLabels() {
         return labelService.getLabelOverviews();
     }
 
-    @PostMapping("v1/label")
+    @PostMapping("label")
     public Label createNewLabel(@RequestBody LabelCreateRequestDto labelCreateRequestDto) {
         return labelService.createNewLabel(labelCreateRequestDto);
     }
 
-    @PutMapping("v1/label")
+    @PutMapping("label")
     public Label updateExistingLabel(@RequestBody LabelUpdateRequestDto labelUpdateRequestDto) {
         return labelService.updateExistingLabel(labelUpdateRequestDto);
     }
 
-    @DeleteMapping("v1/label/{labelId}")
+    @DeleteMapping("label/{labelId}")
     public Label deleteLabel(@PathVariable Long labelId) {
         return labelService.deleteExistingLabel(labelId);
     }

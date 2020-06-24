@@ -45,7 +45,9 @@ import com.codesquad.issue04.web.dto.request.issue.IssueLabelAttachRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueLabelDetachRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDtoTemp;
+import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
+import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 import reactor.core.publisher.Mono;
@@ -160,23 +162,23 @@ public class IssueControllerTest {
 		assertThat(issueOverviewResponseDtos.getAllData().get(0).getTitle()).isEqualTo(expected);
 	}
 
-	@Transactional
-	@Test
-	@Order(5)
-	void 이슈_하나가_새로_생성된다() {
-		String url = "http://localhost:" + port + "/api/issue/add";
-		IssueCreateRequestDto request = new IssueCreateRequestDto(
-			"Thanks Brian", "He reviewed in wonderful way for 6 months", "jypthemiracle",
-			Arrays.asList("naver.com", "sigrid.com"));
-		webTestClient.put()
-			.uri(url)
-			.header("Cookie", cookie)
-			.contentType(MediaType.APPLICATION_JSON_UTF8)
-			.body(Mono.just(request), IssueCreateRequestDto.class)
-			.exchange()
-			.expectStatus()
-			.isOk();
-	}
+	// @Transactional
+	// @Test
+	// @Order(5)
+	// void 이슈_하나가_새로_생성된다() {
+	// 	String url = "http://localhost:" + port + "/api/issue/add";
+	// 	IssueCreateRequestDto request = new IssueCreateRequestDto(
+	// 		"Thanks Brian", "He reviewed in wonderful way for 6 months", "jypthemiracle",
+	// 		Arrays.asList("naver.com", "sigrid.com"));
+	// 	webTestClient.put()
+	// 		.uri(url)
+	// 		.header("Cookie", cookie)
+	// 		.contentType(MediaType.APPLICATION_JSON_UTF8)
+	// 		.body(Mono.just(request), IssueCreateRequestDto.class)
+	// 		.exchange()
+	// 		.expectStatus()
+	// 		.isOk();
+	// }
 
 	@Transactional
 	@Test
@@ -430,5 +432,28 @@ public class IssueControllerTest {
 			() -> issueService.findIssueDetailById(1L).getAssignees()
 				.findAssigneeByUserGitHubId("jypthemiracle")
 		).isInstanceOf(IllegalArgumentException.class);
+	}
+
+	@Transactional
+	@DisplayName("jwt토큰을 가지고 이슈를 생성한다.")
+	@CsvSource({"이슈제목, 댓글내용"})
+	@ParameterizedTest
+	void 토큰을_가지고_이슈를_생성한다(String title, String commentContent) {
+		String url = "http://localhost:" + port + "/issue/add";
+
+		IssueCreateRequestDto issueCreateRequestDto = new IssueCreateRequestDto(title, commentContent);
+
+		IssueDetailResponseDto responseDto = webTestClient.put()
+			.uri(url)
+			.body(Mono.just(issueCreateRequestDto), IssueCreateRequestDto.class)
+			.header("Authorization", "eyJIUzI1NiI6IkhTMjU2IiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJzdWIiOiJndXN3bnMxNjU5IiwiZXhwIjoxNTkzMDMzNjA4LCJ1c2VySWQiOiJndXN3bnMxNjU5IiwiaWF0IjoxNTkyOTk3NjA4fQ.dia-l_rHEtsMPkNJEqYumhiNMNwsZMYM7R7iG061AaQ")
+			.exchange()
+			.expectStatus().isEqualTo(HttpStatus.OK)
+			.expectBody(IssueDetailResponseDto.class)
+            .returnResult()
+			.getResponseBody();
+
+		assertThat(responseDto.getTitle()).isEqualTo(title);
+
 	}
 }

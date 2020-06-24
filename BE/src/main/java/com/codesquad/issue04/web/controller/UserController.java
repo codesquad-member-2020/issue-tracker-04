@@ -14,12 +14,12 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("v1/allAuthors")
+    @GetMapping("allAuthors")
     public AllAuthorsResponseDto getAllAuthors() {
         return userService.getAllAuthors();
     }
 
-    @GetMapping("v1/allAssignees")
+    @GetMapping("allAssignees")
     public AllAssigneeResponseDto getAllAssignee() {
         return userService.getAllAssignee();
     }

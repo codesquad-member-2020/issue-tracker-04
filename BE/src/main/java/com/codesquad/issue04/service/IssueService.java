@@ -217,7 +217,7 @@ public class IssueService {
 		Issue savedIssue = issueRepository.save(newIssue);
 		Comment firstComment = Comment.builder()
 			.issue(savedIssue)
-			.user(userRepository.findById(1L).orElse(NullUser.of()))
+			.user(userRepository.findByGithubId(dto.getWriterGitHubId()).orElse(NullUser.of()))
 			.content(dto.getCommentContent())
 			.build();
 		savedIssue.addInitialComment(firstComment);

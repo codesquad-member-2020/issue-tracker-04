@@ -43,7 +43,7 @@ import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/api/issue")
+@RequestMapping("/issue")
 @AllArgsConstructor
 public class IssueController {
 
@@ -74,8 +74,9 @@ public class IssueController {
 	}
 
 	@PutMapping("/add")
-	public Mono<ResponseEntity<ResponseDto>> createNewIssue(@RequestBody IssueCreateRequestDto dto) {
-		return Mono.just(new ResponseEntity<>(issueService.createNewIssue(dto), HttpStatus.OK));
+	public ResponseDto createNewIssue(@RequestBody IssueCreateRequestDto dto, HttpServletRequest request) {
+		dto.setWriterGitHubId((String) request.getAttribute("userId"));
+		return issueService.createNewIssue(dto);
 	}
 
 	@PutMapping("/update")

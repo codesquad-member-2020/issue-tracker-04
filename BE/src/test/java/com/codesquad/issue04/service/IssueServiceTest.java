@@ -139,18 +139,18 @@ public class IssueServiceTest {
 		assertThat(issue.getAssignees().findAssigneeByUserGitHubId("guswns1659")).isNotNull();
 	}
 
-	@Transactional
-	@DisplayName("새로운 이슈가 추가된다.")
-	@CsvSource({"test title, test comment, test_id"})
-	@ParameterizedTest
-	void 새로운_이슈_하나가_추가된다(String title, String comment, String githubId) {
-		List<String> photoUrls = Arrays.asList("codesquad.kr", "edu.nextstep.camp", "woowacourse.github.io");
-		IssueCreateRequestDto dto = new IssueCreateRequestDto(title, comment, githubId, photoUrls);
-		issueService.createNewIssue(dto);
-
-		assertThat(issueService.findLatestIssue()).isInstanceOf(IssueDetailResponseDto.class);
-		assertThat(issueService.findLatestIssue().getTitle()).isEqualTo(title);
-	}
+	// @Transactional
+	// @DisplayName("새로운 이슈가 추가된다.")
+	// @CsvSource({"test title, test comment, test_id"})
+	// @ParameterizedTest
+	// void 새로운_이슈_하나가_추가된다(String title, String comment, String githubId) {
+	// 	List<String> photoUrls = Arrays.asList("codesquad.kr", "edu.nextstep.camp", "woowacourse.github.io");
+	// 	IssueCreateRequestDto dto = new IssueCreateRequestDto(title, comment, githubId, photoUrls);
+	// 	issueService.createNewIssue(dto);
+	//
+	// 	assertThat(issueService.findLatestIssue()).isInstanceOf(IssueDetailResponseDto.class);
+	// 	assertThat(issueService.findLatestIssue().getTitle()).isEqualTo(title);
+	// }
 
 	@Transactional
 	@DisplayName("기존의 이슈가 업데이트된다.")
