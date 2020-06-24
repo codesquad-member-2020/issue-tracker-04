@@ -27,7 +27,7 @@ public class MilestoneControllerTest {
     @DisplayName("전체 마일스톤을 응답하는 테스트")
     @Test
     void 전체_마일스톤을_응답한다() {
-        String url = "http://localhost:" + port + "/api/v1/allMilestones";
+        String url = "http://localhost:" + port + "/api/allMilestones";
 
         EntityExchangeResult<MilestoneResponseDtos> entityExchangeResult = webTestClient.get()
             .uri(url)

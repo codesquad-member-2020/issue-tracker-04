@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,6 +43,7 @@ import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 import reactor.core.publisher.Mono;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient(timeout = "15000")
 public class IssueControllerTest {
@@ -59,6 +63,7 @@ public class IssueControllerTest {
 	private String cookie;
 
 	@Test
+	@Order(1)
 	void 전체_요약_이슈를_요청해서_응답한다() {
 
 		// given
@@ -74,6 +79,7 @@ public class IssueControllerTest {
 	}
 
 	@Test
+	@Order(2)
 	void 전체_열린_이슈만_선별해서_응답한다() {
 		String url = "http://localhost:" + port + "/api/issue?status=open";
 		webTestClient.get()
@@ -90,6 +96,7 @@ public class IssueControllerTest {
 	}
 
 	@Test
+	@Order(3)
 	void 전체_닫힌_이슈만_선별해서_응답한다() {
 		String url = "http://localhost:" + port + "/api/issue?status=closed";
 		webTestClient.get()
@@ -106,6 +113,7 @@ public class IssueControllerTest {
 	}
 
 	@Test
+	@Order(4)
 	void 잘못된_인자가_들어오는_경우_오류를_반환한다() {
 		String url = "http://localhost:" + port + "/api/issue?status=wrong";
 		ErrorResponseDto responseBody = webTestClient.get()
@@ -122,6 +130,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(5)
 	void 이슈_하나가_새로_생성된다() {
 		String url = "http://localhost:" + port + "/api/issue/add";
 		IssueCreateRequestDto request = new IssueCreateRequestDto(
@@ -139,6 +148,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(6)
 	void 이슈_하나가_수정된다() {
 		String url = "http://localhost:" + port + "/api/issue/update";
 		IssueUpdateRequestDtoTemp request = new IssueUpdateRequestDtoTemp(
@@ -155,6 +165,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(7)
 	void 이슈_하나가_삭제된다() {
 		String url = "http://localhost:" + port + "/api/issue/delete";
 		IssueDeleteRequestDtoTemp request = new IssueDeleteRequestDtoTemp(
@@ -174,6 +185,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(8)
 	void 이슈_하나를_닫는다() {
 		String url = "http://localhost:" + port + "/api/issue/close";
 		IssueCloseRequestDto request = new IssueCloseRequestDto(1L);
@@ -190,18 +202,8 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(9)
 	void 이슈_하나를_다시_연다() {
-		String closeUrl = "http://localhost:" + port + "/api/issue/close";
-		IssueCloseRequestDto close = new IssueCloseRequestDto(1L);
-		webTestClient.post()
-			.uri(closeUrl)
-			.header("Cookie", cookie)
-			.contentType(MediaType.APPLICATION_JSON_UTF8)
-			.body(Mono.just(close), IssueCloseRequestDto.class)
-			.exchange()
-			.expectStatus()
-			.isOk();
-
 		String reopenUrl = "http://localhost:" + port + "/api/issue/reopen";
 		IssueReopenRequestDto reopen = new IssueReopenRequestDto(1L);
 		webTestClient.post()
@@ -218,6 +220,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(10)
 	void 이슈_전체_댓글을_가져온다() {
 		Long issueId = 1L;
 		String url = "http://localhost:" + port + "/api/issue/" + issueId + "/comment";
@@ -233,6 +236,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(11)
 	void 이슈에_댓글을_추가한다() {
 		String url = "http://localhost:" + port + "/api/issue/comment/add";
 		CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
@@ -253,6 +257,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(12)
 	void 이슈에_댓글을_수정한다() {
 		String url = "http://localhost:" + port + "/api/issue/comment/update";
 		CommentUpdateRequestDto dto = CommentUpdateRequestDto.builder()
@@ -277,6 +282,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(13)
 	void 이슈에_댓글을_삭제한다() {
 		//given
 		String url = "http://localhost:" + port + "/api/issue/comment/delete";
@@ -304,6 +310,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(14)
 	void 이슈에_라벨을_추가한다() {
 		String url = "http://localhost:" + port + "/api/issue/label/attach";
 		IssueLabelAttachRequestDto dto = IssueLabelAttachRequestDto.builder()
@@ -323,6 +330,7 @@ public class IssueControllerTest {
 
 	@Transactional
 	@Test
+	@Order(15)
 	void 이슈에_라벨을_제외한다() {
 		String attachUrl = "http://localhost:" + port + "/api/issue/label/attach";
 		IssueLabelAttachRequestDto attachRequestDto = IssueLabelAttachRequestDto.builder()
@@ -355,25 +363,7 @@ public class IssueControllerTest {
 	}
 
 	@Test
-	void 이슈에_담당자를_추가한다() {
-		String attachUrl = "http://localhost:" + port + "/api/issue/assignee/attach";
-		IssueAssigneeRequestDto attachDto = IssueAssigneeRequestDto.builder()
-			.issueId(1L)
-			.userGitHubId("jypthemiracle")
-			.build();
-		webTestClient.put()
-			.uri(attachUrl)
-			.header("Cookie", cookie)
-			.contentType(MediaType.APPLICATION_JSON_UTF8)
-			.body(Mono.just(attachDto), IssueAssigneeRequestDto.class)
-			.exchange()
-			.expectStatus()
-			.isOk();
-		assertThat(issueService.findIssueDetailById(1L).getAssignees()
-			.findAssigneeByUserGitHubId("jypthemiracle").getGithubId()).isNotEmpty();
-	}
-
-	@Test
+	@Order(16)
 	void 이슈에_담당자를_추가하고_제외한다() {
 		String attachUrl = "http://localhost:" + port + "/api/issue/assignee/attach";
 		IssueAssigneeRequestDto attachDto = IssueAssigneeRequestDto.builder()
