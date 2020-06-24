@@ -21,6 +21,7 @@ import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueAssigneeRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDto;
@@ -31,6 +32,7 @@ import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
+import com.codesquad.issue04.web.dto.response.user.AssigneeDto;
 import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 
@@ -122,7 +124,7 @@ public class IssueService {
 			.user(userRepository.findById(1L).orElse(NullUser.of()))
 			.content(dto.getCommentContent())
 			.build();
-		savedIssue.addComment(firstComment);
+		savedIssue.addInitialComment(firstComment);
 		return IssueDetailResponseDto.builder()
 			.issue(newIssue)
 			.build();
@@ -186,7 +188,7 @@ public class IssueService {
 		RealUser user = userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
 		Issue issue = findIssueById(dto.getIssueId());
 		Comment addedComment = Comment.ofDto(dto, user, issue);
-		issue.addComment(addedComment);
+		issue.getComments().addComment(addedComment);
 		return addedComment;
 	}
 
@@ -207,7 +209,6 @@ public class IssueService {
 		RealUser user = findUserByGithubId(dto);
 		if (validateUserCommentPermission(comment, user)) {
 			issue.deleteCommentById(dto.getCommentId());
-			issueRepository.save(issue);
 			return comment;
 		}
 		throw new IllegalArgumentException("not allowed to delete.");
@@ -223,6 +224,10 @@ public class IssueService {
 	}
 
 	private RealUser findUserByGithubId(final CommentRequestDto dto) {
+		return userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
+	}
+
+	private RealUser findUserByGithubId(final IssueAssigneeRequestDto dto) {
 		return userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
 	}
 
@@ -289,5 +294,21 @@ public class IssueService {
 		Label label = getLabelByTitle(labelTitle);
 		issue.deleteExistingLabel(label);
 		return label;
+	}
+
+	@Transactional
+	public AssigneeDto attachNewAssignee(IssueAssigneeRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		RealUser user = findUserByGithubId(dto);
+		issue.getAssignees().attachNewAssignee(user);
+		return AssigneeDto.of(user);
+	}
+
+	@Transactional
+	public AssigneeDto detachExistingAssignee(IssueAssigneeRequestDto dto) {
+		Issue issue = findIssueById(dto.getIssueId());
+		RealUser user = findUserByGithubId(dto);
+		issue.detachExistingAssignee(user);
+		return AssigneeDto.of(user);
 	}
 }
