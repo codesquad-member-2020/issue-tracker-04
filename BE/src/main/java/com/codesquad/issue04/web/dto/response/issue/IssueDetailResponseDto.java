@@ -7,6 +7,7 @@ import java.util.Set;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Assignees;
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
@@ -25,6 +26,7 @@ public class IssueDetailResponseDto implements ResponseDto {
 	private String title;
 	private List<Comment> comments;
 	private Set<Label> labels;
+	private Assignees assignees;
 	private Milestone milestone;
 	private RealUser realUser;
 	private Status status;
@@ -38,6 +40,7 @@ public class IssueDetailResponseDto implements ResponseDto {
 		this.title = issue.getTitle();
 		this.comments = issue.getComments().returnCommentsCreatingNewList();
 		this.labels = issue.getLabels().getLabelsAfterCreatingNewSet();
+		this.assignees = issue.getAssignees();
 		this.milestone = issue.getMilestone();
 		this.realUser = issue.getUser();
 		this.status = issue.getStatus();

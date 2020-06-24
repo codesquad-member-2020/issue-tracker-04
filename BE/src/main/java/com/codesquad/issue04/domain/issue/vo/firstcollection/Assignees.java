@@ -1,22 +1,17 @@
 package com.codesquad.issue04.domain.issue.vo.firstcollection;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -28,7 +23,8 @@ import lombok.NoArgsConstructor;
 public class Assignees {
 
 	@JsonIgnore
-	@OneToMany( orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(
 		name = "assignee",
 		joinColumns = @JoinColumn(name = "issue_id"),
@@ -59,13 +55,13 @@ public class Assignees {
 		return new Assignees(assignees);
 	}
 
-	public RealUser detachExistingAssignee(RealUser user) {
-		this.assignees.remove(user);
+	public RealUser attachNewAssignee(RealUser user) {
+		this.assignees.add(user);
 		return user;
 	}
 
-	public RealUser addNewAssignee(RealUser user) {
-		this.assignees.add(user);
+	public RealUser detachExistingAssignee(RealUser user) {
+		this.assignees.remove(user);
 		return user;
 	}
 }
