@@ -5,13 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.codesquad.issue04.web.oauth.LoginInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private static final String[] EXCLUDE_PATHS = {"/callback"};
+    private static final String[] EXCLUDE_PATHS = {"/callback", "/swagger-ui.html"};
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -24,15 +25,17 @@ public class WebConfig implements WebMvcConfigurer {
             .maxAge(MAX_AGE_SECS);
     }
 
-    @Bean
-    public LoginInterceptor loginInterceptor() {
-        return new LoginInterceptor();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor())
-            .addPathPatterns("/**")
-            .excludePathPatterns(EXCLUDE_PATHS);
-    }
+    // @Bean
+    // public LoginInterceptor loginInterceptor() {
+    //     return new LoginInterceptor();
+    // }
+    //
+    // @Override
+    // public void addInterceptors(InterceptorRegistry registry) {
+    //     registry.addInterceptor(loginInterceptor())
+    //         .addPathPatterns("/**")
+    //         .excludePathPatterns("/callback")
+    //         .excludePathPatterns("/swagger-ui.html")
+    //         .excludePathPatterns(EXCLUDE_PATHS);
+    // }
 }
