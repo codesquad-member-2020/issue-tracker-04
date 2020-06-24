@@ -49,6 +49,7 @@ public class RealUser implements Serializable, AbstractUser {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Issue> ownedIssues;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "assignee",
@@ -84,5 +85,9 @@ public class RealUser implements Serializable, AbstractUser {
 
     public boolean hasAssignedIssues() {
         return this.getAssignedIssues().size() > 0;
+    }
+
+    public boolean isMatchedGitHubId(String userGithubId) {
+        return this.githubId.equals(userGithubId);
     }
 }
