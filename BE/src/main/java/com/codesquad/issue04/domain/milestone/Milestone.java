@@ -5,11 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
@@ -20,6 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -38,7 +46,13 @@ public class Milestone implements AbstractMilestone {
 	private String description;
 
 	@JsonIgnore
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(
+		name = "milestone_has_issue",
+		joinColumns = @JoinColumn(name = "milestone_id"),
+		inverseJoinColumns = @JoinColumn(name = "issue_id")
+	)
 	private List<Issue> issues = new ArrayList<>();
 
 	@Override
@@ -51,6 +65,10 @@ public class Milestone implements AbstractMilestone {
 		this.dueDate = dto.getDueDate();
 		this.description = dto.getDescription();
 		return this;
+	}
+
+	public void initializeIssue() {
+		issues.clear();
 	}
 
 	public static Milestone of(MilestoneCreateRequestDto milestoneCreateRequestDto) {
