@@ -15,9 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.label.Label;
-import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewResponseDtos;
@@ -59,7 +59,7 @@ public class LabelServiceTest {
 	void 라벨_하나가_추가된다(String title, String color, String description) {
 		LabelCreateRequestDto dto = new LabelCreateRequestDto(title, color, description);
 		labelService.createNewLabel(dto);
-		LabelDetailResponseDto savedLabelDto = labelService.findLatestIssue();
+		LabelDetailResponseDto savedLabelDto = labelService.findLatestLabel();
 		assertAll(
 			() -> assertThat(savedLabelDto.getTitle()).isEqualTo(title),
 			() -> assertThat(savedLabelDto.getColor()).isEqualTo(color),
@@ -87,8 +87,7 @@ public class LabelServiceTest {
 	@ValueSource(longs = 1)
 	@ParameterizedTest
 	void 라벨_하나가_삭제된다(Long id) {
-		LabelDeleteRequestDto dto = new LabelDeleteRequestDto(id);
-		labelService.deleteExistingLabel(dto);
+		labelService.deleteExistingLabel(id);
 		assertThatThrownBy(
 			() -> labelService.findLabelById(id)
 		).isInstanceOf(IllegalArgumentException.class);

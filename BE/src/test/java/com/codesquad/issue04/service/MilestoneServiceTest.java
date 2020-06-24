@@ -16,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 
@@ -60,13 +60,8 @@ public class MilestoneServiceTest {
 	@ParameterizedTest
 	void 마일스톤_하나를_추가한다(String title, LocalDate dueDate, String content) {
 		MilestoneCreateRequestDto dto = new MilestoneCreateRequestDto(title, dueDate, content);
-		Milestone milestone = Milestone.builder()
-			.title(dto.getTitle())
-			.description(dto.getDescription())
-			.dueDate(dto.getDueDate())
-			.build();
-		Milestone savedItem = milestoneService.createMilestone(milestone);
-		assertThat(savedItem.getTitle()).isEqualTo(milestone.getTitle());
+		Milestone savedItem = milestoneService.createMilestone(dto);
+		assertThat(savedItem.getTitle()).isEqualTo(dto.getTitle());
 	}
 
 	@Transactional
@@ -90,7 +85,7 @@ public class MilestoneServiceTest {
 	@ParameterizedTest
 	void 마일스톤_하나를_삭제한다(Long id) {
 		MilestoneDeleteRequestDto dto = new MilestoneDeleteRequestDto(id);
-		milestoneService.deleteMilestone(dto);
+		milestoneService.deleteMilestone(id);
 		assertThatThrownBy(
 			() -> milestoneService.findMilestoneById(dto.getId())
 		).isInstanceOf(IllegalArgumentException.class);

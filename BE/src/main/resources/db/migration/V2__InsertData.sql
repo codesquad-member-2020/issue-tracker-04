@@ -8,11 +8,23 @@ VALUES ('Sigrid Jin', 'jypthemiracle',
 INSERT INTO milestone (title, due_date, description)
 VALUES ('1차 배포', '2020-06-28', '1차 배포');
 
+INSERT INTO milestone (title, due_date, description)
+VALUES ('2차 배포', '2020-07-01', '2차 배포');
+
+INSERT INTO milestone (title, due_date, description)
+VALUES ('3차 배포', '2020-07-02', '3차 배포');
+
 INSERT INTO issue (title, user_id, milestone_id)
 VALUES ('SQL 작성', 1, 1);
 
 INSERT INTO issue (title, user_id, milestone_id)
-VALUES ('스키마 작성', 1, 1);
+VALUES ('스키마 작성', 1, 2);
+
+INSERT INTO issue (title, user_id, milestone_id)
+VALUES ('ERD 작성', 1, 3);
+
+INSERT INTO issue (title, user_id, milestone_id)
+VALUES ('엔트리 작성', 2, 1);
 
 INSERT INTO comment (content, created_at, updated_at, user_id, issue_id)
 VALUES ('아하하 어렵네요.', '2020-06-25', '2020-06-26', 1, 1);
@@ -41,6 +53,12 @@ VALUES ('LAUGH', 2);
 INSERT INTO assignee (issue_id, user_id)
 VALUES (1, 1);
 
+INSERT INTO assignee (issue_id, user_id)
+VALUES (2, 1);
+
 INSERT INTO label_has_issue (label_id, issue_id)
 VALUES (1, 1);
+
+INSERT INTO label_has_issue (label_id, issue_id)
+VALUES (1, 2);
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +37,8 @@ public class Milestone implements AbstractMilestone {
 	private LocalDate dueDate;
 	private String description;
 
-	@OneToMany(mappedBy = "milestone")
+	@JsonIgnore
+	@OneToMany
 	private List<Issue> issues = new ArrayList<>();
 
 	@Override
@@ -42,10 +46,18 @@ public class Milestone implements AbstractMilestone {
 		return false;
 	}
 
-	public Milestone updateMilestone(MilestoneUpdateRequestDto dto) {
+	public Milestone updateMilestone(final MilestoneUpdateRequestDto dto) {
 		this.title = dto.getTitle();
 		this.dueDate = dto.getDueDate();
 		this.description = dto.getDescription();
 		return this;
+	}
+
+	public static Milestone of(MilestoneCreateRequestDto milestoneCreateRequestDto) {
+		return Milestone.builder()
+			.title(milestoneCreateRequestDto.getTitle())
+			.dueDate(milestoneCreateRequestDto.getDueDate())
+			.description(milestoneCreateRequestDto.getDescription())
+			.build();
 	}
 }

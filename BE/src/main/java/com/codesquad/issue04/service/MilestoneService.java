@@ -5,10 +5,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
-import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class MilestoneService {
 
 	private final MilestoneRepository milestoneRepository;
+	private final IssueRepository issueRepository;
 
 	public MilestoneResponseDtos getMilestoneOverviews() {
 		return MilestoneResponseDtos.builder()
@@ -36,12 +38,13 @@ public class MilestoneService {
 		return milestoneRepository.findAll();
 	}
 
-	protected Milestone findMilestoneById(Long labelId) {
-		return milestoneRepository.findById(labelId)
-			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
+	protected Milestone findMilestoneById(Long milestoneId) {
+		return milestoneRepository.findById(milestoneId)
+			.orElseThrow(() -> new IllegalArgumentException("milestone not found id: " + milestoneId));
 	}
 
-	public Milestone createMilestone(Milestone milestone) {
+	public Milestone createMilestone(MilestoneCreateRequestDto milestoneCreateRequestDto) {
+		Milestone milestone = Milestone.of(milestoneCreateRequestDto);
 		return milestoneRepository.save(milestone);
 	}
 
@@ -51,8 +54,11 @@ public class MilestoneService {
 		return MilestoneDto.of(afterMilestone);
 	}
 
-	public Milestone deleteMilestone(MilestoneDeleteRequestDto dto) {
-		Milestone deleteMilestone = findMilestoneById(dto.getId());
+	public Milestone deleteMilestone(Long milestoneId) {
+		Milestone deleteMilestone = findMilestoneById(milestoneId);
+		// deleteMilestone.getIssues()
+		// 	.forEach(issueRepository::delete);
+
 		milestoneRepository.delete(deleteMilestone);
 		return deleteMilestone;
 	}

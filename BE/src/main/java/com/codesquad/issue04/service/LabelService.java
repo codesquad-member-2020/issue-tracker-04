@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.label.LabelRepository;
-import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewResponseDtos;
@@ -22,9 +21,13 @@ public class LabelService {
 
 	private final LabelRepository labelRepository;
 
-	protected Label findLabelById(Long labelId) {
+	protected Label findLabelById(final Long labelId) {
 		return labelRepository.findById(labelId)
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
+	}
+
+	public Label findLabelByTitle(final String labelTitle) {
+		return labelRepository.findByTitle(labelTitle);
 	}
 
 	protected List<Label> findAllLabels() {
@@ -49,29 +52,30 @@ public class LabelService {
 	}
 
 	@Transactional
-	public LabelDetailResponseDto findLatestIssue() {
+	public LabelDetailResponseDto findLatestLabel() {
 		Label latestLabel = labelRepository.findTopByOrderByIdDesc();
 		return LabelDetailResponseDto.of(latestLabel);
 	}
 
 	@Transactional
-	public Label createNewLabel(LabelCreateRequestDto dto) {
+	public Label createNewLabel(final LabelCreateRequestDto dto) {
 		Label savedLabel = Label.builder()
 			.title(dto.getTitle())
 			.color(dto.getColor())
 			.description(dto.getDescription())
 			.build();
+		labelRepository.save(savedLabel);
 		return savedLabel;
 	}
 
-	public Label updateExistingLabel(LabelUpdateRequestDto dto) {
+	public Label updateExistingLabel(final LabelUpdateRequestDto dto) {
 		Label updatedLabel = findLabelById(dto.getId());
 		updatedLabel.updateLabel(dto);
 		return updatedLabel;
 	}
 
-	public Label deleteExistingLabel(LabelDeleteRequestDto dto) {
-		Label deletedLabel = findLabelById(dto.getId());
+	public Label deleteExistingLabel(final Long labelId) {
+		Label deletedLabel = findLabelById(labelId);
 		labelRepository.delete(deletedLabel);
 		return deletedLabel;
 	}

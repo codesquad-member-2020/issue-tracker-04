@@ -1,11 +1,13 @@
-package com.codesquad.issue04.web.dto.request;
+package com.codesquad.issue04.web.dto.request.issue;
 
 import java.util.Collections;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class IssueCreateRequestDto {
 
 	private String title;
