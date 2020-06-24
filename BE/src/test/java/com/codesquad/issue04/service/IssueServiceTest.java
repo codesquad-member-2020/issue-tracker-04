@@ -20,12 +20,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -180,10 +182,22 @@ public class IssueServiceTest {
 	}
 
 	@Transactional
+	@DisplayName("기존의 이슈를 닫는다.")
+	@CsvSource({"1"})
+	@ParameterizedTest
+	void 기존의_이슈를_닫는다(Long id) {
+		IssueCloseRequestDto dto = new IssueCloseRequestDto(id);
+		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.closeExistingIssue(dto);
+		assertThat(detailResponseDto.getStatus()).isEqualTo(Status.CLOSED);
+		assertThat(issueService.findIssueById(1L).isClosed()).isTrue();
+	}
+
+	@Transactional
 	@DisplayName("이슈에 댓글을 추가한다.")
 	@MethodSource("댓글추가_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_추가한다(Long issueId, String userGithubId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_추가한다(Long issueId, String userGithubId, String content, List<Photo> mockPhotos,
+		List<Emoji> mockEmojis) {
 		CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
 			.issueId(issueId)
 			.userGitHubId(userGithubId)
@@ -205,11 +219,12 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1, guswns1659"})
 	@ParameterizedTest
 	void 이슈에_댓글_하나를_삭제한다(Long issueId, Long commentId, String userGithubId) {
+		issueService.findIssueById(issueId).findCommentById(commentId);
 		Issue issue = issueService.findIssueById(issueId);
 		CommentDeleteRequestDto dto = new CommentDeleteRequestDto(issueId, commentId, userGithubId);
 		issueService.deleteComment(dto);
 		assertThatThrownBy(
-			() -> issue.findCommentById(commentId)
+			() -> issueService.findIssueById(issueId).findCommentById(commentId)
 		).isInstanceOf(IllegalArgumentException.class);
 	}
 

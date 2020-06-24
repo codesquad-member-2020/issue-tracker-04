@@ -14,7 +14,6 @@ import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
-import com.codesquad.issue04.domain.user.AbstractUser;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.domain.user.UserRepository;
@@ -22,6 +21,7 @@ import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
@@ -155,20 +155,32 @@ public class IssueService {
 		return IssueDetailResponseDto.of(issue);
 	}
 
+	@Transactional
+	public ResponseDto closeExistingIssue(final IssueCloseRequestDto dto) {
+		Issue issue = findIssueById(dto.getId());
+		issue.changeStatusToClosed();
+		return IssueDetailResponseDto.of(issue);
+	}
+
 	private boolean validateUserIssuePermission(final Issue issue, final RealUser user) {
-		return issue.getUser().equals(user);
+		if (user.isNil()) {
+			return false;
+		}
+		return issue.getUser().isMatchedGitHubId(user.getGithubId());
 	}
 
 	private ErrorResponseDto createErrorResponseDto() {
 		return new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), new IllegalArgumentException("not allowed."));
 	}
 
+	@Transactional
 	public Comment addNewComment(final Comment comment) {
 		Issue issue = findIssueById(comment.getUserId());
 		Comment addedComment = issue.addComment(comment);
 		return addedComment;
 	}
 
+	@Transactional
 	public Comment addNewComment(final CommentCreateRequestDto dto) {
 		RealUser user = userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
 		Issue issue = findIssueById(dto.getIssueId());
@@ -177,9 +189,11 @@ public class IssueService {
 		return addedComment;
 	}
 
+	@Transactional
 	public Comment modifyComment(final CommentUpdateRequestDto dto) {
 		Issue issue = findIssueById(dto.getIssueId());
-		if (! findUserByGithubId(dto).isNil()) {
+		RealUser user = findUserByGithubId(dto);
+		if (validateUserIssuePermission(issue, user)) {
 			return issue.modifyCommentByDto(dto);
 		}
 		throw new IllegalArgumentException("not allowed to modify.");
@@ -188,9 +202,11 @@ public class IssueService {
 	public Comment deleteComment(final CommentDeleteRequestDto dto) {
 		Issue issue = findIssueById(dto.getIssueId());
 		Comment comment = findCommentById(issue, dto);
-		AbstractUser user = findUserByGithubId(dto);
+		RealUser user = findUserByGithubId(dto);
 		if (validateUserCommentPermission(comment, user)) {
-			return issue.deleteCommentById(dto.getCommentId());
+			issue.deleteCommentById(dto.getCommentId());
+			issueRepository.save(issue);
+			return comment;
 		}
 		throw new IllegalArgumentException("not allowed to delete.");
 	}
@@ -204,12 +220,15 @@ public class IssueService {
 		return issue.findCommentById(dto.getCommentId());
 	}
 
-	private AbstractUser findUserByGithubId(final CommentRequestDto dto) {
-		return userRepository.findByGithubId(dto.getUserGithubId()).orElseGet(NullUser::of);
+	private RealUser findUserByGithubId(final CommentRequestDto dto) {
+		return userRepository.findByGithubId(dto.getUserGitHubId()).orElseGet(NullUser::of);
 	}
 
-	private boolean validateUserCommentPermission(final Comment comment, final AbstractUser user) {
-		return comment.getUser().equals(user);
+	private boolean validateUserCommentPermission(final Comment comment, final RealUser user) {
+		if (user.isNil()) {
+			return false;
+		}
+		return comment.getUser().isMatchedGitHubId(user.getGithubId());
 	}
 
 	private Milestone getMilestoneById(final Long milestoneId) {
