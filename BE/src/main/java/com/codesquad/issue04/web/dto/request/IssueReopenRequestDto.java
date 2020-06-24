@@ -5,10 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class IssueCloseRequestDto {
+public class IssueReopenRequestDto {
 	private Long id;
 
-	public IssueCloseRequestDto(Long id) {
+	public IssueReopenRequestDto(Long id) {
 		this.id = id;
 	}
 }

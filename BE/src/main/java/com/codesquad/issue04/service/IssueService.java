@@ -24,6 +24,7 @@ import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
@@ -156,9 +157,16 @@ public class IssueService {
 	}
 
 	@Transactional
-	public ResponseDto closeExistingIssue(final IssueCloseRequestDto dto) {
+	public IssueDetailResponseDto closeExistingIssue(final IssueCloseRequestDto dto) {
 		Issue issue = findIssueById(dto.getId());
 		issue.changeStatusToClosed();
+		return IssueDetailResponseDto.of(issue);
+	}
+
+	@Transactional
+	public IssueDetailResponseDto reopenExistingIssue(final IssueReopenRequestDto dto) {
+		Issue issue = findIssueById(dto.getId());
+		issue.changeStatusToOpen();
 		return IssueDetailResponseDto.of(issue);
 	}
 
@@ -171,13 +179,6 @@ public class IssueService {
 
 	private ErrorResponseDto createErrorResponseDto() {
 		return new ErrorResponseDto(HttpStatus.FORBIDDEN.value(), new IllegalArgumentException("not allowed."));
-	}
-
-	@Transactional
-	public Comment addNewComment(final Comment comment) {
-		Issue issue = findIssueById(comment.getUserId());
-		Comment addedComment = issue.addComment(comment);
-		return addedComment;
 	}
 
 	@Transactional

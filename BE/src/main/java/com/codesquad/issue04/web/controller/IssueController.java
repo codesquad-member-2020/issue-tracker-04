@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +23,10 @@ import com.codesquad.issue04.service.UserService;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
@@ -76,6 +79,16 @@ public class IssueController {
 	public Mono<ResponseEntity<ResponseDto>> deleteExistingIssue(@RequestBody IssueDeleteRequestDtoTemp dto) {
 		RealUser user = userService.getUserByGitHubId(dto.getUserGitHubId());
 		return Mono.just(new ResponseEntity<>(issueService.deleteExistingIssue(dto, user), HttpStatus.OK));
+	}
+
+	@PostMapping("/close")
+	public Mono<ResponseEntity<ResponseDto>> closeExistingIssue(@RequestBody IssueCloseRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.closeExistingIssue(dto), HttpStatus.OK));
+	}
+
+	@PostMapping("/reopen")
+	public Mono<ResponseEntity<ResponseDto>> reopenExistingIssue(@RequestBody IssueReopenRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.reopenExistingIssue(dto), HttpStatus.OK));
 	}
 
 	@GetMapping("/{id}/comment")

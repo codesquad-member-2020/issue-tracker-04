@@ -22,13 +22,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
+import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
@@ -166,6 +169,51 @@ public class IssueControllerTest {
 			.isOk();
 	}
 
+	@Transactional
+	@Test
+	void 이슈_하나를_닫는다() {
+		String url = "http://localhost:" + port + "/api/issue/close";
+		IssueCloseRequestDto request = new IssueCloseRequestDto(1L);
+		webTestClient.post()
+			.uri(url)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(request), IssueCloseRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		assertThat(issueService.findIssueDetailById(1L).getStatus()).isEqualTo(Status.CLOSED);
+	}
+
+	@Transactional
+	@Test
+	void 이슈_하나를_다시_연다() {
+		String closeUrl = "http://localhost:" + port + "/api/issue/close";
+		IssueCloseRequestDto close = new IssueCloseRequestDto(1L);
+		webTestClient.post()
+			.uri(closeUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(close), IssueCloseRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+
+		String reopenUrl = "http://localhost:" + port + "/api/issue/reopen";
+		IssueReopenRequestDto reopen = new IssueReopenRequestDto(1L);
+		webTestClient.post()
+			.uri(reopenUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(reopen), IssueReopenRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+
+		assertThat(issueService.findIssueDetailById(1L).getStatus()).isEqualTo(Status.OPEN);
+	}
+
+	@Transactional
 	@Test
 	void 이슈_전체_댓글을_가져온다() {
 		Long issueId = 1L;
@@ -180,6 +228,7 @@ public class IssueControllerTest {
 			.isOk();
 	}
 
+	@Transactional
 	@Test
 	void 이슈에_댓글을_추가한다() {
 		String url = "http://localhost:" + port + "/api/issue/comment/add";
@@ -199,6 +248,7 @@ public class IssueControllerTest {
 			.isOk();
 	}
 
+	@Transactional
 	@Test
 	void 이슈에_댓글을_수정한다() {
 		String url = "http://localhost:" + port + "/api/issue/comment/update";
@@ -222,6 +272,7 @@ public class IssueControllerTest {
 		assertThat(comments.get(0).getContent()).isEqualTo("i love java");
 	}
 
+	@Transactional
 	@Test
 	void 이슈에_댓글을_삭제한다() {
 		//given
