@@ -5,8 +5,8 @@ enum Name {
     }
 
     enum Title {
-        static let labelList = "Label"
-        static let milestoneList = "Milestone"
+        static let labelList = "Labels"
+        static let milestoneList = "Milestones"
     }
 }
 

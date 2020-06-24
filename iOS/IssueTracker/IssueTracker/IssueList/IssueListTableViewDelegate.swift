@@ -40,6 +40,10 @@ class IssueListTableViewDelegate: NSObject, UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [share, delete])
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+
 }
 
 // MARK: - SwipeAction

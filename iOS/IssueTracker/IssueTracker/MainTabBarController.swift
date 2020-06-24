@@ -5,14 +5,13 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let issueItem = UITabBarItem(title: "Issue", image: nil, tag: 0)
-        let labelItem = UITabBarItem(title: "Label", image: nil, tag: 1)
-        let milestoneItem = UITabBarItem(title: "Milestone", image: nil, tag: 2)
+        let labelItem = UITabBarItem(title: "Label", image: UIImage(systemName: "tag.fill"), tag: 1)
+        let milestoneItem = UITabBarItem(title: "Milestone", image: UIImage(systemName: "calendar.circle.fill"), tag: 2)
 
 
-        let issueVC = TabBarControllerAdder<LabelListViewController>(title: "Issue", tabBarItem: labelItem)
+        let labelVC = TabBarControllerAdder<LabelListViewController>(title: "Label", tabBarItem: labelItem)
         let milestoneVC = TabBarControllerAdder<MilestoneListViewController>(title: "Milestone", tabBarItem: milestoneItem)
-        issueVC.add(in: self)
+        labelVC.add(in: self)
         milestoneVC.add(in: self)
     }
 
