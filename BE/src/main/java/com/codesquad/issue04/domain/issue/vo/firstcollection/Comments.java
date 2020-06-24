@@ -38,6 +38,9 @@ public class Comments {
 	}
 
 	public Comment getOverview() {
+		if (this.comments.size() == 0) {
+			return Comment.ofNullComment();
+		}
 		return this.comments.get(0);
 	}
 
@@ -73,5 +76,10 @@ public class Comments {
 			.findFirst()
 			.map(comment -> comment.updateComment(dto))
 			.get();
+	}
+
+	public boolean hasUserId(String userId) {
+		return this.comments.stream()
+			.anyMatch(comment -> comment.isSameAuthor(userId));
 	}
 }
