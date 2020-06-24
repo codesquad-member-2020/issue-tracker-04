@@ -12,12 +12,15 @@ enum Identifier {
     enum Cell {
         static let issue = String(describing: IssueCell.self)
         static let comment = String(describing: CommentCell.self)
-        static let assignee = String(describing: AssigneeCell.self)
+        static let label = String(describing: LabelCollectionViewCell.self)
     }
 
     enum ViewController {
         static let list = String(describing: ListViewController.self)
         static let issueFilter = String(describing: IssueFilterViewController.self)
+        static let assigneeCellVC = String(describing: AssigneeCellViewController.self)
+        static let labelCellVC = String(describing: LabelCellViewController.self)
+        static let milestoneCellVC = String(describing: MilestoneCellViewController.self)
     }
 }
 
