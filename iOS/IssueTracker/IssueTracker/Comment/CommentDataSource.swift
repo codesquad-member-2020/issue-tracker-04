@@ -9,5 +9,7 @@ extension TableViewDataSource where Models == CommentCollection {
         guard let cell = cell as? CommentCell else { return }
 
         cell.bodyLabel.text = "Foooooo"
+        cell.bodyLabel.textColor = .brown
+        cell.authorIdLabel.text = "MemMEe"
     }
 }

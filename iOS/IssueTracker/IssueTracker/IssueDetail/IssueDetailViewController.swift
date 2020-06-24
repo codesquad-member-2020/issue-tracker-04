@@ -1,6 +1,7 @@
 import UIKit
 
 class IssueDetailViewController: UIViewController {
+    
     enum IssueInfoState {
         case expanded
         case collapsed
@@ -11,18 +12,12 @@ class IssueDetailViewController: UIViewController {
     @IBOutlet weak var issueDetailView: IssueDetailView!
     @IBOutlet weak var commentTableView: UITableView!
     @IBOutlet weak var issueInfoView: UIView!
-
-
-    var commentDataSource: TableViewDataSource<CommentCollection>! = nil
-
     private let issueModelController: IssueModelController
+    var commentDataSource: TableViewDataSource<CommentCollection>! = nil
     var issue: Issue { issueModelController.issue }
-
-
     var nextState: IssueInfoState {
         issueInfoVisible ? .collapsed : .expanded
     }
-
     var handleAreaHeight: CGFloat {self.view.frame.height * 0.2}
     var issueInfoVisible = false
     var visualEffectView: UIVisualEffectView!
@@ -59,36 +54,23 @@ class IssueDetailViewController: UIViewController {
 
     func setupButtonIssueInfoView() {
         setupVisualEffectView()
-//        setupIssueInfoView()
+        setupIssueInfoView()
 
     }
     
     private func setupVisualEffectView() {
-        visualEffectView = UIVisualEffectView(frame: self.view.bounds) // 블러 화면
+        visualEffectView = UIVisualEffectView(frame: self.view.bounds)
         self.view.addSubview(visualEffectView)
-
         visualEffectView.isHidden = true
     }
 
-//    private func setupIssueInfoView() {
-//
-//        issueInfoView.movePreviousCommentButton.addTarget(self, action: #selector(moveToPreviousComment), for: .touchUpInside)
-//        issueInfoView.moveNextCommentButton.addTarget(self, action: #selector(moveToNextComment), for: .touchUpInside)
-//    }
+    private func setupIssueInfoView() {
+        guard let vc = self.children.first as? IssueInfoViewController else {return}
+        vc.didMovePreviousHandler = moveToPreviousComment
+        vc.didMoveNextHandler = moveToNextComment
+    }
 
     // MARK: - Selector
-
-    @objc func moveToPreviousComment() {
-        print(#function)
-        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 1, section: 0)
-        //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
-    }
-
-    @objc func moveToNextComment() {
-        print(#function)
-        //        let currentIndexPath = tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
-        //        tableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
-    }
 
     @objc func gestureStarted(_ recognizer:UIPanGestureRecognizer) {
         self.visualEffectView.isHidden = false
@@ -136,6 +118,18 @@ class IssueDetailViewController: UIViewController {
 
     @IBSegueAction private func showEditIssue(coder: NSCoder) -> IssueFormViewController? {
         IssueFormViewController(coder: coder, state: .edit(issue: issueModelController.issue), delegate: self)
+    }
+    
+    // MARK: - IBAction
+    
+    func moveToPreviousComment() {
+                let currentIndexPath = commentTableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 1, section: 0)
+                commentTableView.scrollToRow(at: IndexPath(row: currentIndexPath.row - 1 , section: currentIndexPath.section), at: .top, animated: true)
+    }
+
+    func moveToNextComment() {
+                let currentIndexPath = commentTableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
+                commentTableView.scrollToRow(at: IndexPath(row: currentIndexPath.row + 1 , section: currentIndexPath.section), at: .top, animated: true)
     }
 
 }
