@@ -24,6 +24,7 @@ import com.codesquad.issue04.service.UserService;
 import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueAssigneeRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDtoTemp;
@@ -33,6 +34,7 @@ import com.codesquad.issue04.web.dto.request.issue.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
+import com.codesquad.issue04.web.dto.response.user.AssigneeDto;
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
@@ -127,5 +129,17 @@ public class IssueController {
 		@RequestBody IssueLabelDetachRequestDto dto) {
 		return Mono.just(
 			new ResponseEntity<>(issueService.detachLabel(dto.getIssueId(), dto.getLabelTitle()), HttpStatus.OK));
+	}
+
+	@PutMapping("/assignee/attach")
+	public Mono<ResponseEntity<AssigneeDto>> attachNewAssigneesToExistingIssue(@RequestBody
+		IssueAssigneeRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.attachNewAssignee(dto), HttpStatus.OK));
+	}
+
+	@PutMapping("/assignee/detach")
+	public Mono<ResponseEntity<AssigneeDto>> detachNewAssigneesToExistingIssue(@RequestBody
+		IssueAssigneeRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.detachExistingAssignee(dto), HttpStatus.OK));
 	}
 }
