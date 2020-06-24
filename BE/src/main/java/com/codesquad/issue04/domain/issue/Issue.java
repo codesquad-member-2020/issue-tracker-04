@@ -9,6 +9,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,9 +33,11 @@ import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @ToString(exclude = {"comments", "assignees"})
 @Entity
@@ -55,8 +58,8 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Assignees assignees;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "milestone_id", nullable = true)
 	private Milestone milestone;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
