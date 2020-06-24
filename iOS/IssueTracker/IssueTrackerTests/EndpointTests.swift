@@ -32,7 +32,7 @@ class EndpointTests: XCTestCase {
 
     func testCreateIssue() throws {
         let newIssue = PartialIssue(title: "Foo", body: "Bar")
-        let endpoint = Endpoint.issue.create(newIssue: newIssue)
+        let endpoint = Endpoint.issue.create(newIssue)
         let body = try JSONEncoder().encode(newIssue)
 
         XCTAssertEqual(endpoint.urlRequest.url, URL(string: prefixPath + "issues"))
@@ -46,7 +46,7 @@ class EndpointTests: XCTestCase {
 
         issue.title = title
         let data = try JSONEncoder().encode(issue)
-        let urlRequest = Endpoint.issue.update(issue: issue).urlRequest
+        let urlRequest = Endpoint.issue.update(issue).urlRequest
 
         XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issues/\(issue.id)"))
         XCTAssertEqual(urlRequest.httpMethod, "PUT")

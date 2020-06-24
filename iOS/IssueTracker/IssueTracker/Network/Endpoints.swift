@@ -10,7 +10,7 @@ extension Endpoint {
     }
 }
 
-struct IssueEndpoint: CRUD {
+struct IssueEndpoint: CRUDEndpoint {
     typealias ModelType = Issue
     typealias PartialModelType = PartialIssue
 

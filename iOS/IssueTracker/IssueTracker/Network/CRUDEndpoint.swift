@@ -1,13 +1,13 @@
 import Foundation
 
-protocol CRUD {
+protocol CRUDEndpoint {
     associatedtype ModelType: Model
     associatedtype PartialModelType: Encodable
 
     var basePath: String { get }
 }
 
-extension CRUD {
+extension CRUDEndpoint {
     var list: Endpoint {
         Endpoint(path: "issues")
     }
@@ -16,23 +16,23 @@ extension CRUD {
         Endpoint(path: "issues/\(id)")
     }
 
-    func create(newIssue: PartialModelType) -> Endpoint {
+    func create(_ newModel: PartialModelType) -> Endpoint {
         var endpoint = self.list
         endpoint.httpMethod = .POST
-        endpoint.httpBody = endpoint.convertIntoData(from: newIssue)
+        endpoint.httpBody = endpoint.convertIntoData(from: newModel)
 
         return endpoint
     }
 
-    func update(issue: ModelType) -> Endpoint {
-        var endpoint = self.detail(by: issue.id)
+    func update(_ model: ModelType) -> Endpoint {
+        var endpoint = self.detail(by: model.id)
         endpoint.httpMethod = .PUT
-        endpoint.httpBody = endpoint.convertIntoData(from: issue)
+        endpoint.httpBody = endpoint.convertIntoData(from: model)
 
         return endpoint
     }
 
-    func delete(id: ID) -> Endpoint {
+    func delete(by id: ID) -> Endpoint {
         var endpoint = self.detail(by: id)
         endpoint.httpMethod = .DELETE
 
