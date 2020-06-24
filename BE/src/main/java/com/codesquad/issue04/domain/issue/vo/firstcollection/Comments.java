@@ -9,7 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 

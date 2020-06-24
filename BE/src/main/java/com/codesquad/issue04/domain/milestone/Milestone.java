@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

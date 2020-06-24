@@ -12,7 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
-import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

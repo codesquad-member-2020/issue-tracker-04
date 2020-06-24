@@ -14,20 +14,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.service.UserService;
-import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueCloseRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
-import com.codesquad.issue04.web.dto.request.IssueReopenRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.issue.IssueReopenRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import lombok.AllArgsConstructor;
@@ -112,4 +113,7 @@ public class IssueController {
 	public Mono<ResponseEntity<Comment>> deleteExistingComment(@RequestBody CommentDeleteRequestDto dto) {
 		return Mono.just(new ResponseEntity<>(issueService.deleteComment(dto), HttpStatus.OK));
 	}
+
+	@PutMapping("/label/add")
+	public Mono<ResponseEntity<Issue>> attachNewLabelToExistingIssue(@RequestBody Iss)
 }

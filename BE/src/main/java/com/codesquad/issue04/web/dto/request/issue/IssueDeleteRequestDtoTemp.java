@@ -1,4 +1,4 @@
-package com.codesquad.issue04.web.dto.request;
+package com.codesquad.issue04.web.dto.request.issue;
 
 import lombok.Getter;
 

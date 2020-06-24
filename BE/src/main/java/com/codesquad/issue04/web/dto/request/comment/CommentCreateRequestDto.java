@@ -1,4 +1,4 @@
-package com.codesquad.issue04.web.dto.request;
+package com.codesquad.issue04.web.dto.request.comment;
 
 import java.util.List;
 
@@ -8,16 +8,15 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CommentUpdateRequestDto extends CommentRequestDto {
+public class CommentCreateRequestDto extends CommentRequestDto {
 	private String content;
 	private List<Photo> photos;
 	private List<Emoji> emojis;
 
 	@Builder
-	public CommentUpdateRequestDto(Long issueId, Long commentId, String userGitHubId, String content,
+	public CommentCreateRequestDto(Long issueId, String userGitHubId, String content,
 		List<Photo> photos, List<Emoji> emojis) {
 		super.issueId = issueId;
-		super.commentId = commentId;
 		super.userGitHubId = userGitHubId;
 		this.content = content;
 		this.photos = photos;
