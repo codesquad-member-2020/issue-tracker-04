@@ -15,21 +15,26 @@ struct Issue {
 }
 
 extension Issue {
-    enum Status {
+    enum Status: String, Codable {
         case open, closed
     }
 }
 
-extension Issue: Hashable { }
+extension Issue: Hashable, Codable { }
 
-struct PartialIssue {
+struct PartialIssue: Codable {
     let title: String
     let body: String
 }
 
-struct BriefIssue {
+struct BriefIssue: Codable {
     let id: ID
     let title: String
     let body: String?
     var status: Issue.Status = .open
+
+    enum CodingKeys: String, CodingKey {
+        case id, title, status
+        case body = "overview"
+    }
 }

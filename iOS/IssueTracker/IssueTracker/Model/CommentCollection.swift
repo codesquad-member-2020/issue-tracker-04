@@ -47,7 +47,7 @@ extension CommentCollection: ExpressibleByArrayLiteral {
 
 }
 
-extension CommentCollection: Hashable { }
+extension CommentCollection: Hashable, Codable { }
 
 extension CommentCollection {
     static func makeFake() -> CommentCollection {

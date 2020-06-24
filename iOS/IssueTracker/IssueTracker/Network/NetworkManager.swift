@@ -6,21 +6,32 @@ enum APIError: Error {
 
 }
 
-class NetworkManager {
-    func loadTwitter(using session: URLSession = .shared) {
-        let endpoint = Endpoint.oembed()
+class IssueLoader {
+    typealias Handler = (Result<BriefIssue, APIError>) -> Void
+//    typealias RequestDataType = BriefIssue
+//    typealias ResponseDataType = BriefIssue
+
+    func loadList(using session: URLSession = .shared, handler: @escaping Handler) {
+        let endpoint = Endpoint.issueList
         let task = session.request(endpoint) { result in
             switch result {
             case .success(let data):
-                let json = try? JSONDecoder().decode(Twitter.self, from: data)
-                print(endpoint.url)
-                print(json)
-            case .failure(.invalidData):
-                debugPrint("Invalid Data")
-            case .failure(.networkFailure(let error)):
+                do {
+                    let decoded: BriefIssue = try self.parse(data: data)
+                    debugPrint(endpoint.url)
+                    handler(.success(decoded))
+                } catch {
+                    debugPrint(error)
+                }
+            case .failure(let error):
                 debugPrint(error)
+                handler(.failure(error))
             }
         }
+    }
+
+    func parse<U: Decodable>(data: Data) throws -> U {
+       return try JSONDecoder().decode(U.self, from: data)
     }
 }
 

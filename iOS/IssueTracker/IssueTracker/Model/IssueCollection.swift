@@ -1,6 +1,6 @@
 import Foundation
 
-struct IssueCollection {
+struct IssueCollection: Codable {
     typealias IssueType = [Issue]
 
     private var elements: IssueType = .init()
