@@ -62,4 +62,9 @@ public class Labels {
 		this.labels = labelSet;
 		return label;
 	}
+
+	public boolean isSameLabelExists(String labelName) {
+		return this.labels.stream()
+			.anyMatch(label -> label.isSameLabel(labelName));
+	}
 }

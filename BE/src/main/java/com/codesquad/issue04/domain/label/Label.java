@@ -51,4 +51,8 @@ public class Label {
 		this.description = dto.getDescription();
 		return this;
 	}
+
+	public boolean isSameLabel(String labelName) {
+		return this.getTitle().equals(labelName);
+	}
 }

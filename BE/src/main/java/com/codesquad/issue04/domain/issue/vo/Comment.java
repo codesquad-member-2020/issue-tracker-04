@@ -84,6 +84,10 @@ public class Comment implements Serializable {
 		return new Comment(dto.getContent(), dto.getEmojis(), dto.getPhotos(), user, issue);
 	}
 
+	public static Comment ofNullComment() {
+		return new Comment();
+	}
+
 	public String getFormattedCreatedDate() {
 		return formattedDate(createdAt, "YYYY-MM-SS HH:mm:ss");
 	}
@@ -114,4 +118,7 @@ public class Comment implements Serializable {
 		return this.id.equals(commentId);
 	}
 
+	public boolean isSameAuthor(String userId) {
+		return this.getUser().getGithubId().equals(userId);
+	}
 }

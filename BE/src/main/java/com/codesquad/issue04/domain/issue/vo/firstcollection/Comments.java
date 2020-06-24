@@ -11,8 +11,10 @@ import javax.persistence.OneToMany;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(exclude = "comments")
 @Embeddable
 public class Comments {
 	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -38,6 +40,9 @@ public class Comments {
 	}
 
 	public Comment getOverview() {
+		if (this.comments.size() == 0) {
+			return Comment.ofNullComment();
+		}
 		return this.comments.get(0);
 	}
 
@@ -73,5 +78,10 @@ public class Comments {
 			.findFirst()
 			.map(comment -> comment.updateComment(dto))
 			.get();
+	}
+
+	public boolean hasUserId(String userId) {
+		return this.comments.stream()
+			.anyMatch(comment -> comment.isSameAuthor(userId));
 	}
 }

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: local
     include: oauth
 
 # logging 설정

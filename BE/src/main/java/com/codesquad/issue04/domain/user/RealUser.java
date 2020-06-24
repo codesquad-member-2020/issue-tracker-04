@@ -85,4 +85,8 @@ public class RealUser implements Serializable, AbstractUser {
     public boolean hasAssignedIssues() {
         return this.getAssignedIssues().size() > 0;
     }
+
+    public boolean isSameUser(String userId) {
+        return this.getGithubId().equals(userId);
+    }
 }
