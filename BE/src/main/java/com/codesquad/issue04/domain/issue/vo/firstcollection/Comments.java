@@ -64,6 +64,11 @@ public class Comments {
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
 	}
 
+	public Comment addComment(Comment comment) {
+		this.comments.add(comment);
+		return comment;
+	}
+
 	public Comment deleteCommentById(Long commentId) {
 		Comment deletedComment = findCommentById(commentId);
 		this.comments.remove(deletedComment);

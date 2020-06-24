@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -68,7 +69,7 @@ public class Comment implements Serializable, Comparable<Comment> {
 	private List<Photo> photos;
 
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
 
