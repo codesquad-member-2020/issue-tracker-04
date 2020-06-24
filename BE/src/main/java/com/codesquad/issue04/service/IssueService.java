@@ -200,6 +200,7 @@ public class IssueService {
 		throw new IllegalArgumentException("not allowed to modify.");
 	}
 
+	@Transactional
 	public Comment deleteComment(final CommentDeleteRequestDto dto) {
 		Issue issue = findIssueById(dto.getIssueId());
 		Comment comment = findCommentById(issue, dto);
@@ -236,6 +237,7 @@ public class IssueService {
 		return milestoneRepository.findById(milestoneId).orElseGet(NullMilestone::of);
 	}
 
+	@Transactional
 	public Milestone updateMilestone(final Long issueId, final Long milestoneId) {
 		Issue issue = findIssueById(issueId);
 		Milestone milestone = getMilestoneById(milestoneId);
@@ -243,6 +245,7 @@ public class IssueService {
 		return milestone;
 	}
 
+	@Transactional
 	public Milestone deleteMilestone(final Long issueId, final Long milestoneId) {
 		Issue issue = findIssueById(issueId);
 		return issue.deleteMilestone(milestoneId);
@@ -252,16 +255,38 @@ public class IssueService {
 		return labelService.findLabelById(labelId);
 	}
 
-	public Label addNewLabel(final Long issueId, final Long labelId) {
+	private Label getLabelByTitle(final String labelTitle) {
+		return labelService.findLabelByTitle(labelTitle);
+	}
+
+	@Transactional
+	public Label attachLabel(final Long issueId, final Long labelId) {
 		Issue issue = findIssueById(issueId);
 		Label label = getLabelById(labelId);
 		issue.addNewLabel(label);
 		return label;
 	}
 
-	public Label deleteLabel(final Long issueId, final Long labelId) {
+	@Transactional
+	public Label attachLabel(final Long issueId, final String labelTitle) {
+		Issue issue = findIssueById(issueId);
+		Label label = getLabelByTitle(labelTitle);
+		issue.addNewLabel(label);
+		return label;
+	}
+
+	@Transactional
+	public Label detachLabel(final Long issueId, final Long labelId) {
 		Issue issue = findIssueById(issueId);
 		Label label = getLabelById(labelId);
+		issue.deleteExistingLabel(label);
+		return label;
+	}
+
+	@Transactional
+	public Label detachLabel(final Long issueId, final String labelTitle) {
+		Issue issue = findIssueById(issueId);
+		Label label = getLabelByTitle(labelTitle);
 		issue.deleteExistingLabel(label);
 		return label;
 	}

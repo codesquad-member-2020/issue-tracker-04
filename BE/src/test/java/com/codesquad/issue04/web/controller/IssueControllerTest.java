@@ -31,6 +31,8 @@ import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.issue.IssueLabelAttachRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueLabelDetachRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
@@ -297,5 +299,57 @@ public class IssueControllerTest {
 		assertThatThrownBy(
 			() -> comments.findCommentById(1L)
 		).isInstanceOf(IllegalArgumentException.class);
+	}
+
+	@Transactional
+	@Test
+	void 이슈에_라벨을_추가한다() {
+		String url = "http://localhost:" + port + "/api/issue/label/attach";
+		IssueLabelAttachRequestDto dto = IssueLabelAttachRequestDto.builder()
+			.issueId(1L)
+			.labelTitle("BE-배포")
+			.build();
+		webTestClient.put()
+			.uri(url)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(dto), IssueLabelAttachRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		assertThat(issueService.findIssueDetailById(1L).getLabels()).isNotEmpty();
+	}
+
+	@Transactional
+	@Test
+	void 이슈에_라벨을_제외한다() {
+		String attachUrl = "http://localhost:" + port + "/api/issue/label/attach";
+		IssueLabelAttachRequestDto attachRequestDto = IssueLabelAttachRequestDto.builder()
+			.issueId(1L)
+			.labelTitle("BE-배포")
+			.build();
+		webTestClient.put()
+			.uri(attachUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(attachRequestDto), IssueLabelAttachRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+
+		String detachUrl = "http://localhost:" + port + "/api/issue/label/detach";
+		IssueLabelDetachRequestDto dto = IssueLabelDetachRequestDto.builder()
+			.issueId(1L)
+			.labelTitle("BE-배포")
+			.build();
+		webTestClient.put()
+			.uri(detachUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(dto), IssueLabelDetachRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		assertThat(issueService.findIssueDetailById(1L).getLabels()).isEmpty();
 	}
 }

@@ -291,7 +291,7 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1"})
 	@ParameterizedTest
 	void 이슈의_라벨에_하나_추가한다(Long issueId, Long labelId) {
-		issueService.addNewLabel(issueId, labelId);
+		issueService.attachLabel(issueId, labelId);
 		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(true);
 	}
 
@@ -300,7 +300,7 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1"})
 	@ParameterizedTest
 	void 이슈의_라벨에_하나_삭제한다(Long issueId, Long labelId) {
-		issueService.deleteLabel(issueId, labelId);
+		issueService.detachLabel(issueId, labelId);
 		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(false);
 	}
 }

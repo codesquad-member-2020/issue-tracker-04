@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @Embeddable
 public class Comments {
-	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
 	protected Comments() {

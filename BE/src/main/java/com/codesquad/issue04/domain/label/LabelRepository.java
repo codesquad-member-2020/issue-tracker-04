@@ -4,4 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LabelRepository extends JpaRepository<Label, Long> {
 	Label findTopByOrderByIdDesc();
+
+	Label findByTitle(String title);
 }

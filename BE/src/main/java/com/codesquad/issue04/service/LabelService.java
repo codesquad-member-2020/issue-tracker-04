@@ -27,6 +27,10 @@ public class LabelService {
 			.orElseThrow(() -> new IllegalArgumentException("label not found id: " + labelId));
 	}
 
+	public Label findLabelByTitle(final String labelTitle) {
+		return labelRepository.findByTitle(labelTitle);
+	}
+
 	protected List<Label> findAllLabels() {
 		return labelRepository.findAll();
 	}

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
+import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.service.UserService;
@@ -27,6 +27,8 @@ import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDtoTemp;
+import com.codesquad.issue04.web.dto.request.issue.IssueLabelAttachRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueLabelDetachRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueReopenRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDtoTemp;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
@@ -114,6 +116,16 @@ public class IssueController {
 		return Mono.just(new ResponseEntity<>(issueService.deleteComment(dto), HttpStatus.OK));
 	}
 
-	@PutMapping("/label/add")
-	public Mono<ResponseEntity<Issue>> attachNewLabelToExistingIssue(@RequestBody Iss)
+	@PutMapping("/label/attach")
+	public Mono<ResponseEntity<Label>> attachNewLabelToExistingIssue(@RequestBody IssueLabelAttachRequestDto dto) {
+		return Mono.just(
+			new ResponseEntity<>(issueService.attachLabel(dto.getIssueId(), dto.getLabelTitle()), HttpStatus.OK));
+	}
+
+	@PutMapping("/label/detach")
+	public Mono<ResponseEntity<Label>> detachExistingLabelFromExistingIssue(
+		@RequestBody IssueLabelDetachRequestDto dto) {
+		return Mono.just(
+			new ResponseEntity<>(issueService.detachLabel(dto.getIssueId(), dto.getLabelTitle()), HttpStatus.OK));
+	}
 }
