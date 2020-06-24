@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public abstract class CommentRequestDto {
-	private Long issueId;
-	private Long commentId;
-	private String userGithubId;
+	protected Long issueId;
+	protected Long commentId;
+	protected String userGitHubId;
 }

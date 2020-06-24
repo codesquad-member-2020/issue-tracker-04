@@ -8,9 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class CommentCreateRequestDto {
-	private Long issueId;
-	private String userGitHubId;
+public class CommentCreateRequestDto extends CommentRequestDto {
 	private String content;
 	private List<Photo> photos;
 	private List<Emoji> emojis;
@@ -18,8 +16,8 @@ public class CommentCreateRequestDto {
 	@Builder
 	public CommentCreateRequestDto(Long issueId, String userGitHubId, String content,
 		List<Photo> photos, List<Emoji> emojis) {
-		this.issueId = issueId;
-		this.userGitHubId = userGitHubId;
+		super.issueId = issueId;
+		super.userGitHubId = userGitHubId;
 		this.content = content;
 		this.photos = photos;
 		this.emojis = emojis;

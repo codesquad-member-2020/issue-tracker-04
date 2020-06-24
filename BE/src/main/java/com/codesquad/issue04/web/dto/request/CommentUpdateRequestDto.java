@@ -4,24 +4,23 @@ import java.util.List;
 
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class CommentUpdateRequestDto extends CommentRequestDto {
-	private Long issueId;
-	private Long commentId;
-	private String userGithubId;
 	private String content;
-	private List<Photo> mockPhotos;
-	private List<Emoji> mockEmojis;
+	private List<Photo> photos;
+	private List<Emoji> emojis;
 
-	public CommentUpdateRequestDto(Long issueId, Long commentId, String userGithubId, String content,
-		List<Photo> mockPhotos, List<Emoji> mockEmojis) {
-		this.issueId = issueId;
-		this.commentId = commentId;
-		this.userGithubId = userGithubId;
+	@Builder
+	public CommentUpdateRequestDto(Long issueId, Long commentId, String userGitHubId, String content,
+		List<Photo> photos, List<Emoji> emojis) {
+		super.issueId = issueId;
+		super.commentId = commentId;
+		super.userGitHubId = userGitHubId;
 		this.content = content;
-		this.mockPhotos = mockPhotos;
-		this.mockEmojis = mockEmojis;
+		this.photos = photos;
+		this.emojis = emojis;
 	}
 }
