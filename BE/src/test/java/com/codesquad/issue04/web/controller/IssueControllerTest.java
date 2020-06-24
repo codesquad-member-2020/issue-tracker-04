@@ -8,6 +8,8 @@ import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -105,9 +107,12 @@ public class IssueControllerTest {
 	}
 
 	@DisplayName("필터링된 이슈를 반환하는 테스트")
-	@Test
-	void 필터링요소에_따라_해당하는_이슈를_반환한다() {
-		String url = "http://localhost:" + port + "/api/v1/filter?status=open&option=author&value=guswns1659";
+	@CsvSource({"open, assigned, label, BE-배포, SQL 작성",
+		"open, authored, label, BE-배포, SQL 작성",
+		"open, authored, milestone, 3차 배포, ERD 작성"})
+	@ParameterizedTest
+	void 필터링요소에_따라_해당하는_이슈를_반환한다(String status, String role, String option, String value, String expected) {
+		String url = "http://localhost:" + port + "/api/v1/filter?status=" + status + "&option=" + option + "&value=" + value;
 
 		IssueOverviewResponseDtos issueOverviewResponseDtos = webTestClient
 			.get()
@@ -120,6 +125,6 @@ public class IssueControllerTest {
 			.getResponseBody();
 
 		assertThat(issueOverviewResponseDtos.getAllData().get(0)).isInstanceOf(IssueOverviewDto.class);
-		assertThat(issueOverviewResponseDtos.getAllData().get(0).getTitle()).isEqualTo("SQL 작성");
+		assertThat(issueOverviewResponseDtos.getAllData().get(0).getTitle()).isEqualTo(expected);
 	}
 }

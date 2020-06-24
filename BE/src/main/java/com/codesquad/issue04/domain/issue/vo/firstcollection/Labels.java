@@ -65,6 +65,6 @@ public class Labels {
 
 	public boolean isSameLabelExists(String labelName) {
 		return this.labels.stream()
-			.anyMatch(label -> label.getTitle().equals(labelName));
+			.anyMatch(label -> label.isSameLabel(labelName));
 	}
 }

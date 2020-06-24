@@ -292,7 +292,9 @@ public class IssueServiceTest {
 
 	@Transactional
 	@DisplayName("필터된 이슈를 가져온다.")
-	@CsvSource({"open, assigned, label, BE-배포, 스키마 작성"})
+	@CsvSource({"open, assigned, label, BE-배포, SQL 작성",
+	"open, authored, label, BE-배포, SQL 작성",
+	"open, authored, milestone, 3차 배포, ERD 작성"})
 	@ParameterizedTest
 	void 필터된_이슈를_가져온다(String status, String role, String option, String value, String expected) {
 
@@ -303,7 +305,7 @@ public class IssueServiceTest {
 			.value(value)
 			.build();
 
-		IssueOverviewResponseDtos issueOverviewResponseDtos = issueService.filtering(filterParamRequestDto);
+		IssueOverviewResponseDtos issueOverviewResponseDtos = issueService.responseFiltering(filterParamRequestDto);
 		assertThat(issueOverviewResponseDtos.getAllData().get(0).getTitle()).isEqualTo(expected);
 	}
 }

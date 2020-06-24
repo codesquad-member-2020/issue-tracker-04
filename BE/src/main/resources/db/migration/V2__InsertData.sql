@@ -21,7 +21,7 @@ INSERT INTO issue (title, user_id, milestone_id)
 VALUES ('스키마 작성', 1, 2);
 
 INSERT INTO issue (title, user_id, milestone_id)
-VALUES ('ERD 작성', 2, 3);
+VALUES ('ERD 작성', 1, 3);
 
 INSERT INTO issue (title, user_id, milestone_id)
 VALUES ('엔트리 작성', 2, 1);

@@ -186,7 +186,7 @@ public class Issue extends BaseTimeEntity {
 
 	public boolean isUserIdContainInAssignees(String userId) {
 		return this.assignees.stream()
-			.anyMatch(assignee -> assignee.getGithubId().equals(userId));
+			.anyMatch(assignee -> assignee.isSameUser(userId));
 	}
 
 	public boolean isUserIdHasComment(String userId) {
@@ -195,5 +195,13 @@ public class Issue extends BaseTimeEntity {
 
 	public boolean isSameLabelExists(String labelName) {
 		return this.labels.isSameLabelExists(labelName);
+	}
+
+	public boolean isSameMilestone(String milestoneTitle) {
+		return this.milestone.getTitle().equals(milestoneTitle);
+	}
+
+	public boolean isSameAuthor(String userId) {
+		return this.user.getGithubId().equals(userId);
 	}
 }

@@ -39,7 +39,7 @@ public class Comments {
 
 	public Comment getOverview() {
 		if (this.comments.size() == 0) {
-			return new Comment();
+			return Comment.ofNullComment();
 		}
 		return this.comments.get(0);
 	}
@@ -80,6 +80,6 @@ public class Comments {
 
 	public boolean hasUserId(String userId) {
 		return this.comments.stream()
-			.anyMatch(comment -> comment.getUser().getGithubId().equals(userId));
+			.anyMatch(comment -> comment.isSameAuthor(userId));
 	}
 }

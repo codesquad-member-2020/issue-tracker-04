@@ -43,9 +43,9 @@ public class IssueController {
 	}
 
 	@GetMapping("v1/filter")
-	public IssueOverviewResponseDtos filtering(@RequestParam String status, @RequestParam(required = false, defaultValue = "null") String role,
-																@RequestParam(required = false, defaultValue = "null") String option,
-																@RequestParam(required = false, defaultValue = "null") String value,
+	public IssueOverviewResponseDtos filtering(@RequestParam String status, @RequestParam(required = false, defaultValue = "empty") String role,
+																@RequestParam(required = false, defaultValue = "empty") String option,
+																@RequestParam(required = false, defaultValue = "empty") String value,
 		HttpServletRequest request) {
 
 		FilterParamRequestDto filterParamRequestDto = FilterParamRequestDto.builder()
@@ -55,6 +55,6 @@ public class IssueController {
 			.value(value)
 			.build();
 
-		return issueService.filtering(filterParamRequestDto);
+		return issueService.responseFiltering(filterParamRequestDto);
 	}
 }

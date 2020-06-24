@@ -18,4 +18,10 @@ import lombok.ToString;
 public class IssueOverviewResponseDtos implements ResponseDto {
 
 	private List<IssueOverviewDto> allData;
+
+	public static IssueOverviewResponseDtos of (List<IssueOverviewDto> allData) {
+		return IssueOverviewResponseDtos.builder()
+			.allData(allData)
+			.build();
+	}
 }
