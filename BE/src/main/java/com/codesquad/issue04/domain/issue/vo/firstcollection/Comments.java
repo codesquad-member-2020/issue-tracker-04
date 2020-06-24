@@ -11,8 +11,10 @@ import javax.persistence.OneToMany;
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString(exclude = "comments")
 @Embeddable
 public class Comments {
 	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

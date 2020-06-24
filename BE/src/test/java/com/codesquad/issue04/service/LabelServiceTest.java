@@ -87,8 +87,7 @@ public class LabelServiceTest {
 	@ValueSource(longs = 1)
 	@ParameterizedTest
 	void 라벨_하나가_삭제된다(Long id) {
-		LabelDeleteRequestDto dto = new LabelDeleteRequestDto(id);
-		labelService.deleteExistingLabel(dto);
+		labelService.deleteExistingLabel(id);
 		assertThatThrownBy(
 			() -> labelService.findLabelById(id)
 		).isInstanceOf(IllegalArgumentException.class);
