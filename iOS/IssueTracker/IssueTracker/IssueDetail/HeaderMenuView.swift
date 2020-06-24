@@ -1,14 +1,14 @@
 import UIKit
 
-class HeaderMenuView: UIView {
+class HeaderMenuView: UITableViewCell {
     
     var titleLabel = UILabel()
     var editButton = UIButton()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupView()
-    }
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        setupView()
+//    }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)

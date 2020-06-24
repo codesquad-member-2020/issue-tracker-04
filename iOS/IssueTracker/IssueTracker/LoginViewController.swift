@@ -29,6 +29,7 @@ class LoginViewController: UIViewController {
                 self.loginButton.setTitle("Login Success 🎉", for: .normal)
                 self.dismiss(animated: true, completion: nil)
                 let vc = self.storyboard?.instantiateViewController(identifier: "IssueListViewController") as! IssueListViewController
+                vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true, completion: nil)
             }
         }
