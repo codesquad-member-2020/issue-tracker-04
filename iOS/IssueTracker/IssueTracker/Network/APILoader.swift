@@ -37,15 +37,3 @@ extension APILoader {
         return try JSONDecoder().decode(T.self, from: data)
     }
 }
-
-struct Twitter: Codable {
-    let url: URL
-    let authorName: String
-}
-
-extension Twitter {
-    enum CodingKeys: String, CodingKey {
-        case url
-        case authorName = "author_name"
-    }
-}

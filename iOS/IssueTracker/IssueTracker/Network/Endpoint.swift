@@ -17,6 +17,8 @@ struct Endpoint {
 
 extension Endpoint {
     var url: URL {
+        if path.starts(with: "http"), let url = URL(string: path) { return url }
+
         var components = URLComponents()
         components.scheme = "http"
         components.host = "15.165.66.150"

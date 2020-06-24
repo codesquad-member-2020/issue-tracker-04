@@ -9,11 +9,11 @@ protocol CRUDEndpoint {
 
 extension CRUDEndpoint {
     var list: Endpoint {
-        Endpoint(path: "issues")
+        Endpoint(path: basePath)
     }
 
     func detail(by id: ID) -> Endpoint {
-        Endpoint(path: "issues/\(id)")
+        Endpoint(path: "\(basePath)/\(id)")
     }
 
     func create(_ newModel: PartialModelType) -> Endpoint {

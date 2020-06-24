@@ -16,17 +16,24 @@ class EndpointTests: XCTestCase {
         XCTAssertEqual(urlRequest.httpMethod, "GET")
     }
 
+    func testOAuthLogin() {
+        let endpoint = Endpoint.oAuthLogin
+        XCTAssertEqual(endpoint.url.absoluteString, endpoint.path)
+    }
+}
+
+extension EndpointTests {
     func testIssueList() {
         let endpoint = Endpoint.issue.list
 
-        let expectedURL = URL(string: prefixPath + "issues")
+        let expectedURL = URL(string: prefixPath + "issue")
         XCTAssertEqual(expectedURL, endpoint.url)
     }
 
     func testDetailIssue() {
         let id = 1
         let endpoint = Endpoint.issue.detail(by: id)
-        let expectedURL = URL(string: prefixPath + "issues/\(id)")
+        let expectedURL = URL(string: prefixPath + "issue/\(id)")
         XCTAssertEqual(expectedURL, endpoint.url)
     }
 
@@ -35,7 +42,7 @@ class EndpointTests: XCTestCase {
         let endpoint = Endpoint.issue.create(newIssue)
         let body = try JSONEncoder().encode(newIssue)
 
-        XCTAssertEqual(endpoint.urlRequest.url, URL(string: prefixPath + "issues"))
+        XCTAssertEqual(endpoint.urlRequest.url, URL(string: prefixPath + "issue"))
         XCTAssertEqual(endpoint.urlRequest.httpBody, body)
         XCTAssertEqual(endpoint.urlRequest.httpMethod, "POST")
     }
@@ -48,7 +55,7 @@ class EndpointTests: XCTestCase {
         let data = try JSONEncoder().encode(issue)
         let urlRequest = Endpoint.issue.update(issue).urlRequest
 
-        XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issues/\(issue.id)"))
+        XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issue/\(issue.id)"))
         XCTAssertEqual(urlRequest.httpMethod, "PUT")
         XCTAssertEqual(urlRequest.httpBody, data)
     }
@@ -56,9 +63,9 @@ class EndpointTests: XCTestCase {
     func testDeleteIssue() {
         let issue = Faker.makeIssue()
 
-        let urlRequest = Endpoint.issue.delete(id: issue.id).urlRequest
+        let urlRequest = Endpoint.issue.delete(by: issue.id).urlRequest
 
-        XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issues/\(issue.id)"))
+        XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issue/\(issue.id)"))
         XCTAssertEqual(urlRequest.httpMethod, "DELETE")
     }
 }
