@@ -1,6 +1,6 @@
 import Foundation
 
-struct IssueCollection {
+struct IssueCollection: Codable {
     typealias IssueType = [Issue]
 
     private var elements: IssueType = .init()
@@ -15,7 +15,7 @@ struct IssueCollection {
         elements.insert(contentsOf: issueList, at: row)
     }
 
-    mutating func insert(newElement issue: Issue, at i: Index) {
+    mutating func insert(newElement issue: Element, at i: Index) {
         elements.insert(issue, at: i)
     }
 
@@ -25,7 +25,7 @@ struct IssueCollection {
 
     // MARK: - Filter
 
-    func filter(by status: Issue.Status) -> Self {
+    func filter(by status: Element.Status) -> Self {
         return Self(elements: filter { $0.status == status })
     }
 

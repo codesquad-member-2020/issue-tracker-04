@@ -1,6 +1,6 @@
 import Foundation
 
-struct Issue {
+struct Issue: Model {
     let id: ID
     var title: String
     var body: String?
@@ -15,21 +15,24 @@ struct Issue {
 }
 
 extension Issue {
-    enum Status {
+    enum Status: String, Codable {
         case open, closed
     }
 }
 
-extension Issue: Hashable { }
-
-struct PartialIssue {
-    let title: String
-    let body: String
-}
-
-struct BriefIssue {
+struct BriefIssue: Model {
     let id: ID
     let title: String
     let body: String?
     var status: Issue.Status = .open
+
+    enum CodingKeys: String, CodingKey {
+        case id, title, status
+        case body = "overview"
+    }
+}
+
+struct PartialIssue: Codable {
+    let title: String
+    let body: String
 }

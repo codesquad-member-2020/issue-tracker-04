@@ -41,6 +41,15 @@ class IssueListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let loader = IssueLoader()
+        loader.loadList { result in
+            if case .success(let twitter) = result {
+                debugPrint(twitter)
+                // present view
+                // case .failure: alert
+            }
+        }
+
         issueListModelController.addObserver(self)
         updateIssueListState()
         setupTableView()

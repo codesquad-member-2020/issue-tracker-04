@@ -1,11 +1,7 @@
 import Foundation
 
-struct Comment {
+struct Comment: Model {
     let id: ID
     let body: String
     let author: User
 }
-
-typealias ID = Int
-
-extension Comment: Hashable { }

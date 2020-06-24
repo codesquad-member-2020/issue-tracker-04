@@ -1,11 +1,6 @@
 import UIKit
 import AuthenticationServices
 
-
-enum EndPoints {
-    static let oAuthLogin = "https://github.com/login/oauth/authorize?client_id=bdd909bfff2137535182&redirect_uri=http://15.165.66.150/api/callback&scope=user"
-}
-
 class LoginViewController: UIViewController {
 
     let scheme = "issue04"
@@ -13,9 +8,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-     
+
     @IBAction func loginButtonTapped(_ sender: UIButton) {
-        guard let authURL = URL(string: EndPoints.oAuthLogin) else { return }
+        let authURL = Endpoint.oAuthLogin.url
         let scheme = self.scheme
         let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: scheme)
         { callbackURL, error in
@@ -29,6 +24,7 @@ class LoginViewController: UIViewController {
             if token != nil {
                 self.loginButton.setTitle("🎉", for: .normal)
                 self.dismiss(animated: true, completion: nil)
+
                 let vc = self.storyboard?.instantiateViewController(identifier: "IssueListViewController") as! IssueListViewController
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true, completion: nil)
