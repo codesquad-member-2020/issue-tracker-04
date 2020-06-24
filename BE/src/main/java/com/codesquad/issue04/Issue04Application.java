@@ -23,7 +23,7 @@ public class Issue04Application implements CommandLineRunner {
 	}
 
 	@Bean
-	@Profile("local")
+	@Profile("dev")
 	public FlywayMigrationStrategy cleanMigrateStrategy() {
 		FlywayMigrationStrategy strategy = new FlywayMigrationStrategy() {
 			@Override
