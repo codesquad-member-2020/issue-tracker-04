@@ -735,16 +735,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZQ-h5-EHp">
-                                <rect key="frame" x="168" y="369" width="38" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Login"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="githubLogo" translatesAutoresizingMaskIntoConstraints="NO" id="k5u-Xy-dMf">
+                                <rect key="frame" x="112.66666666666669" y="290.33333333333331" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="k5u-Xy-dMf" secondAttribute="height" multiplier="1:1" id="bRn-XG-H1i"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZQ-h5-EHp">
+                                <rect key="frame" x="0.0" y="508.33333333333326" width="375" height="39"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <state key="normal" title="Login with Github">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="loginButtonTapped:" destination="6cy-aG-cni" eventType="touchUpInside" id="4jc-Zf-t3H"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.14517247680000001" green="0.16054916380000001" blue="0.1764733195" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="k5u-Xy-dMf" firstAttribute="centerY" secondItem="WYk-0A-k0U" secondAttribute="centerY" multiplier="0.9" id="8Zc-4C-rvS"/>
+                            <constraint firstItem="k5u-Xy-dMf" firstAttribute="width" secondItem="WYk-0A-k0U" secondAttribute="width" multiplier="0.4" id="Xii-bK-bo0"/>
+                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="centerX" secondItem="WYk-0A-k0U" secondAttribute="centerX" id="aIW-dx-8JV"/>
+                            <constraint firstItem="k5u-Xy-dMf" firstAttribute="centerX" secondItem="WYk-0A-k0U" secondAttribute="centerX" id="gPn-Xr-lmt"/>
+                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="width" secondItem="WYk-0A-k0U" secondAttribute="width" id="t8r-q7-0Ng"/>
+                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="centerY" secondItem="WYk-0A-k0U" secondAttribute="centerY" multiplier="1.3" id="yY9-jK-f5d"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="vGB-gY-aU0"/>
                     </view>
                     <connections>
@@ -928,6 +944,7 @@
         <image name="chevron.down" catalog="system" width="128" height="72"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="chevron.up" catalog="system" width="128" height="72"/>
+        <image name="githubLogo" width="170.66667175292969" height="170.66667175292969"/>
         <image name="minus" catalog="system" width="128" height="24"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="sunset" catalog="system" width="128" height="97"/>
