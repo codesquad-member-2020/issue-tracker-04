@@ -27,7 +27,7 @@ public class LoginService {
             .code(code)
             .build();
         HttpHeaders headers = new HttpHeaders();
-        headers.set(Oauth.HEADER_ACCEPT.value(), Oauth.HEADER_MEDIA_TYPE.value());
+        headers.set(String.valueOf(Oauth.HEADER_ACCEPT), String.valueOf(Oauth.HEADER_MEDIA_TYPE));
         HttpEntity<?> httpEntity = new HttpEntity<>(requestBody, headers);
         ResponseEntity<Github> responseEntity = new RestTemplate().postForEntity(githubProperties.accessTokenUrl, httpEntity, Github.class);
         return responseEntity.getBody();
