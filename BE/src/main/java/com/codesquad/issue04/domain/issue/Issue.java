@@ -31,6 +31,7 @@ import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.utils.BaseTimeEntity;
 import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,6 +55,7 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Labels labels;
 
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(
 		name = "assignee",
@@ -155,7 +157,7 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	private void doesMatchId(final CommentUpdateRequestDto dto) {
-		if (! this.id.equals(dto.getIssueId())) {
+		if (! this.user.isMatchedGitHubId(dto.getUserGitHubId())) {
 			throw new IllegalArgumentException("not matched issue");
 		}
 	}

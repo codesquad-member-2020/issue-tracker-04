@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,6 +35,7 @@ public class Milestone implements AbstractMilestone {
 	private LocalDate dueDate;
 	private String description;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "milestone")
 	private List<Issue> issues = new ArrayList<>();
 
