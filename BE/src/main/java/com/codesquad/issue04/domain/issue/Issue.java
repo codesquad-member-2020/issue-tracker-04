@@ -108,7 +108,7 @@ public class Issue extends BaseTimeEntity {
 		return this.getAssignees().hasAssignees();
 	}
 
-	public Comment addComment(final Comment comment) {
+	public Comment addInitialComment(final Comment comment) {
 		List<Comment> newCommentList = this.comments.returnCommentsCreatingNewList();
 		newCommentList.add(comment);
 		this.comments = Comments.ofComments(newCommentList);
@@ -179,11 +179,8 @@ public class Issue extends BaseTimeEntity {
 		return labels.deleteExistingLabel(label);
 	}
 
-	public RealUser attachNewAssignee(final RealUser user) {
-		return this.assignees.addNewAssignee(user);
-	}
-
 	public RealUser detachExistingAssignee(final RealUser user) {
-		return this.assignees.detachExistingAssignee(user);
+		this.assignees.detachExistingAssignee(user);
+		return user;
 	}
 }
