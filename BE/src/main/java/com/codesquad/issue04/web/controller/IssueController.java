@@ -20,6 +20,8 @@ import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.service.UserService;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
@@ -86,5 +88,15 @@ public class IssueController {
 	@PutMapping("/comment/add")
 	public Mono<ResponseEntity<Comment>> addNewComment(@RequestBody CommentCreateRequestDto dto) {
 		return Mono.just(new ResponseEntity<>(issueService.addNewComment(dto), HttpStatus.OK));
+	}
+
+	@PutMapping("/comment/update")
+	public Mono<ResponseEntity<Comment>> updateExistingComment(@RequestBody CommentUpdateRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.modifyComment(dto), HttpStatus.OK));
+	}
+
+	@DeleteMapping("/comment/delete")
+	public Mono<ResponseEntity<Comment>> deleteExistingComment(@RequestBody CommentDeleteRequestDto dto) {
+		return Mono.just(new ResponseEntity<>(issueService.deleteComment(dto), HttpStatus.OK));
 	}
 }

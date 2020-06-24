@@ -3,6 +3,7 @@ package com.codesquad.issue04.web.controller;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.codesquad.issue04.domain.issue.vo.Comment;
+import com.codesquad.issue04.domain.issue.vo.Emoji;
+import com.codesquad.issue04.domain.issue.vo.Photo;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
+import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDtoTemp;
 import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDtoTemp;
@@ -27,7 +35,7 @@ import com.codesquad.issue04.web.dto.response.issue.IssueOverviewResponseDtos;
 import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "15000")
 public class IssueControllerTest {
 
 	@LocalServerPort
@@ -38,6 +46,9 @@ public class IssueControllerTest {
 
 	@Autowired
 	private WebTestClient webTestClient;
+
+	@Autowired
+	private IssueService issueService;
 
 	private String cookie;
 
@@ -182,9 +193,58 @@ public class IssueControllerTest {
 			.uri(url)
 			.header("Cookie", cookie)
 			.contentType(MediaType.APPLICATION_JSON_UTF8)
-			.body(Mono.just(dto), IssueDeleteRequestDtoTemp.class)
+			.body(Mono.just(dto), CommentCreateRequestDto.class)
 			.exchange()
 			.expectStatus()
 			.isOk();
+	}
+
+	@Test
+	void 이슈에_댓글을_수정한다() {
+		String url = "http://localhost:" + port + "/api/issue/comment/update";
+		CommentUpdateRequestDto dto = CommentUpdateRequestDto.builder()
+			.issueId(1L)
+			.commentId(1L)
+			.userGitHubId("guswns1659")
+			.content("i love java")
+			.photos(Arrays.asList(Photo.ofUrl("naver.com"), Photo.ofUrl("sigrid.com")))
+			.emojis(Arrays.asList(Emoji.CONFUSED, Emoji.EYES))
+			.build();
+		webTestClient.put()
+			.uri(url)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(dto), CommentUpdateRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		List<Comment> comments = issueService.findCommentsByIssueId(1L).collectSortedList().block();
+		assertThat(comments.get(0).getContent()).isEqualTo("i love java");
+	}
+
+	@Test
+	void 이슈에_댓글을_삭제한다() {
+		//given
+		String url = "http://localhost:" + port + "/api/issue/comment/delete";
+		CommentDeleteRequestDto dto = CommentDeleteRequestDto.builder()
+			.issueId(1L)
+			.commentId(1L)
+			.userGitHubId("guswns1659")
+			.build();
+		webTestClient.method(HttpMethod.DELETE)
+			.uri(url)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(dto), CommentDeleteRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		//when
+		List<Comment> commentList = issueService.findCommentsByIssueId(1L).collectSortedList().block();
+		Comments comments = Comments.ofComments(commentList);
+		//then
+		assertThatThrownBy(
+			() -> comments.findCommentById(1L)
+		).isInstanceOf(IllegalArgumentException.class);
 	}
 }
