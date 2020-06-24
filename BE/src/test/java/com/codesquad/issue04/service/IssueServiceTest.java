@@ -21,6 +21,7 @@ import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Assignees;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.RealUser;
@@ -132,8 +133,8 @@ public class IssueServiceTest {
 		Long issueId = 1L;
 		Issue issue = issueService.findIssueById(issueId);
 
-		assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
-		assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
+		assertThat(issue.getAssignees()).isInstanceOf(Assignees.class);
+		assertThat(issue.getAssignees().findAssigneeByUserGitHubId("guswns1659")).isNotNull();
 	}
 
 	@Transactional

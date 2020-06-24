@@ -28,6 +28,7 @@ import com.codesquad.issue04.service.IssueService;
 import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentDeleteRequestDto;
 import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueAssigneeRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDtoTemp;
@@ -351,5 +352,63 @@ public class IssueControllerTest {
 			.expectStatus()
 			.isOk();
 		assertThat(issueService.findIssueDetailById(1L).getLabels()).isEmpty();
+	}
+
+	@Transactional
+	@Test
+	void 이슈에_담당자를_추가한다() {
+		String userGitHubId = "jypthemiracle";
+		assertThatThrownBy(
+			() -> issueService.findIssueDetailById(1L).getAssignees().findAssigneeByUserGitHubId(userGitHubId)
+		).isInstanceOf(IllegalArgumentException.class);
+		String attachUrl = "http://localhost:" + port + "/api/issue/assignee/attach";
+		IssueAssigneeRequestDto assigneeRequestDto = IssueAssigneeRequestDto.builder()
+			.issueId(1L)
+			.userGitHubId(userGitHubId)
+			.build();
+		webTestClient.put()
+			.uri(attachUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(assigneeRequestDto), IssueAssigneeRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		assertThat(issueService.findIssueDetailById(1L).getAssignees()
+			.findAssigneeByUserGitHubId(userGitHubId).getGithubId()).isNotEmpty();
+	}
+
+	@Transactional
+	@Test
+	void 이슈에_담당자를_제외한다() {
+		String attachUrl = "http://localhost:" + port + "/api/issue/assignee/attach";
+		IssueAssigneeRequestDto attachDto = IssueAssigneeRequestDto.builder()
+			.issueId(1L)
+			.userGitHubId("jypthemiracle")
+			.build();
+		webTestClient.put()
+			.uri(attachUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(attachDto), IssueAssigneeRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+
+		String detachUrl = "http://localhost:" + port + "/api/issue/assignee/detach";
+		IssueAssigneeRequestDto detachDto = IssueAssigneeRequestDto.builder()
+			.issueId(1L)
+			.userGitHubId("jypthemiracle")
+			.build();
+		webTestClient.put()
+			.uri(detachUrl)
+			.header("Cookie", cookie)
+			.contentType(MediaType.APPLICATION_JSON_UTF8)
+			.body(Mono.just(detachDto), IssueAssigneeRequestDto.class)
+			.exchange()
+			.expectStatus()
+			.isOk();
+		assertThat(issueService.findIssueDetailById(1L).getAssignees()
+			.findAssigneeByUserGitHubId("guswns1659").getGithubId()).isEmpty();
 	}
 }

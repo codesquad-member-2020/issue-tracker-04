@@ -9,18 +9,16 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Assignees;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.label.Label;
@@ -31,7 +29,6 @@ import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.utils.BaseTimeEntity;
 import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -55,14 +52,8 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Labels labels;
 
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(
-		name = "assignee",
-		joinColumns = @JoinColumn(name = "issue_id"),
-		inverseJoinColumns = @JoinColumn(name = "user_id")
-	)
-	private List<RealUser> assignees;
+	@Embedded
+	private Assignees assignees;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
@@ -114,7 +105,7 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public boolean hasAssignees() {
-		return this.getAssignees().size() > 0;
+		return this.getAssignees().hasAssignees();
 	}
 
 	public Comment addComment(final Comment comment) {
@@ -148,7 +139,9 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public Comment deleteCommentById(final Long commentId) {
-		return this.comments.deleteCommentById(commentId);
+		Comment comment = comments.findCommentById(commentId);
+		this.comments.deleteCommentById(commentId);
+		return comment;
 	}
 
 	public Comment modifyCommentByDto(final CommentUpdateRequestDto dto) {
@@ -184,5 +177,13 @@ public class Issue extends BaseTimeEntity {
 
 	public Label deleteExistingLabel(final Label label) {
 		return labels.deleteExistingLabel(label);
+	}
+
+	public RealUser attachNewAssignee(final RealUser user) {
+		return this.assignees.addNewAssignee(user);
+	}
+
+	public RealUser detachExistingAssignee(final RealUser user) {
+		return this.assignees.detachExistingAssignee(user);
 	}
 }

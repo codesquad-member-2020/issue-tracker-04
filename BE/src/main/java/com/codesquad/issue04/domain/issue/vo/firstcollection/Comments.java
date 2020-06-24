@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @Embeddable
 public class Comments {
-	@OneToMany(mappedBy = "issue", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
 	protected Comments() {
@@ -66,9 +66,7 @@ public class Comments {
 
 	public Comment deleteCommentById(Long commentId) {
 		Comment deletedComment = findCommentById(commentId);
-		List<Comment> commentList = new ArrayList<>(this.comments);
-		commentList.remove(deletedComment);
-		this.comments = commentList;
+		this.comments.remove(deletedComment);
 		return deletedComment;
 	}
 
