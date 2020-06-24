@@ -1,6 +1,6 @@
 import Foundation
 
-struct Issue {
+struct Issue: Model {
     let id: ID
     var title: String
     var body: String?
@@ -20,14 +20,7 @@ extension Issue {
     }
 }
 
-extension Issue: Hashable, Codable { }
-
-struct PartialIssue: Codable {
-    let title: String
-    let body: String
-}
-
-struct BriefIssue: Codable {
+struct BriefIssue: Model {
     let id: ID
     let title: String
     let body: String?
@@ -37,4 +30,9 @@ struct BriefIssue: Codable {
         case id, title, status
         case body = "overview"
     }
+}
+
+struct PartialIssue: Codable {
+    let title: String
+    let body: String
 }

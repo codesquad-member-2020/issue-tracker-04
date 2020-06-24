@@ -1,6 +1,6 @@
 import Foundation
 
-struct CommentCollection {
+struct CommentCollection: Hashable, Codable {
     typealias CommentType = [Comment]
 
     private var elements: CommentType = .init()
@@ -46,8 +46,6 @@ extension CommentCollection: ExpressibleByArrayLiteral {
     }
 
 }
-
-extension CommentCollection: Hashable, Codable { }
 
 extension CommentCollection {
     static func makeFake() -> CommentCollection {

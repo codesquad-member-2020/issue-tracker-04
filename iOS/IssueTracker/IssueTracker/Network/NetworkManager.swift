@@ -12,7 +12,7 @@ class IssueLoader {
 //    typealias ResponseDataType = BriefIssue
 
     func loadList(using session: URLSession = .shared, handler: @escaping Handler) {
-        let endpoint = Endpoint.Issues.list
+        let endpoint = Endpoint(path: "")
         let task = session.request(endpoint) { result in
             switch result {
             case .success(let data):
