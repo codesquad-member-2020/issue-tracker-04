@@ -11,12 +11,12 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/milestone")
+@RequestMapping("/api/allMilestones")
 public class MilestoneController {
 
 	private final MilestoneService milestoneService;
 
-	@GetMapping("/all")
+	@GetMapping
 	public Mono<MilestoneResponseDtos> getAllMilestones() {
 		return Mono.just(milestoneService.getMilestoneOverviews());
 	}
