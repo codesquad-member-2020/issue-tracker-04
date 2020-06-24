@@ -48,48 +48,52 @@ struct Endpoint {
 }
 
 extension Endpoint {
-    static var oAuthLogin: Self {
+    static var oAuthLogin: Endpoint {
         Endpoint(path: "https://github.com/login/oauth/authorize?client_id=bdd909bfff2137535182&redirect_uri=http://15.165.66.150/api/callback&scope=user")
     }
 
-    static var issueList: Self {
-        Endpoint(path: "issues")
+    func convertIntoData<T: Encodable>(from model: T) -> Data? {
+        return try? JSONEncoder().encode(model)
     }
+}
 
-    static func issueDetail(by id: ID) -> Self {
-        Endpoint(path: "issues/\(id)")
-    }
+extension Endpoint {
+    enum Issues {
+        static var list: Endpoint {
+            Endpoint(path: "issues")
+        }
 
-    static func issueFilter(isOpen: Bool) -> Self {
-        Endpoint(path: "filter",
-                 queryItems: [ URLQueryItem(name: "open", value: String(isOpen)) ]
-        )
-    }
+        static func detail(by id: ID) -> Endpoint {
+            Endpoint(path: "issues/\(id)")
+        }
 
-    static func createIssue(body: Data) -> Self {
-        var endpoint = Endpoint.issueList
-        endpoint.httpMethod = .POST
-        endpoint.httpBody = body
+        static func listFilter(isOpen: Bool) -> Endpoint {
+            Endpoint(path: "filter",
+                     queryItems: [ URLQueryItem(name: "open", value: String(isOpen)) ]
+            )
+        }
 
-        return endpoint
-    }
+        static func create(newIssue: PartialIssue) -> Endpoint {
+            var endpoint = Issues.list
+            endpoint.httpMethod = .POST
+            endpoint.httpBody = endpoint.convertIntoData(from: newIssue)
+    
+            return endpoint
+        }
 
-    static func updateIssue(id: ID, body: Data) -> Self {
-        var endpoint = Endpoint.issueDetail(by: id)
-        endpoint.httpMethod = .PUT
-        endpoint.httpBody = body
+        static func update(issue: Issue) -> Endpoint {
+            var endpoint = Issues.detail(by: issue.id)
+            endpoint.httpMethod = .PUT
+            endpoint.httpBody = endpoint.convertIntoData(from: issue)
 
-        return endpoint
-    }
+            return endpoint
+        }
 
-    static func deleteIssue(id: ID) -> Self {
-        var endpoint = Endpoint.issueDetail(by: id)
-        endpoint.httpMethod = .DELETE
+        static func delete(id: ID) -> Endpoint {
+            var endpoint = Issues.detail(by: id)
+            endpoint.httpMethod = .DELETE
 
-        return endpoint
-    }
-
-    func convertIntoData<T: Encodable>(from model: T) throws -> Data {
-        return try JSONEncoder().encode(model)
+            return endpoint
+        }
     }
 }
