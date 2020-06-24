@@ -32,9 +32,8 @@ CREATE TABLE IF NOT EXISTS issue
     `created_on` DATETIME    NULL,
     `updated_on` DATETIME    NULL,
     user_id      INT         NULL,
-    milestone_id INT         NULL,
-    CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id),
-    CONSTRAINT fk_issue_milestone1 FOREIGN KEY (milestone_id) REFERENCES milestone (id)
+    milestone_id INT         NULL REFERENCES milestone (id),
+    CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS comment
@@ -83,5 +82,11 @@ CREATE TABLE IF NOT EXISTS label_has_issue
 (
     id       INT PRIMARY KEY AUTO_INCREMENT,
     label_id INT NOT NULL,
+    issue_id INT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS milestone_has_issue
+(
+    milestone_id INT NOT NULL,
     issue_id INT NOT NULL
 );
