@@ -6,8 +6,10 @@ import com.codesquad.issue04.domain.issue.vo.Emoji;
 import com.codesquad.issue04.domain.issue.vo.Photo;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class CommentUpdateRequestDto extends CommentRequestDto {
 	private String content;
 	private List<Photo> photos;

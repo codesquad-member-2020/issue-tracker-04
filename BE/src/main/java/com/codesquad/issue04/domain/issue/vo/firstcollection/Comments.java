@@ -76,10 +76,11 @@ public class Comments {
 	}
 
 	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
-		return comments.stream()
+		Comment asIs = comments.stream()
 			.filter(comment -> comment.doesMatchId(dto.getCommentId()))
 			.findFirst()
-			.map(comment -> comment.updateComment(dto))
-			.get();
+			.orElseThrow(() -> new IllegalArgumentException("not able to find"));
+		asIs.updateComment(dto);
+		return asIs;
 	}
 }
