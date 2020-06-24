@@ -22,7 +22,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
-        final String token = request.getHeader(String.valueOf(Oauth.AUTHORIZATION));
+        final String token = request.getHeader(Oauth.AUTHORIZATION.value());
         log.info("token >> {}", token);
 
         return jwtService.isValidToken(token);

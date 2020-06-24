@@ -7,6 +7,12 @@ public enum Oauth {
     AUTHORIZATION("Authorization"),
     OAUTH_URL_SERVER("https://github.com/login/oauth/authorize?client_id=bdd909bfff2137535182&redirect_uri=http://localhost:8080/callback&scope=user");
 
+    private String value;
+
     Oauth(String value) {
+    }
+
+    public String value() {
+        return value;
     }
 }
