@@ -119,8 +119,8 @@ public class Comment implements Serializable, Comparable<Comment> {
 
 	public Comment updateComment(final CommentUpdateRequestDto dto) {
 		this.content = dto.getContent();
-		this.photos = dto.getMockPhotos();
-		this.emojis = dto.getMockEmojis();
+		this.photos = dto.getPhotos();
+		this.emojis = dto.getEmojis();
 		return this;
 	}
 
