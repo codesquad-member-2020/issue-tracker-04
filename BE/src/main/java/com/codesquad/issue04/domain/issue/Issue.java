@@ -9,18 +9,16 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
 import com.codesquad.issue04.domain.issue.vo.Status;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Assignees;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Comments;
 import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.label.Label;
@@ -29,8 +27,8 @@ import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.NullUser;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.utils.BaseTimeEntity;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -54,13 +52,8 @@ public class Issue extends BaseTimeEntity {
 	@Embedded
 	private Labels labels;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-	@JoinTable(
-		name = "assignee",
-		joinColumns = @JoinColumn(name = "issue_id"),
-		inverseJoinColumns = @JoinColumn(name = "user_id")
-	)
-	private List<RealUser> assignees;
+	@Embedded
+	private Assignees assignees;
 
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(foreignKey = @ForeignKey(name = "milestone_id"))
@@ -103,7 +96,7 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public Status changeStatusToClosed() {
-		if (!this.status.isOpen()) {
+		if (! this.status.isOpen()) {
 			throw new IllegalArgumentException("this issue is already closed.");
 		}
 		Status closedStatus = Status.CLOSED;
@@ -112,10 +105,10 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public boolean hasAssignees() {
-		return this.getAssignees().size() > 0;
+		return this.getAssignees().hasAssignees();
 	}
 
-	public Comment addComment(final Comment comment) {
+	public Comment addInitialComment(final Comment comment) {
 		List<Comment> newCommentList = this.comments.returnCommentsCreatingNewList();
 		newCommentList.add(comment);
 		this.comments = Comments.ofComments(newCommentList);
@@ -146,7 +139,9 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public Comment deleteCommentById(final Long commentId) {
-		return this.comments.deleteCommentById(commentId);
+		Comment comment = comments.findCommentById(commentId);
+		this.comments.deleteCommentById(commentId);
+		return comment;
 	}
 
 	public Comment modifyCommentByDto(final CommentUpdateRequestDto dto) {
@@ -155,7 +150,7 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	private void doesMatchId(final CommentUpdateRequestDto dto) {
-		if (! this.id.equals(dto.getIssueId())) {
+		if (! this.user.isMatchedGitHubId(dto.getUserGitHubId())) {
 			throw new IllegalArgumentException("not matched issue");
 		}
 	}
@@ -185,7 +180,7 @@ public class Issue extends BaseTimeEntity {
 	}
 
 	public boolean isUserIdContainInAssignees(String userId) {
-		return this.assignees.stream()
+		return this.assignees.getAssignees().stream()
 			.anyMatch(assignee -> assignee.isSameUser(userId));
 	}
 
@@ -203,5 +198,10 @@ public class Issue extends BaseTimeEntity {
 
 	public boolean isSameAuthor(String userId) {
 		return this.user.getGithubId().equals(userId);
+	}
+
+	public RealUser detachExistingAssignee(final RealUser user) {
+		this.assignees.detachExistingAssignee(user);
+		return user;
 	}
 }

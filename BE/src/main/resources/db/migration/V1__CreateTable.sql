@@ -26,13 +26,13 @@ CREATE TABLE IF NOT EXISTS milestone
 
 CREATE TABLE IF NOT EXISTS issue
 (
-    id            INT PRIMARY KEY AUTO_INCREMENT,
-    title         VARCHAR(45) NOT NULL,
-    status        VARCHAR(45) DEFAULT 'OPEN',
-    created_date  DATETIME    NULL,
-    modified_date DATETIME    NULL,
-    user_id       INT         NULL,
-    milestone_id  INT         NULL,
+    id           INT PRIMARY KEY AUTO_INCREMENT,
+    title        VARCHAR(45) NOT NULL,
+    status       VARCHAR(45) DEFAULT 'OPEN',
+    `created_on` DATETIME    NULL,
+    `updated_on` DATETIME    NULL,
+    user_id      INT         NULL,
+    milestone_id INT         NULL,
     CONSTRAINT fk_issue_user FOREIGN KEY (user_id) REFERENCES user (id),
     CONSTRAINT fk_issue_milestone1 FOREIGN KEY (milestone_id) REFERENCES milestone (id)
 );

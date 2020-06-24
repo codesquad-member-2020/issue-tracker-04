@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.service.LabelService;
-import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewResponseDtos;
 import lombok.RequiredArgsConstructor;
 

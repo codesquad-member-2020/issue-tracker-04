@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -17,13 +18,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.domain.user.RealUser;
-import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -32,14 +35,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@ToString(exclude = "issue")
+@ToString(exclude = {"issue", "user"})
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
 // @Embeddable
-public class Comment implements Serializable {
+public class Comment implements Serializable, Comparable<Comment> {
 
 	@javax.persistence.Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,17 +56,20 @@ public class Comment implements Serializable {
 	private LocalDateTime updatedAt;
 
 	@ElementCollection(targetClass = Emoji.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@Enumerated(EnumType.STRING)
 	@CollectionTable(name = "emoji")
 	@Column(name = "name")
 	private List<Emoji> emojis;
 
-	@ElementCollection
+	@ElementCollection(targetClass = Photo.class)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@CollectionTable(name = "photo", joinColumns = @JoinColumn(name = "comment_id"))
 	@Column(name = "url")
 	private List<Photo> photos;
 
-	@ManyToOne
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(foreignKey = @ForeignKey(name = "user_id"))
 	private RealUser user;
 
@@ -103,14 +109,19 @@ public class Comment implements Serializable {
 		return localDateTime.format(DateTimeFormatter.ofPattern(format));
 	}
 
+	@JsonIgnore
 	public Long getUserId() {
 		return this.user.getId();
 	}
 
+	public String getUserGithubId() {
+		return this.user.getGithubId();
+	}
+
 	public Comment updateComment(final CommentUpdateRequestDto dto) {
 		this.content = dto.getContent();
-		this.photos = dto.getMockPhotos();
-		this.emojis = dto.getMockEmojis();
+		this.photos = dto.getPhotos();
+		this.emojis = dto.getEmojis();
 		return this;
 	}
 
@@ -120,5 +131,10 @@ public class Comment implements Serializable {
 
 	public boolean isSameAuthor(String userId) {
 		return this.getUser().getGithubId().equals(userId);
+	}
+
+	@Override
+	public int compareTo(Comment o) {
+		return (int) (this.id - o.id);
 	}
 }

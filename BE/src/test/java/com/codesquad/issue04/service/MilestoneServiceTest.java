@@ -16,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 

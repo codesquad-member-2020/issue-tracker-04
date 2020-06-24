@@ -15,13 +15,13 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.label.Label;
-import com.codesquad.issue04.web.dto.request.LabelCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.LabelUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.label.LabelUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.label.LabelOverviewResponseDtos;
 import reactor.core.publisher.Mono;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient
+@AutoConfigureWebTestClient(timeout = "15000")
 public class LabelControllerTest {
 
     @LocalServerPort

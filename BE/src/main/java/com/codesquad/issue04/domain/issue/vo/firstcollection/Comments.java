@@ -9,7 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import com.codesquad.issue04.domain.issue.vo.Comment;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,7 +18,7 @@ import lombok.ToString;
 @ToString(exclude = "comments")
 @Embeddable
 public class Comments {
-	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "issue", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<>();
 
 	protected Comments() {
@@ -39,6 +40,7 @@ public class Comments {
 		return new ArrayList<>(this.comments);
 	}
 
+	@JsonIgnore
 	public Comment getOverview() {
 		if (this.comments.size() == 0) {
 			return Comment.ofNullComment();
@@ -54,6 +56,7 @@ public class Comments {
 		return this.comments.get(commentIndex);
 	}
 
+	@JsonIgnore
 	public Comment getLatestComment() {
 		int latestIndex = this.comments.size() - 1;
 		return this.comments.get(latestIndex);
@@ -66,6 +69,11 @@ public class Comments {
 			.orElseThrow(() -> new IllegalArgumentException("not found"));
 	}
 
+	public Comment addComment(Comment comment) {
+		this.comments.add(comment);
+		return comment;
+	}
+
 	public Comment deleteCommentById(Long commentId) {
 		Comment deletedComment = findCommentById(commentId);
 		this.comments.remove(deletedComment);
@@ -73,11 +81,12 @@ public class Comments {
 	}
 
 	public Comment modifyCommentByDto(CommentUpdateRequestDto dto) {
-		return comments.stream()
+		Comment asIs = comments.stream()
 			.filter(comment -> comment.doesMatchId(dto.getCommentId()))
 			.findFirst()
-			.map(comment -> comment.updateComment(dto))
-			.get();
+			.orElseThrow(() -> new IllegalArgumentException("not able to find"));
+		asIs.updateComment(dto);
+		return asIs;
 	}
 
 	public boolean hasUserId(String userId) {

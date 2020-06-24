@@ -24,13 +24,15 @@ import com.codesquad.issue04.domain.issue.vo.Status;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.NullMilestone;
 import com.codesquad.issue04.domain.user.RealUser;
-import com.codesquad.issue04.web.dto.request.CommentCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.CommentDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.CommentUpdateRequestDto;
 import com.codesquad.issue04.web.dto.request.FilterParamRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueDeleteRequestDto;
-import com.codesquad.issue04.web.dto.request.IssueUpdateRequestDto;
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Assignees;
+import com.codesquad.issue04.web.dto.request.comment.CommentCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.comment.CommentUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueCloseRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueDeleteRequestDto;
+import com.codesquad.issue04.web.dto.request.issue.IssueUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.error.ErrorResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueDetailResponseDto;
 import com.codesquad.issue04.web.dto.response.issue.IssueOverviewDto;
@@ -47,7 +49,7 @@ public class IssueServiceTest {
 
 	private static Stream<Arguments> 댓글추가_예시모음() { // argument source method
 		Long issueId = 1L;
-		Long userId = 2L;
+		String userGithubId = "jypthemiracle";
 		String content = "comment";
 		List<Photo> mockPhotos = Arrays.asList(
 			Photo.ofUrl("naver.com"), Photo.ofUrl("sigrid.com"), Photo.ofUrl("lena.com")
@@ -55,7 +57,7 @@ public class IssueServiceTest {
 		List<Emoji> mockEmojis = Arrays.asList(Emoji.CONFUSED, Emoji.EYES, Emoji.HEART);
 
 		return Stream.of(
-			Arguments.of(issueId, userId, content, mockPhotos, mockEmojis)
+			Arguments.of(issueId, userGithubId, content, mockPhotos, mockEmojis)
 		);
 	}
 
@@ -133,8 +135,8 @@ public class IssueServiceTest {
 		Long issueId = 1L;
 		Issue issue = issueService.findIssueById(issueId);
 
-		assertThat(issue.getAssignees().get(0)).isInstanceOf(RealUser.class);
-		assertThat(issue.getAssignees().get(0).getGithubId()).isEqualTo("guswns1659");
+		assertThat(issue.getAssignees()).isInstanceOf(Assignees.class);
+		assertThat(issue.getAssignees().findAssigneeByUserGitHubId("guswns1659")).isNotNull();
 	}
 
 	@Transactional
@@ -183,13 +185,25 @@ public class IssueServiceTest {
 	}
 
 	@Transactional
+	@DisplayName("기존의 이슈를 닫는다.")
+	@CsvSource({"1"})
+	@ParameterizedTest
+	void 기존의_이슈를_닫는다(Long id) {
+		IssueCloseRequestDto dto = new IssueCloseRequestDto(id);
+		IssueDetailResponseDto detailResponseDto = (IssueDetailResponseDto) issueService.closeExistingIssue(dto);
+		assertThat(detailResponseDto.getStatus()).isEqualTo(Status.CLOSED);
+		assertThat(issueService.findIssueById(1L).isClosed()).isTrue();
+	}
+
+	@Transactional
 	@DisplayName("이슈에 댓글을 추가한다.")
 	@MethodSource("댓글추가_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_추가한다(Long issueId, Long userId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_추가한다(Long issueId, String userGithubId, String content, List<Photo> mockPhotos,
+		List<Emoji> mockEmojis) {
 		CommentCreateRequestDto dto = CommentCreateRequestDto.builder()
 			.issueId(issueId)
-			.userId(userId)
+			.userGitHubId(userGithubId)
 			.content(content)
 			.photos(mockPhotos)
 			.emojis(mockEmojis)
@@ -208,11 +222,12 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1, guswns1659"})
 	@ParameterizedTest
 	void 이슈에_댓글_하나를_삭제한다(Long issueId, Long commentId, String userGithubId) {
+		issueService.findIssueById(issueId).findCommentById(commentId);
 		Issue issue = issueService.findIssueById(issueId);
 		CommentDeleteRequestDto dto = new CommentDeleteRequestDto(issueId, commentId, userGithubId);
 		issueService.deleteComment(dto);
 		assertThatThrownBy(
-			() -> issue.findCommentById(commentId)
+			() -> issueService.findIssueById(issueId).findCommentById(commentId)
 		).isInstanceOf(IllegalArgumentException.class);
 	}
 
@@ -231,9 +246,11 @@ public class IssueServiceTest {
 	@DisplayName("이슈에서 댓글이 수정된다.")
 	@MethodSource("댓글수정_예시모음")
 	@ParameterizedTest
-	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String userGithubId, String content, List<Photo> mockPhotos, List<Emoji> mockEmojis) {
+	void 이슈에_댓글_하나를_수정한다(Long issueId, Long commentId, String userGithubId, String content, List<Photo> mockPhotos,
+		List<Emoji> mockEmojis) {
 		Issue issue = issueService.findIssueById(issueId);
-		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, userGithubId, content, mockPhotos, mockEmojis);
+		CommentUpdateRequestDto dto = new CommentUpdateRequestDto(issueId, commentId, userGithubId, content, mockPhotos,
+			mockEmojis);
 		issueService.modifyComment(dto);
 		assertAll(
 			() -> assertThat(issue.findCommentById(commentId).getContent()).isEqualTo(content),
@@ -277,7 +294,7 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1"})
 	@ParameterizedTest
 	void 이슈의_라벨에_하나_추가한다(Long issueId, Long labelId) {
-		issueService.addNewLabel(issueId, labelId);
+		issueService.attachLabel(issueId, labelId);
 		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(true);
 	}
 
@@ -286,7 +303,7 @@ public class IssueServiceTest {
 	@CsvSource({"1, 1"})
 	@ParameterizedTest
 	void 이슈의_라벨에_하나_삭제한다(Long issueId, Long labelId) {
-		issueService.deleteLabel(issueId, labelId);
+		issueService.detachLabel(issueId, labelId);
 		assertThat(issueService.findIssueById(issueId).checkLabelsContainsByLabelId(labelId)).isEqualTo(false);
 	}
 

@@ -15,7 +15,7 @@ import com.codesquad.issue04.web.dto.response.user.AllAssigneeResponseDto;
 import com.codesquad.issue04.web.dto.response.user.AllAuthorsResponseDto;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureWebTestClient(timeout = "1500")
+@AutoConfigureWebTestClient(timeout = "15000")
 public class UserControllerTest {
 
     @LocalServerPort

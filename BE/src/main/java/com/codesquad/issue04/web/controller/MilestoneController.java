@@ -11,35 +11,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.service.MilestoneService;
-import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api")
+@RequestMapping("/api")
 public class MilestoneController {
 
-    private final MilestoneService milestoneService;
+	private final MilestoneService milestoneService;
 
-    @GetMapping("v1/allMilestones")
+    @GetMapping("/allMilestones")
     public MilestoneResponseDtos getAllMilestones() {
         return milestoneService.getMilestoneOverviews();
     }
 
-    @PostMapping("v1/milestone")
+    @PostMapping("/milestone")
     public Milestone createMilestone(@RequestBody MilestoneCreateRequestDto milestoneCreateRequestDto) {
         return milestoneService.createMilestone(milestoneCreateRequestDto);
     }
 
-    @PutMapping("v1/milestone")
+    @PutMapping("/milestone")
     public MilestoneDto updateMilestone(@RequestBody MilestoneUpdateRequestDto milestoneUpdateRequestDto) {
         return milestoneService.updateMilestone(milestoneUpdateRequestDto);
     }
 
-    @DeleteMapping("v1/milestone/{milestoneId}")
+    @DeleteMapping("/milestone/{milestoneId}")
     public Milestone deleteMilestone(@PathVariable Long milestoneId) {
         return milestoneService.deleteMilestone(milestoneId);
     }

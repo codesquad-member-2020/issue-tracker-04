@@ -18,8 +18,10 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.domain.milestone.MilestoneRepository;
+import com.codesquad.issue04.service.MilestoneService;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import reactor.core.publisher.Mono;
@@ -34,10 +36,13 @@ public class MilestoneControllerTest {
     @Autowired
     private WebTestClient webTestClient;
 
+    @Autowired
+    private MilestoneRepository milestoneRepository;
+
     @DisplayName("전체 마일스톤을 응답하는 테스트")
     @Test
     void 전체_마일스톤을_응답한다() {
-        String url = "http://localhost:" + port + "/api/v1/allMilestones";
+        String url = "http://localhost:" + port + "/api/allMilestones";
 
         EntityExchangeResult<MilestoneResponseDtos> entityExchangeResult = webTestClient.get()
             .uri(url)
@@ -55,7 +60,7 @@ public class MilestoneControllerTest {
     @CsvSource({"마일스톤 제목, 2020-03-03, 마일스톤 설명"})
     @ParameterizedTest
     void 마일스톤을_생성한다(String title, String dueDate, String description) {
-        String url = "http://localhost:" + port + "/api/v1/milestone";
+        String url = "http://localhost:" + port + "/api/milestone";
 
         MilestoneCreateRequestDto milestoneCreateRequestDto =
             new MilestoneCreateRequestDto(title, LocalDate.parse(dueDate), description);
@@ -79,7 +84,7 @@ public class MilestoneControllerTest {
     @CsvSource({"1, 마일스톤 수정제목, 2020-02-02, 마일스톤 수정설명"})
     @ParameterizedTest
     void 마일스톤을_수정한다(String id, String title, String dueDate, String description) {
-        String url = "http://localhost:" + port + "/api/v1/milestone";
+        String url = "http://localhost:" + port + "/api/milestone";
 
         MilestoneUpdateRequestDto milestoneUpdateRequestDto = new MilestoneUpdateRequestDto(Long.parseLong(id), title, LocalDate
             .parse(dueDate), description);
@@ -101,12 +106,12 @@ public class MilestoneControllerTest {
 
     @Transactional
     @DisplayName("마일스톤을 삭제하고 삭제된 마일스톤을 응답하는 테스트")
-    @CsvSource({"6, 마일스톤 제목, 2020-03-03, 마일스톤 설명"})
+    @CsvSource({"1", "2", "3"})
     @ParameterizedTest
-    void 마일스톤을_삭제한다(String id, String title, String dueDate, String description) {
-        String url = "http://localhost:" + port + "/api/v1/milestone/" + Long.parseLong(id);
+    void 마일스톤을_삭제한다(String id) {
+        String url = "http://localhost:" + port + "/api/milestone/" + Long.parseLong(id);
 
-        Milestone milestone = webTestClient.delete()
+        webTestClient.delete()
             .uri(url)
             .exchange()
             .expectStatus().isEqualTo(HttpStatus.OK)
@@ -114,9 +119,6 @@ public class MilestoneControllerTest {
             .returnResult()
             .getResponseBody();
 
-        assertThat(milestone.getId()).isEqualTo(Long.parseLong(id));
-        assertThat(milestone.getTitle()).isEqualTo(title);
-        assertThat(milestone.getDueDate()).isEqualTo(LocalDate.parse(dueDate));
-        assertThat(milestone.getDescription()).isEqualTo(description);
+        assertThat(milestoneRepository.findById(Long.parseLong(id))).isEmpty();
     }
 }

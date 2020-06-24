@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.codesquad.issue04.domain.issue.IssueRepository;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.milestone.MilestoneRepository;
-import com.codesquad.issue04.web.dto.request.MilestoneCreateRequestDto;
-import com.codesquad.issue04.web.dto.request.MilestoneUpdateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
+import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneDto;
 import com.codesquad.issue04.web.dto.response.milestone.MilestoneResponseDtos;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +56,8 @@ public class MilestoneService {
 
 	public Milestone deleteMilestone(Long milestoneId) {
 		Milestone deleteMilestone = findMilestoneById(milestoneId);
-		deleteMilestone.getIssues()
-			.forEach(issueRepository::delete);
+		// deleteMilestone.getIssues()
+		// 	.forEach(issueRepository::delete);
 
 		milestoneRepository.delete(deleteMilestone);
 		return deleteMilestone;

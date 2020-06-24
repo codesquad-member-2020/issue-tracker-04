@@ -13,5 +13,5 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 	Optional<Issue> findTopByOrderByIdDesc();
     Optional<List<Issue>> findIssuesByStatus(Status status);
     Optional<List<Issue>> findIssuesByStatusAndUserGithubId(Status status, String userId);
-    Optional<List<Issue>> findIssuesByStatusAndAssignees(Status status, RealUser user);
+    Optional<List<Issue>> findIssuesByStatusAndUser(Status status, RealUser user);
 }
