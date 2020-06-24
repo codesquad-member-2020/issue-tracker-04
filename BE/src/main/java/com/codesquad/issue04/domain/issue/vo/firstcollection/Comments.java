@@ -66,7 +66,9 @@ public class Comments {
 
 	public Comment deleteCommentById(Long commentId) {
 		Comment deletedComment = findCommentById(commentId);
-		this.comments.remove(deletedComment);
+		List<Comment> commentList = new ArrayList<>(this.comments);
+		commentList.remove(deletedComment);
+		this.comments = commentList;
 		return deletedComment;
 	}
 
