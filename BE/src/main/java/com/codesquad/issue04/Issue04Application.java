@@ -1,6 +1,7 @@
 package com.codesquad.issue04;
 
 import org.flywaydb.core.Flyway;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
@@ -10,10 +11,15 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class Issue04Application {
+public class Issue04Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Issue04Application.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		cleanMigrateStrategy();
 	}
 
 	@Bean
