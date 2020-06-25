@@ -38,12 +38,31 @@ class IssueDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        loadIssueDetail() 
         setupButtonIssueInfoView()
         issueModelController.addObserver(self)
         configureView()
         configureCommentTableView()
     }
+    
+    // MARK: - Request Data
+    private func loadIssueDetail() {
+                let loader = IssueLoader()
+        loader.loadDetail(id: issue.id) { result in
+            if case .success(let issueInfo) = result {
+                self.issueModelController.update(issue: issueInfo)
+            }
+        }
+
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == Identifier.Segue.issueInfo {
+            guard let issueInfoTableVC = segue.destination as? IssueInfoTableViewController else { return }
+            issueInfoTableVC.issueModelController = self.issueModelController
+        }
+    }
+
 
     // MARK: - Setup
 

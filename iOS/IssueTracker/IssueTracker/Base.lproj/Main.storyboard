@@ -199,7 +199,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="vvx-fP-IoB" kind="embed" id="vFM-xR-xt3"/>
+                                    <segue destination="vvx-fP-IoB" kind="embed" identifier="IssueInfoSegue" id="vFM-xR-xt3"/>
                                 </connections>
                             </containerView>
                         </subviews>

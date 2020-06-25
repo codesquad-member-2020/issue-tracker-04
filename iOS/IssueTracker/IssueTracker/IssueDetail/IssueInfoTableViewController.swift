@@ -5,6 +5,7 @@ class IssueInfoTableViewController: UITableViewController {
     @IBOutlet weak var assigneeView: UIView!
     @IBOutlet weak var labelView: UIView!
     @IBOutlet weak var milestoneView: UIView!
+    var issueModelController: IssueModelController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,11 +16,14 @@ class IssueInfoTableViewController: UITableViewController {
     }
     
     private func setupAssigneeView() {
-        guard let assigneeVC = storyboard?.instantiateViewController(withIdentifier: Identifier.ViewController.assigneeCellVC) else { return }
-        addChild(assigneeVC)
-        assigneeView.addSubview(assigneeVC.view)
-        assigneeVC.view.frame = assigneeView.bounds
-        assigneeVC.didMove(toParent: self)
+        let assigneeVC = storyboard?.instantiateViewController(identifier: Identifier.ViewController.assigneeCellVC) {
+            AssigneeCellViewController(coder: $0)
+        }
+        assigneeVC?.assignees = issueModelController?.issue.assignees 
+        addChild(assigneeVC!)
+        assigneeView.addSubview(assigneeVC!.view)
+        assigneeVC!.view.frame = assigneeView.bounds
+        assigneeVC!.didMove(toParent: self)
     }
     
     private func setupLabelView() {
