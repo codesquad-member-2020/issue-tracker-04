@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JAN-aK-j3P">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="6cy-aG-cni">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CaD-t0-evg">
-                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="619"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="separatorColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="tya-f0-XsJ" customClass="IssueDetailView" customModule="IssueTracker" customModuleProvider="target">
@@ -154,7 +154,7 @@
                                                                     <string key="content">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </string>
                                                                     <attributes>
                                                                         <color key="NSColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                                        <font key="NSFont" metaFont="system" size="14"/>
+                                                                        <font key="NSFont" metaFont="menu" size="14"/>
                                                                     </attributes>
                                                                 </fragment>
                                                             </attributedString>
@@ -192,7 +192,7 @@
                                 </prototypes>
                             </tableView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nSU-6T-JTf">
-                                <rect key="frame" x="0.0" y="610" width="375" height="649.66666666666652"/>
+                                <rect key="frame" x="0.0" y="556" width="375" height="606.33333333333348"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                         <real key="value" value="15"/>
@@ -581,7 +581,7 @@
             <objects>
                 <viewController modalPresentationStyle="formSheet" id="vvx-fP-IoB" customClass="IssueInfoViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="OAU-8R-k10">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="649.66666666666663"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="606.33333333333337"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ynm-km-CfB">
@@ -669,13 +669,13 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHS-0W-SMH">
-                                <rect key="frame" x="0.0" y="595.33333333333337" width="375" height="29.333333333333371"/>
+                                <rect key="frame" x="0.0" y="554" width="375" height="27.333333333333371"/>
                                 <state key="normal" title="Close Issue">
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdz-MV-mvR">
-                                <rect key="frame" x="0.0" y="71" width="375" height="514.33333333333337"/>
+                                <rect key="frame" x="0.0" y="71" width="375" height="473"/>
                                 <connections>
                                     <segue destination="eOZ-C7-qjG" kind="embed" id="Zmx-KC-eR0"/>
                                 </connections>
@@ -728,7 +728,7 @@
             <objects>
                 <tableViewController id="eOZ-C7-qjG" customClass="IssueInfoTableViewController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="1" sectionFooterHeight="1" id="lPY-Zc-psC" customClass="IssueInfoTableView" customModule="IssueTracker" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="514.33333333333337"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="473"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <sections>
@@ -851,41 +851,39 @@
                                     <constraint firstAttribute="width" secondItem="k5u-Xy-dMf" secondAttribute="height" multiplier="1:1" id="bRn-XG-H1i"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NZQ-h5-EHp">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ip5-5b-w6h">
                                 <rect key="frame" x="0.0" y="508.33333333333326" width="375" height="39"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <state key="normal" title="Login with Github">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="loginButtonTapped:" destination="6cy-aG-cni" eventType="touchUpInside" id="4jc-Zf-t3H"/>
+                                    <segue destination="JAN-aK-j3P" kind="presentation" modalPresentationStyle="fullScreen" id="VxX-eS-Tgy"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.14517247680000001" green="0.16054916380000001" blue="0.1764733195" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="k5u-Xy-dMf" firstAttribute="centerY" secondItem="WYk-0A-k0U" secondAttribute="centerY" multiplier="0.9" id="8Zc-4C-rvS"/>
+                            <constraint firstItem="Ip5-5b-w6h" firstAttribute="width" secondItem="WYk-0A-k0U" secondAttribute="width" id="JrN-Qx-09k"/>
                             <constraint firstItem="k5u-Xy-dMf" firstAttribute="width" secondItem="WYk-0A-k0U" secondAttribute="width" multiplier="0.4" id="Xii-bK-bo0"/>
-                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="centerX" secondItem="WYk-0A-k0U" secondAttribute="centerX" id="aIW-dx-8JV"/>
+                            <constraint firstItem="Ip5-5b-w6h" firstAttribute="centerX" secondItem="WYk-0A-k0U" secondAttribute="centerX" id="Xut-bK-lIg"/>
+                            <constraint firstItem="Ip5-5b-w6h" firstAttribute="centerY" secondItem="WYk-0A-k0U" secondAttribute="centerY" multiplier="1.3" id="bat-C0-Sxb"/>
                             <constraint firstItem="k5u-Xy-dMf" firstAttribute="centerX" secondItem="WYk-0A-k0U" secondAttribute="centerX" id="gPn-Xr-lmt"/>
-                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="width" secondItem="WYk-0A-k0U" secondAttribute="width" id="t8r-q7-0Ng"/>
-                            <constraint firstItem="NZQ-h5-EHp" firstAttribute="centerY" secondItem="WYk-0A-k0U" secondAttribute="centerY" multiplier="1.3" id="yY9-jK-f5d"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vGB-gY-aU0"/>
                     </view>
-                    <connections>
-                        <outlet property="loginButton" destination="NZQ-h5-EHp" id="2io-vR-7qA"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q6C-g7-IkJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="233" y="-1163"/>
+            <point key="canvasLocation" x="241" y="-1163"/>
         </scene>
         <!--Main Tab Bar Controller-->
         <scene sceneID="xUd-dU-tPe">
             <objects>
                 <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="JAN-aK-j3P" customClass="MainTabBarController" customModule="IssueTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="biU-GJ-Ag4"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rOR-jd-SSJ">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -897,7 +895,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pe7-8e-SS1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1086" y="-1164"/>
+            <point key="canvasLocation" x="1058" y="-1163"/>
         </scene>
         <!--Assignee Cell View Controller-->
         <scene sceneID="TKs-Ie-MEM">
