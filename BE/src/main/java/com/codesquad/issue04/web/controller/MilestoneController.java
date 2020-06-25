@@ -23,7 +23,7 @@ public class MilestoneController {
 
 	private final MilestoneService milestoneService;
 
-    @GetMapping("/allMilestones")
+    @GetMapping("/milestone")
     public MilestoneResponseDtos getAllMilestones() {
         return milestoneService.getMilestoneOverviews();
     }

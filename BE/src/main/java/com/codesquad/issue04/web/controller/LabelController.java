@@ -21,7 +21,7 @@ public class LabelController {
 
     private final LabelService labelService;
 
-    @GetMapping("allLabels")
+    @GetMapping("label")
     public LabelOverviewResponseDtos getAllLabels() {
         return labelService.getLabelOverviews();
     }
