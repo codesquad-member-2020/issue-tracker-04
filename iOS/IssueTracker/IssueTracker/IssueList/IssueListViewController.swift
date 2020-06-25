@@ -27,7 +27,7 @@ class IssueListViewController: UIViewController {
     private let defaultTitle = "Issue"
 
     let delegate = IssueListTableViewDelegate()
-    private let issueListModelController = IssueListModelController.createWithFakeData()
+    private let issueListModelController = IssueListModelController()
     private var dataSource: IssueListDataSource = .init()
 
     var issueListState: IssueListState = .normal {
@@ -43,10 +43,10 @@ class IssueListViewController: UIViewController {
 
         let loader = IssueLoader()
         loader.loadList { result in
-            if case .success(let twitter) = result {
-                debugPrint(twitter)
-                // present view
-                // case .failure: alert
+            if case .success(let issueList) = result {
+                DispatchQueue.main.async {
+                    self.issueListModelController.issueCollection = IssueCollection(elements: issueList.allData)
+                }
             }
         }
 
@@ -90,7 +90,8 @@ class IssueListViewController: UIViewController {
     @IBSegueAction func showDetail(coder: NSCoder, sender: Any) -> IssueDetailViewController? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
 
-        let issue = dataSource.issue(at: indexPath.row)
+        let briefIssue = dataSource.issue(at: indexPath.row)
+        let issue = issueListModelController.convertToDetailIssue(from: briefIssue)
         return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
     }
 
@@ -101,7 +102,8 @@ class IssueListViewController: UIViewController {
     @IBAction func backFromDetail(unwindSegue: UIStoryboardSegue) {
         guard let detail = unwindSegue.source as? IssueDetailViewController else { return }
 
-        issueListModelController.updateIssue(with: detail.issue)
+        let issue = issueListModelController.convertToBriefIssue(from: detail.issue)
+        issueListModelController.updateIssue(with: issue)
     }
 
     // MARK: - Selector Method

@@ -20,17 +20,16 @@ class IssueStateController {
         return issueList.filter(by: .closed)
     }
 
-    var authoredIssues: IssueCollection {
-        return openIssues.filter(by: self.user)
-
-    }
+//    var authoredIssues: IssueCollection {
+//        return openIssues.filter(by: self.user)
+//    }
     
-    var assignedIssues: IssueCollection {
-        return openIssues.filter(contains: self.user)
-    }
+//    var assignedIssues: IssueCollection {
+//        return openIssues.filter(by: self.user)
+//    }
     
-    var commentedIssues: IssueCollection {
-        return openIssues.filter{$0.comments.contains(author: user)}
-    }
+//    var commentedIssues: IssueCollection {
+//        return openIssues.filter{$0.comments.contains(author: user)}
+//    }
 
 }

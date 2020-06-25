@@ -17,11 +17,11 @@ class IssueListDataSource: NSObject {
         issueList.remove(at: index)
     }
 
-    func add(issue: Issue) {
+    func add(issue: BriefIssue) {
         issueList.add(issue)
     }
 
-    func issue(at index: Int) -> Issue {
+    func issue(at index: Int) -> BriefIssue {
         return issueList[index]
     }
 

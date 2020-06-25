@@ -1,9 +1,13 @@
 import Foundation
 
 struct IssueCollection: Codable {
-    typealias IssueType = [Issue]
+    typealias IssueType = [BriefIssue]
 
-    private var elements: IssueType = .init()
+    private var elements: IssueType
+
+    init(elements: IssueType = .init()) {
+        self.elements = elements
+    }
 
     // MARK: - Mutating
 
@@ -29,21 +33,21 @@ struct IssueCollection: Codable {
         return Self(elements: filter { $0.status == status })
     }
 
-    func filter(by owner: User) -> Self {
-        return Self(elements: filter { $0.owner == owner })
-    }
+//    func filter(by owner: User) -> Self {
+//        return Self(elements: filter { $0.owner == owner })
+//    }
 
-    func filter(contains user: User) -> Self {
-        return Self(elements: filter { $0.assignees.contains(user) })
-    }
+//    func filter(contains user: User) -> Self {
+//        return Self(elements: filter { $0.assignees.contains(user) })
+//    }
 
     func filter(_ isIncluded: (IssueType.Element) throws -> Bool) rethrows -> Self {
         return Self(elements: try elements.filter(isIncluded))
     }
 
-    func filter(comment author: User) -> Self {
-        return Self(elements: filter { $0.comments.contains(author: author) })
-    }
+//    func filter(comment author: User) -> Self {
+//        return Self(elements: filter { $0.comments.contains(author: author) })
+//    }
 }
 
 extension IssueCollection: Collection {
@@ -69,4 +73,8 @@ extension IssueCollection: ExpressibleByArrayLiteral {
     init(arrayLiteral elements: Element...) {
         self.elements = elements
     }
+}
+
+struct IssueCollectionWrapper: Codable {
+    let allData: [BriefIssue]
 }
