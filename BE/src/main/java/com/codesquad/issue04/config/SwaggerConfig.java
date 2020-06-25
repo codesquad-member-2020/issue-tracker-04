@@ -14,7 +14,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2)
-			.host("15.165.66.150")
+			.host("15.165.66.150/api")
 			.select()
 			.build();
 	}
