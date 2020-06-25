@@ -48,12 +48,11 @@ class IssueListModelController: Observable {
 extension IssueListModelController {
     static func createWithFakeData() -> IssueListModelController {
         let user = User(id: FakeID.userId, name: "모오오오스")
-        var issues: IssueCollection = [
+        let issues: IssueCollection = [
             BriefIssue(id: 1, title: "title1", body: nil, owner: user.name),
             BriefIssue(id: 2, title: "title2", body: "Something", owner: user.name),
             BriefIssue(id: 3, title: "title3", body: "Special", owner: user.name)
         ]
-//        issues[0].addComment(Comment(id: FakeID.make(), body: "Comment1", author: user))
 
         return .init(issues)
     }

@@ -13,6 +13,7 @@ struct Endpoint {
     var jwToken: String? = UserDefaults.standard.object(forKey: "JWTToken") as? String
 
     static var issue: IssueEndpoint = .init()
+    static var label: LabelEndpoint = .init()
 }
 
 extension Endpoint {

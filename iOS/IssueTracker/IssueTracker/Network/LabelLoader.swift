@@ -7,28 +7,28 @@ class LabelLoader: APILoader {
         self.session = session
     }
 
-    func loadList(handler: @escaping APIHandler<IssueCollectionWrapper>) {
-        let endpoint = Endpoint.issue.list
+    func loadList(handler: @escaping APIHandler<LabelWrapper>) {
+        let endpoint = Endpoint.label.list
         load(using: session, endpoint: endpoint, handler: handler)
     }
 
-    func loadDetail(id: ID, handler: @escaping APIHandler<Issue>) {
-        let endpoint = Endpoint.issue.detail(by: id)
+    func loadDetail(id: ID, handler: @escaping APIHandler<Label>) {
+        let endpoint = Endpoint.label.detail(by: id)
         load(using: session, endpoint: endpoint, handler: handler)
     }
 
-    func create(_ newModel: PartialIssue, handler: @escaping APIHandler<PartialIssue>) {
-        let endpoint = Endpoint.issue.create(newModel)
+    func create(_ newModel: Label, handler: @escaping APIHandler<Label>) {
+        let endpoint = Endpoint.label.create(newModel)
         load(using: session, endpoint: endpoint, handler: handler)
     }
 
-    func update(_ model: Issue, handler: @escaping APIHandler<Issue>) {
-        let endpoint = Endpoint.issue.update(model)
+    func update(_ model: Label, handler: @escaping APIHandler<Label>) {
+        let endpoint = Endpoint.label.update(model)
         load(using: session, endpoint: endpoint, handler: handler)
     }
 
-    func delete(by id: ID, handler: @escaping APIHandler<Issue>) {
-        let endpoint = Endpoint.issue.delete(by: id)
+    func delete(by id: ID, handler: @escaping APIHandler<Label>) {
+        let endpoint = Endpoint.label.delete(by: id)
         load(using: session, endpoint: endpoint, handler: handler)
     }
 }
