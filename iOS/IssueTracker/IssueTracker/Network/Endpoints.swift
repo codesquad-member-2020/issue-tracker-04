@@ -24,3 +24,17 @@ extension IssueEndpoint {
         )
     }
 }
+
+struct LabelEndpoint: CRUDEndpoint {
+    typealias ModelType = Label
+    typealias PartialModelType = Label
+
+    var basePath: String = "label"
+}
+
+struct MilestoneEndpoint: CRUDEndpoint {
+    typealias ModelType = Milestone
+    typealias PartialModelType = Milestone
+
+    var basePath: String = "label"
+}
