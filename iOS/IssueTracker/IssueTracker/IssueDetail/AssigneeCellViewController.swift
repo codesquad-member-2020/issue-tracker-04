@@ -22,7 +22,8 @@ extension AssigneeCellViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AssigneeCell", for: indexPath)
         cell.textLabel?.text = assignees?[indexPath.row].name
-        cell.imageView?.image = UIImage(systemName: "person.crop.circle.fill")
+        cell.textLabel?.textColor = .black
+        cell.imageView?.image = #imageLiteral(resourceName: "github.logo.fill")
         cell.imageView?.cornerRadius = 20
         return cell
     }

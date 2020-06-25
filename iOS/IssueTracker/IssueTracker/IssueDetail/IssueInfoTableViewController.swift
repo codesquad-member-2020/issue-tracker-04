@@ -16,8 +16,8 @@ class IssueInfoTableViewController: UITableViewController {
     }
     
     private func setupAssigneeView() {
-        let assigneeVC = storyboard?.instantiateViewController(identifier: Identifier.ViewController.assigneeCellVC) {
-            AssigneeCellViewController(coder: $0)
+        let assigneeVC = storyboard?.instantiateViewController(identifier: Identifier.ViewController.assigneeCellVC) { coder in
+            AssigneeCellViewController(coder: coder)
         }
         assigneeVC?.assignees = issueModelController?.issue.assignees 
         addChild(assigneeVC!)
@@ -27,19 +27,24 @@ class IssueInfoTableViewController: UITableViewController {
     }
     
     private func setupLabelView() {
-        guard let labelVC = storyboard?.instantiateViewController(withIdentifier: Identifier.ViewController.labelCellVC) else { return }
-        addChild(labelVC)
-        labelView.addSubview(labelVC.view)
-        labelVC.view.frame = labelView.bounds
-        labelVC.didMove(toParent: self)
+        let labelVC = storyboard?.instantiateViewController(identifier: Identifier.ViewController.labelCellVC) { coder in
+            LabelCellViewController(coder: coder)
+        }
+        labelVC?.labels = issueModelController?.issue.labels
+        addChild(labelVC!)
+        labelView.addSubview(labelVC!.view)
+        labelVC!.view.frame = labelView.bounds
+        labelVC!.didMove(toParent: self)
     }
     
     private func setupMilestoneView() {
-        guard let milestoneVC = storyboard?.instantiateViewController(withIdentifier: Identifier.ViewController.milestoneCellVC) else { return }
-        addChild(milestoneVC)
-        milestoneView.addSubview(milestoneVC.view)
-        milestoneVC.view.frame = milestoneView.bounds
-        milestoneVC.didMove(toParent: self)
+        let milestoneVC = storyboard?.instantiateViewController(identifier: Identifier.ViewController.milestoneCellVC) { coder in
+            MilestoneCellViewController(coder: coder)
+        }
+        addChild(milestoneVC!)
+        milestoneView.addSubview(milestoneVC!.view)
+        milestoneVC!.view.frame = milestoneView.bounds
+        milestoneVC!.didMove(toParent: self)
     }
 
 }
