@@ -2,26 +2,24 @@ import UIKit
 
 class LabelCellViewController: UIViewController {
     
-    var labels = ["1","2","3"]
-    private var dataSource = LabelCollectionViewDataSource()
+    var labels: [Label]?
     @IBOutlet var labelCollectionView: UICollectionView!
     override func viewDidLoad() {
-        labelCollectionView.dataSource = dataSource
+        labelCollectionView.dataSource = self
     }
 }
 
-class LabelCollectionViewDataSource: NSObject, UICollectionViewDataSource {
-    
-    var labels = ["a","b","c"]
+extension LabelCellViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return labels.count
+        return labels?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LabelCollectionViewCell", for: indexPath)
-        cell.backgroundColor = .red
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LabelCollectionViewCell", for: indexPath) as! LabelCollectionViewCell
+        cell.nameLabel.text = labels?[indexPath.row].title
+        cell.backgroundColor = UIColor(named: "\(labels?[indexPath.row].color)")
         cell.cornerRadius = 15
         
         return cell

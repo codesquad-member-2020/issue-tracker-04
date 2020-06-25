@@ -41,7 +41,8 @@ class IssueListModelController: Observable {
     }
 
     func convertToDetailIssue(from brief: BriefIssue) -> Issue {
-        return Issue(id: brief.id, title: brief.title, body: brief.body, owner: user)
+        let label = Label(id: 10, title: "iOS", color: "black")
+        return Issue(id: brief.id, title: brief.title, body: brief.body, owner: user, labels: [label])
     }
 }
 
