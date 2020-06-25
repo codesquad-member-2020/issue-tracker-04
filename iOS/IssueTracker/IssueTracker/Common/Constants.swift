@@ -14,6 +14,7 @@ enum Identifier {
     enum Segue {
         static let save = "CreatedSegue"
         static let issueDetail = "IssueDetailSegue"
+        static let issueInfo = "IssueInfoSegue"
     }
 
     enum Cell {

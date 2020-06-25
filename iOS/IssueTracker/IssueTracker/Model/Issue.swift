@@ -6,6 +6,7 @@ struct Issue: Model {
     var body: String?
     var comments: CommentCollection = .init()
     let owner: User
+    let labels: [Label]
     var assignees: UserCollection = .init()
     var status: Status = .open
 
