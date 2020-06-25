@@ -12,6 +12,8 @@ import com.codesquad.issue04.domain.label.Label;
 import com.codesquad.issue04.domain.milestone.Milestone;
 import com.codesquad.issue04.domain.user.RealUser;
 import com.codesquad.issue04.web.dto.response.ResponseDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class IssueDetailResponseDto implements ResponseDto {
 	private List<Comment> comments;
 	private Set<Label> labels;
 	private Assignees assignees;
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Milestone milestone;
 	private RealUser realUser;
 	private Status status;

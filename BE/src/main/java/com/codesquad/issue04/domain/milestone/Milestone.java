@@ -22,6 +22,7 @@ import com.codesquad.issue04.domain.issue.Issue;
 import com.codesquad.issue04.web.dto.request.milestone.MilestoneCreateRequestDto;
 import com.codesquad.issue04.web.dto.request.milestone.MilestoneUpdateRequestDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
