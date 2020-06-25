@@ -56,9 +56,10 @@ public class MilestoneService {
 
 	public Milestone deleteMilestone(Long milestoneId) {
 		Milestone deleteMilestone = findMilestoneById(milestoneId);
-		// deleteMilestone.getIssues()
-		// 	.forEach(issueRepository::delete);
-
+		deleteMilestone.getIssues().forEach(
+			issue -> issue.deleteMilestone(milestoneId)
+		);
+		deleteMilestone.initializeIssue();
 		milestoneRepository.delete(deleteMilestone);
 		return deleteMilestone;
 	}

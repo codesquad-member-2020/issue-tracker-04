@@ -22,7 +22,6 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Assignees {
 
-	@JsonIgnore
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(
