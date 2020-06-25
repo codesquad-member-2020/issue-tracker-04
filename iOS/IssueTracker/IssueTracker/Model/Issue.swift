@@ -6,6 +6,7 @@ struct Issue: Model {
     var body: String?
     var comments: CommentCollection = .init()
     let owner: User
+    let labels: [Label]
     var assignees: UserCollection = .init()
     var status: Status = .open
 
@@ -21,14 +22,18 @@ extension Issue {
 }
 
 struct BriefIssue: Model {
+    typealias Status = Issue.Status
+
     let id: ID
     let title: String
     let body: String?
-    var status: Issue.Status = .open
+    var status: Status = .open
+    let owner: String
 
     enum CodingKeys: String, CodingKey {
-        case id, title, status
+        case id, title
         case body = "overview"
+        case owner = "githubId"
     }
 }
 

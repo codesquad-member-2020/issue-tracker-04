@@ -3,6 +3,8 @@ import UIKit
 class AssigneeCellViewController: UIViewController {
     
     @IBOutlet weak var assigneesTableView: UITableView!
+    private let heightForRowAt = CGFloat(40)
+    var assignees: [User]?
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -14,13 +16,14 @@ class AssigneeCellViewController: UIViewController {
 
 extension AssigneeCellViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return assignees?.count ?? 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AssigneeCell", for: indexPath)
-        cell.textLabel?.text = "hi there"
-        cell.imageView?.image = UIImage(systemName: "person.crop.circle.fill")
+        cell.textLabel?.text = assignees?[indexPath.row].name
+        cell.textLabel?.textColor = .black
+        cell.imageView?.image = #imageLiteral(resourceName: "github.logo.fill")
         cell.imageView?.cornerRadius = 20
         return cell
     }
@@ -29,7 +32,7 @@ extension AssigneeCellViewController: UITableViewDataSource{
 
 extension AssigneeCellViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return heightForRowAt
     }
 
 }

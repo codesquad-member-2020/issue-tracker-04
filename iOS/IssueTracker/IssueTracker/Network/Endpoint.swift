@@ -13,6 +13,7 @@ struct Endpoint {
     var jwToken: String? = UserDefaults.standard.object(forKey: "JWTToken") as? String
 
     static var issue: IssueEndpoint = .init()
+    static var label: LabelEndpoint = .init()
 }
 
 extension Endpoint {
@@ -22,7 +23,7 @@ extension Endpoint {
         var components = URLComponents()
         components.scheme = "http"
         components.host = "15.165.66.150"
-        components.path = "/api/v1/" + path
+        components.path = "/api/" + path
         if !queryItems.isEmpty {
             components.queryItems = queryItems
         }

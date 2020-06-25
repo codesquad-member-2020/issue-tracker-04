@@ -10,7 +10,7 @@ class EndpointTests: XCTestCase {
     }
 
     func testURLRequest() {
-        let endpoint = Endpoint.issue.list
+        let endpoint = Endpoint.label.list
         let urlRequest = endpoint.urlRequest
 
         XCTAssertEqual(urlRequest.httpMethod, "GET")
@@ -24,7 +24,7 @@ class EndpointTests: XCTestCase {
 
 extension EndpointTests {
     func testIssueList() {
-        let endpoint = Endpoint.issue.list
+        let endpoint = Endpoint.label.list
 
         let expectedURL = URL(string: prefixPath + "issue")
         XCTAssertEqual(expectedURL, endpoint.url)
@@ -32,14 +32,14 @@ extension EndpointTests {
 
     func testDetailIssue() {
         let id = 1
-        let endpoint = Endpoint.issue.detail(by: id)
+        let endpoint = Endpoint.label.detail(by: id)
         let expectedURL = URL(string: prefixPath + "issue/\(id)")
         XCTAssertEqual(expectedURL, endpoint.url)
     }
 
     func testCreateIssue() throws {
         let newIssue = PartialIssue(title: "Foo", body: "Bar")
-        let endpoint = Endpoint.issue.create(newIssue)
+        let endpoint = Endpoint.label.create(newIssue)
         let body = try JSONEncoder().encode(newIssue)
 
         XCTAssertEqual(endpoint.urlRequest.url, URL(string: prefixPath + "issue"))
@@ -53,7 +53,7 @@ extension EndpointTests {
 
         issue.title = title
         let data = try JSONEncoder().encode(issue)
-        let urlRequest = Endpoint.issue.update(issue).urlRequest
+        let urlRequest = Endpoint.label.update(issue).urlRequest
 
         XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issue/\(issue.id)"))
         XCTAssertEqual(urlRequest.httpMethod, "PUT")
@@ -63,7 +63,7 @@ extension EndpointTests {
     func testDeleteIssue() {
         let issue = Faker.makeIssue()
 
-        let urlRequest = Endpoint.issue.delete(by: issue.id).urlRequest
+        let urlRequest = Endpoint.label.delete(by: issue.id).urlRequest
 
         XCTAssertEqual(urlRequest.url, URL(string: prefixPath + "issue/\(issue.id)"))
         XCTAssertEqual(urlRequest.httpMethod, "DELETE")

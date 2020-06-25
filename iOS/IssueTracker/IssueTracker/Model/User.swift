@@ -1,6 +1,6 @@
 import Foundation
 
-struct User: CustomStringConvertible {
+struct User: CustomStringConvertible, Model {
     let id: ID
     let name: String
 
@@ -10,9 +10,5 @@ struct User: CustomStringConvertible {
     
 }
 
-extension User: Equatable { }
-
 typealias UserCollection = [User]
 
-extension User: Hashable { }
-extension User: Codable { }

@@ -25,7 +25,8 @@ class IssueModelController: Observable {
 extension IssueModelController {
     static func makeWithFakeIssue() -> IssueModelController {
         let user = User(id: FakeID.userId, name: "Foo")
-        let issue = Issue(id: FakeID.make(), title: "Fake Title", owner: user)
+        let label = Label(id: 10, title: "iOS", color: "black")
+        let issue = Issue(id: FakeID.make(), title: "Fake Title", owner: user, labels: [label])
 
         return .init(issue)
     }

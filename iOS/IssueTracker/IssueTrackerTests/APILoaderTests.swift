@@ -27,7 +27,7 @@ class MockRandomUserLoader: APILoader {
         self.session = session
     }
 
-    func loadList(handler: @escaping Handler<MockUsers>) {
+    func loadList(handler: @escaping APIHandler<MockUsers>) {
         let endpoint = Endpoint(path: "https://randomuser.me/api/?inc=name,email&results=10")
         load(using: session, endpoint: endpoint, handler: handler)
     }
