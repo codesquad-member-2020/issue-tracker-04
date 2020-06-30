@@ -5,6 +5,7 @@ os: linux
 files:
   - source: /
     destination: /deploy
+    overwrite: yes
 permissions:
   - object: /deploy
     owner: ubuntu

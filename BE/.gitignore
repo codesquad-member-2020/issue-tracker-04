@@ -153,7 +153,6 @@ Temporary Items
 .apdisk
 .gradle/6.4.1/vcsMetadata-1/
 build/
-
-application-oauth.yml
-
+.gradle/
+.idea/
 

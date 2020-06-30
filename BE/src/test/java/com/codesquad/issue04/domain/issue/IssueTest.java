@@ -7,25 +7,31 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.codesquad.issue04.domain.issue.vo.firstcollection.Labels;
 import com.codesquad.issue04.domain.milestone.Milestone;
-import com.codesquad.issue04.domain.user.User;
+import com.codesquad.issue04.domain.user.RealUser;
+import com.codesquad.issue04.service.IssueService;
 
 @SpringBootTest
 public class IssueTest {
 
-	private User user;
+	@Autowired
+	private IssueService issueService;
+
+	private RealUser user;
 
 	@BeforeEach
 	void setUp() {
-		this.user = User.builder()
-		.id(1L)
-		.githubId("guswns1659")
-		.image("image")
-		.name("Jack")
-		.issues(Collections.emptyList())
-		.build();
+		this.user = RealUser.builder()
+			.id(1L)
+			.githubId("guswns1659")
+			.image("image")
+			.name("Jack")
+			.ownedIssues(Collections.emptyList())
+			.build();
 	}
 
 	@DisplayName("Null인 필드의 빈 객체를 반환한다.")
@@ -35,7 +41,7 @@ public class IssueTest {
 		Issue issue = Issue.builder()
 			.id(1L)
 			.comments(null)
-			.labels(Collections.emptySet())
+			.labels(Labels.ofNullLabels())
 			.milestone(new Milestone())
 			.title("title")
 			.user(this.user)
