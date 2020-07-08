@@ -1,10 +1,12 @@
 import Foundation
 
-struct Comment {
+struct Comment: Model {
     let id: ID
     let body: String
-    let author: User
+    var author: User?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case body = "content"
+    }
 }
-
-typealias ID = Int
-

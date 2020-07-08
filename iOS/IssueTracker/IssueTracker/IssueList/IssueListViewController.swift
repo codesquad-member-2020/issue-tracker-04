@@ -27,7 +27,7 @@ class IssueListViewController: UIViewController {
     private let defaultTitle = "Issue"
 
     let delegate = IssueListTableViewDelegate()
-    private let issueListModelController = IssueListModelController(.createFakeData())
+    private let issueListModelController = IssueListModelController()
     private var dataSource: IssueListDataSource = .init()
 
     var issueListState: IssueListState = .normal {
@@ -41,12 +41,22 @@ class IssueListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let loader = IssueLoader()
+        loader.loadList { result in
+            if case .success(let issueList) = result {
+                DispatchQueue.main.async {
+                    self.issueListModelController.issueCollection = IssueCollection(elements: issueList.allData)
+                }
+            }
+        }
+
+        issueListModelController.addObserver(self)
         updateIssueListState()
         setupTableView()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
 
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: true)
@@ -62,7 +72,7 @@ class IssueListViewController: UIViewController {
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.issueStateDelegate = self
     }
-    
+
     private func setupTableView() {
         let issueList = issueListModelController.issueCollection
         dataSource = IssueListDataSource(issueList)
@@ -77,22 +87,27 @@ class IssueListViewController: UIViewController {
         return issueListState == .normal
     }
 
-    @IBAction func newIssueDidCreated(_ unwindSegue: UIStoryboardSegue) {
-        //        guard let viewController = unwindSegue.source as? IssueFormViewController,
-        //            let issue = viewController.issue else { return }
-
-        //        dataSource.add(issue: issue)
-        tableView.reloadData()
-    }
-
-    @IBSegueAction func showDetail(coder: NSCoder, sender: IssueCell) -> IssueDetailViewController? {
+    @IBSegueAction func showDetail(coder: NSCoder, sender: Any) -> IssueDetailViewController? {
         guard let indexPath = tableView.indexPathForSelectedRow else { return nil }
 
-        let issue = dataSource.issue(at: indexPath.row)
+        let briefIssue = dataSource.issue(at: indexPath.row)
+        let issue = issueListModelController.convertToDetailIssue(from: briefIssue)
         return IssueDetailViewController(coder: coder, issueModelController: IssueModelController(issue))
     }
 
+    @IBSegueAction func showIssueForm(coder: NSCoder) -> IssueFormViewController? {
+        IssueFormViewController(coder: coder, state: .new, delegate: self)
+    }
+
+    @IBAction func backFromDetail(unwindSegue: UIStoryboardSegue) {
+        guard let detail = unwindSegue.source as? IssueDetailViewController else { return }
+
+        let issue = issueListModelController.convertToBriefIssue(from: detail.issue)
+        issueListModelController.updateIssue(with: issue)
+    }
+
     // MARK: - Selector Method
+    
     @objc private func didCancelButtonPressed() {
         changeState(to: .normal)
         titleLabel.text = defaultTitle
@@ -104,7 +119,11 @@ class IssueListViewController: UIViewController {
 
     // TODO: present view to select filtering options.
     @objc private func didFilterButtonPressed() {
-
+        let storyboard = UIStoryboard(name: Identifier.Storyboard.main, bundle: nil)
+        let viewController = storyboard.instantiateViewController(identifier: Identifier.ViewController.issueFilter) {
+            IssueFilterViewController(coder: $0)
+        }
+        present(viewController, animated: true, completion: nil)
     }
 
     @objc private func didSelectAllButtonPressed() {
@@ -176,5 +195,18 @@ class IssueListViewController: UIViewController {
 extension IssueListViewController: IssueStateDelegate {
     func stateDidChange(to state: IssueListState) {
         self.issueListState = state
+    }
+}
+
+extension IssueListViewController: IssueFormViewControllerDelegate {
+    func issueFormViewControllerDidCreate(_ partial: PartialIssue) {
+        issueListModelController.addPartialIssue(partial)
+    }
+}
+
+extension IssueListViewController: Observer {
+    func ObservingObjectDidUpdate() {
+        dataSource.updateList(issueListModelController.issueCollection)
+        tableView.reloadData()
     }
 }

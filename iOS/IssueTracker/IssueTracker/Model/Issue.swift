@@ -1,26 +1,43 @@
 import Foundation
 
-struct Issue {
+struct Issue: Model {
     let id: ID
-    let title: String
-    let body: String?
+    var title: String
+    var body: String?
     var comments: CommentCollection = .init()
     let owner: User
+    let labels: [Label]
     var assignees: UserCollection = .init()
     var status: Status = .open
 
-    func addComment(_ comment: Comment) {
+    mutating func addComment(_ comment: Comment) {
+        comments.add(comment)
     }
 }
 
 extension Issue {
-    enum Status {
+    enum Status: String, Codable {
         case open, closed
     }
 }
 
-extension Issue: Equatable {
-    static func == (lhs: Issue, rhs: Issue) -> Bool {
-        return lhs.id == rhs.id
+struct BriefIssue: Model {
+    typealias Status = Issue.Status
+
+    let id: ID
+    let title: String
+    let body: String?
+    var status: Status = .open
+    let owner: String
+
+    enum CodingKeys: String, CodingKey {
+        case id, title
+        case body = "overview"
+        case owner = "githubId"
     }
+}
+
+struct PartialIssue: Codable {
+    let title: String
+    let body: String
 }

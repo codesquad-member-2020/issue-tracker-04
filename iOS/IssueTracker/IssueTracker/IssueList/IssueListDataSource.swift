@@ -1,9 +1,9 @@
 import UIKit
 
 class IssueListDataSource: NSObject {
-    
+
     private var issueList: IssueCollection
-    
+
     init(_ issueList: IssueCollection = .init()) {
         self.issueList = issueList
     }
@@ -17,31 +17,35 @@ class IssueListDataSource: NSObject {
         issueList.remove(at: index)
     }
 
-    func add(issue: Issue) {
+    func add(issue: BriefIssue) {
         issueList.add(issue)
     }
 
-    func issue(at index: Int) -> Issue {
+    func issue(at index: Int) -> BriefIssue {
         return issueList[index]
+    }
+
+    func updateList(_ issueList: IssueCollection) {
+        self.issueList = issueList
     }
 }
 
 extension IssueListDataSource: UITableViewDataSource {
-    
+
     // TODO: show open issues in issueList using filter(by state:) method
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return issueList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: IssueCell.identifier, for: indexPath) as? IssueCell else { return IssueCell() }
-        
+
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.Cell.issue, for: indexPath) as? IssueCell else { return IssueCell() }
+
         let issue = self.issueList[indexPath.row]
 
         cell.titleLabel.text = issue.title
         cell.detailLabel.text = issue.body
-        
+
         return cell
     }
 
@@ -50,14 +54,14 @@ extension IssueListDataSource: UITableViewDataSource {
         self.issueList.insert(contentsOf: issueList, at: destinationIndexPath.row)
         debugPrint("\(sourceIndexPath.row) => \(destinationIndexPath.row)")
     }
-    
+
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         guard tableView.isEditing else { return false }
         return true
     }
-    
+
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .none
     }
-    
+
 }
